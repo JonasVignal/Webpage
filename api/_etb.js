@@ -12,12 +12,12 @@ const ROOMS = {
   vik2: { type: 1900, min: 4, max: 8, name: 'Vikings B' },
   evil: { type: 2460, min: 4, max: 8, name: 'Dr. Evil’s Plan' },
   rogue: { type: 3701, min: 3, max: 8, name: 'The Rogue General' },
-  jan1: { type: 1456, min: 4, max: 8, name: 'The Psychotic Janitor I' },
-  jan2: { type: 7256, min: 4, max: 8, name: 'The Psychotic Janitor II' },
-  cell1: { type: 1457, min: 4, max: 8, name: 'The Terrorist Cell I' },
-  cell2: { type: 1458, min: 4, max: 8, name: 'The Terrorist Cell II' },
-  hack1: { type: 11903, min: 3, max: 6, name: 'HACKED! I Exclusive' },
-  hack2: { type: 13787, min: 3, max: 6, name: 'HACKED! II Exclusive' },
+  jan1: { type: 1456, min: 4, max: 8, name: 'The Psychotic Janitor A' },
+  jan2: { type: 7256, min: 4, max: 8, name: 'The Psychotic Janitor B' },
+  cell1: { type: 1457, min: 4, max: 8, name: 'The Terrorist Cell A' },
+  cell2: { type: 1458, min: 4, max: 8, name: 'The Terrorist Cell B' },
+  hack1: { type: 11903, min: 3, max: 6, name: 'HACKED! A Exclusive' },
+  hack2: { type: 13787, min: 3, max: 6, name: 'HACKED! B Exclusive' },
   vr: { type: 7036, min: 2, max: 2, name: 'Virtual Reality' }
 };
 

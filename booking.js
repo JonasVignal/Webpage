@@ -19,12 +19,12 @@
     { id: 'vik2', name: 'Vikings B', min: 4, max: 8, loc: NV, tone: '#6E4A31', img: IMG + 'viking_small.jpg' },
     { id: 'evil', name: 'Dr. Evil’s Plan', min: 4, max: 8, loc: NV, tone: '#3B2E5A', img: IMG + 'Dr-Evil.jpg' },
     { id: 'rogue', name: 'The Rogue General', min: 3, max: 8, loc: NV, tone: '#3D4A2E', img: IMG + 'Escape_General_small.png' },
-    { id: 'jan1', name: 'The Psychotic Janitor I', min: 4, max: 8, loc: NF, tone: '#2F4F4F', img: IMG + 'janitor_small.jpg' },
-    { id: 'jan2', name: 'The Psychotic Janitor II', min: 4, max: 8, loc: NF, tone: '#2A5A5A', img: IMG + 'janitor_small.jpg' },
-    { id: 'cell1', name: 'The Terrorist Cell I', min: 4, max: 8, loc: NF, tone: '#5A2E2E', img: IMG + 'terrorist_small.jpg' },
-    { id: 'cell2', name: 'The Terrorist Cell II', min: 4, max: 8, loc: NF, tone: '#6B3434', img: IMG + 'terrorist_small.jpg' },
-    { id: 'hack1', name: 'HACKED! I Exclusive', min: 3, max: 6, loc: TB, tone: '#1C2B36', img: IMG + 'ESCAPE-ROOM-Hacker_small.png' },
-    { id: 'hack2', name: 'HACKED! II Exclusive', min: 3, max: 6, loc: TB, tone: '#22394A', img: IMG + 'ESCAPE-ROOM-Hacker_small.png' },
+    { id: 'jan1', name: 'The Psychotic Janitor A', min: 4, max: 8, loc: NF, tone: '#2F4F4F', img: IMG + 'janitor_small.jpg' },
+    { id: 'jan2', name: 'The Psychotic Janitor B', min: 4, max: 8, loc: NF, tone: '#2A5A5A', img: IMG + 'janitor_small.jpg' },
+    { id: 'cell1', name: 'The Terrorist Cell A', min: 4, max: 8, loc: NF, tone: '#5A2E2E', img: IMG + 'terrorist_small.jpg' },
+    { id: 'cell2', name: 'The Terrorist Cell B', min: 4, max: 8, loc: NF, tone: '#6B3434', img: IMG + 'terrorist_small.jpg' },
+    { id: 'hack1', name: 'HACKED! A Exclusive', min: 3, max: 6, loc: TB, tone: '#1C2B36', img: IMG + 'ESCAPE-ROOM-Hacker_small.png' },
+    { id: 'hack2', name: 'HACKED! B Exclusive', min: 3, max: 6, loc: TB, tone: '#22394A', img: IMG + 'ESCAPE-ROOM-Hacker_small.png' },
     { id: 'vr', name: 'Virtual Reality', min: 2, max: 2, loc: '', tone: '#2A2418', img: 'https://escape-cph.dk/wp-content/themes/yootheme/cache/pyramid_small-460dabd9.jpg' }
   ];
   var MIN_NOTICE_DAYS = 2;   // bookings need 48 hours' notice
