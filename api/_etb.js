@@ -62,7 +62,9 @@ async function etb(path, { method = 'GET', query, body } = {}) {
   if (!res.ok) {
     console.error('easyTable error', method, path, res.status, typeof data === 'string' ? data.slice(0, 200) : JSON.stringify(data).slice(0, 200));
     if (res.status === 429) throw new EtbError(429, 'For mange forespørgsler – prøv igen om et øjeblik.');
-    throw new EtbError(res.status === 422 ? 409 : 502, 'Bookingsystemet afviste forespørgslen.', data);
+    const err = new EtbError(res.status === 422 ? 409 : 502, 'Bookingsystemet afviste forespørgslen.', data);
+    err.upstream = res.status;
+    throw err;
   }
   return data;
 }

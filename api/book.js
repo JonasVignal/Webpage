@@ -9,12 +9,21 @@ function parseMobile(raw) {
   return /^\d{8,15}$/.test(d) ? Number(d) : null;
 }
 
+// Dates from easyTable come as 'YYYY-MM-DDT…' or 'MM/DD/YYYY'; return 'YYYY-MM-DD'.
+function normDate(d) {
+  const t = String(d || '');
+  if (/^\d{4}-\d{2}-\d{2}/.test(t)) return t.slice(0, 10);
+  const m = t.match(/^(\d{2})\/(\d{2})\/(\d{4})/);
+  return m ? `${m[3]}-${m[1]}-${m[2]}` : t;
+}
+
 const clean = (v, n) => String(v == null ? '' : v).replace(/[\u0000-\u001f]/g, ' ').trim().slice(0, n);
 
 /**
  * POST /api/book
  * { items: [{ room, date, time, persons }], customer: { name, phone, email, comment, company, cvr }, promo, lang }
- * Creates one easyTable booking per item. All-or-nothing: if one fails, the ones already created are cancelled.
+ * Creates one easyTable booking per item. All-or-nothing: with several items it uses easyTable's batch endpoint
+ * (atomic roll-back); without batch permission it books one by one and cancels what it made if one fails.
  */
 module.exports = async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
@@ -69,28 +78,74 @@ module.exports = async function handler(req, res) {
     ].filter(Boolean).join('\r\n');
     const language = b.lang === 'en' ? 'EN' : 'DA';
 
-    for (const it of items) {
-      if (created.length) await sleep(400);
-      const booking = await etb('/v2/bookings', {
-        method: 'POST',
-        body: {
-          date: it.date,
-          time: it.time,
-          persons: Number(it.persons),
-          typeID: ROOMS[it.room].type,
-          autoTable: true,
-          name,
-          email,
-          mobile,
-          company,
-          language,
-          onlineBooking: 1,
-          emailNotifications: 1,
-          guestNote: note,
-          reference: b.promo ? clean(b.promo, 50) : undefined
+    // Several games at once: one atomic batch call (all created, or none). Needs the extra
+    // "batch" permission on the API key – without it we fall back to creating them one by one.
+    let usedBatch = false;
+    if (items.length > 1) {
+      try {
+        const out = await etb('/v2/bookings/batch', {
+          method: 'POST',
+          body: {
+            rollBackPolicy: true,
+            customer: [{
+              mobile, name, email, company, language,
+              emailNotifications: 1, smsNotifications: 0,
+              bookings: items.map((it) => ({
+                date: it.date,
+                arrival: it.time,
+                persons: Number(it.persons),
+                bookingType: ROOMS[it.room].type,
+                autoTable: true,
+                guestNote: note,
+                comment: b.promo ? 'Rabatkode: ' + clean(b.promo, 50) : undefined
+              }))
+            }]
+          }
+        });
+        if (out && out.errors && out.errors.length) {
+          console.error('batch rejected', JSON.stringify(out.errors).slice(0, 300));
+          return res.status(409).json({ error: 'conflict', created: 0, rolledBack: 0 });
         }
-      });
-      created.push({ room: it.room, date: it.date, time: it.time, persons: Number(it.persons), bookingId: booking.bookingID, paymentUrl: booking.paymentURL || null });
+        // Map results back to what was asked for (same order as sent; match on date + time).
+        const pool = (out && out.bookings) || [];
+        for (const it of items) {
+          const i = pool.findIndex((r) => normDate(r.date) === it.date && String(r.arrival).slice(0, 5) === it.time);
+          const hit = i >= 0 ? pool.splice(i, 1)[0] : null;
+          if (!hit) throw new EtbError(502, 'Bookingsystemet gav et uventet svar.');
+          created.push({ room: it.room, date: it.date, time: it.time, persons: Number(it.persons), bookingId: hit.bookingID, paymentUrl: hit.paymentURL || null });
+        }
+        usedBatch = true;
+      } catch (e) {
+        const noPermission = e instanceof EtbError && (e.upstream === 401 || e.upstream === 403);
+        if (!noPermission) throw e;
+        created.length = 0; // fall through to one-by-one below
+      }
+    }
+
+    if (!usedBatch) {
+      for (const it of items) {
+        if (created.length) await sleep(400);
+        const booking = await etb('/v2/bookings', {
+          method: 'POST',
+          body: {
+            date: it.date,
+            time: it.time,
+            persons: Number(it.persons),
+            typeID: ROOMS[it.room].type,
+            autoTable: true,
+            name,
+            email,
+            mobile,
+            company,
+            language,
+            onlineBooking: 1,
+            emailNotifications: 1,
+            guestNote: note,
+            reference: b.promo ? clean(b.promo, 50) : undefined
+          }
+        });
+        created.push({ room: it.room, date: it.date, time: it.time, persons: Number(it.persons), bookingId: booking.bookingID, paymentUrl: booking.paymentURL || null });
+      }
     }
 
     res.status(200).json({ ok: true, bookings: created });
