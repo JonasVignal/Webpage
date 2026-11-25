@@ -85,3 +85,60 @@
   .rp-lb-prev { left: 8px; }
   .rp-lb-next { right: 8px; }
 }
+
+/* ==========================================================================
+   Virtual Reality overview page (virtual-reality.html)
+   ========================================================================== */
+.vr-intro { padding: 72px 0 40px; text-align: center; }
+.vr-title { font-family: var(--font-heading); font-size: clamp(2.2rem, 4.5vw, 3.4rem); font-weight: 700; color: #fff; margin-bottom: 18px; }
+.vr-lead { max-width: 720px; margin: 0 auto 36px; font-size: 1.15rem; line-height: 1.7; color: var(--color-text-muted); }
+.vr-photos { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.vr-photos img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: var(--radius-md); border: 1px solid var(--color-card-border); box-shadow: var(--shadow-sm); }
+
+.vr-games-section { padding: 24px 0 64px; }
+.vr-games { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+.vr-game { position: relative; display: flex; align-items: center; min-height: 220px; border-radius: var(--radius-md); overflow: hidden; background-size: cover; background-position: center; border: 1px solid var(--color-card-border); box-shadow: var(--shadow-sm); color: #fff; transition: transform var(--transition-normal), border-color var(--transition-normal), box-shadow var(--transition-normal); }
+.vr-game:hover { transform: translateY(-6px); border-color: rgba(243, 156, 18, 0.5); box-shadow: var(--shadow-lg); color: #fff; }
+.vr-game-shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(14, 16, 23, 0.85) 0%, rgba(14, 16, 23, 0.45) 55%, rgba(14, 16, 23, 0.1) 100%); }
+.vr-game-body { position: relative; padding: 24px; display: flex; flex-direction: column; gap: 8px; }
+.vr-game-body strong { display: flex; align-items: center; gap: 12px; font-family: var(--font-heading); font-size: 1.5rem; line-height: 1.2; }
+.vr-game-icon { width: 40px; height: 40px; flex: none; }
+.vr-game-body span { color: rgba(255, 255, 255, 0.85); font-size: 0.95rem; }
+.vr-cta { display: flex; justify-content: center; margin-top: 36px; }
+
+.vr-about { background: var(--color-bg-alt, #1a1e29); border-top: 1px solid var(--color-card-border); padding: 64px 0 80px; }
+.vr-about-in { max-width: 860px; }
+.vr-about .rp-h2 { text-transform: none; letter-spacing: 0; }
+.vr-h2-second { margin-top: 20px; margin-bottom: 4px; }
+
+@media (max-width: 700px) {
+  .vr-intro { padding: 48px 0 24px; }
+  .vr-photos { grid-template-columns: 1fr; }
+  .vr-games { grid-template-columns: 1fr; }
+  .vr-about { padding: 44px 0 60px; }
+}
+
+/* ==========================================================================
+   Herredsfogden page extras: notice, 4-item facts, FAQ
+   ========================================================================== */
+.rp-notice { background: rgba(243, 156, 18, 0.14); border-bottom: 1px solid rgba(243, 156, 18, 0.35); padding: 16px 0; text-align: center; }
+.rp-notice p { color: #ffb84d; font-weight: 700; font-size: 1.05rem; }
+.rp-facts-4 { grid-template-columns: repeat(4, 1fr); }
+.rp-faq { background: var(--color-bg-alt, #1a1e29); border-top: 1px solid var(--color-card-border); padding: 64px 0 80px; }
+.rp-faq-in { max-width: 860px; }
+.rp-faq .rp-h2 { margin-bottom: 24px; }
+.rp-faq-item { background: var(--color-surface); border: 1px solid var(--color-card-border); border-radius: var(--radius-md); margin-bottom: 10px; overflow: hidden; }
+.rp-faq-item[open] { border-color: rgba(243, 156, 18, 0.4); }
+.rp-faq-item summary { cursor: pointer; list-style: none; padding: 16px 20px; font-family: var(--font-heading); font-size: 1.2rem; font-weight: 700; color: #fff; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.rp-faq-item summary::-webkit-details-marker { display: none; }
+.rp-faq-item summary::after { content: '+'; color: var(--color-primary); font-size: 1.6rem; line-height: 1; font-family: var(--font-primary); font-weight: 400; transition: transform var(--transition-fast); }
+.rp-faq-item[open] summary::after { content: '\2212'; }
+.rp-faq-item summary:focus-visible { outline: 3px solid var(--color-primary); outline-offset: -3px; }
+.rp-faq-body { padding: 0 20px 20px; color: var(--color-text-muted); line-height: 1.7; display: flex; flex-direction: column; gap: 12px; }
+.rp-faq-body ul { padding-left: 20px; display: flex; flex-direction: column; gap: 8px; }
+.rp-faq-body strong { color: #fff; }
+@media (max-width: 991px) { .rp-facts-4 { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .rp-faq { padding: 44px 0 60px; } .rp-faq-item summary { font-size: 1.05rem; } }
+
+/* Headings that are sentences rather than short titles */
+.rp-h2-sentence { text-transform: none; letter-spacing: 0; font-size: clamp(1.6rem, 2.6vw, 2.1rem); }
