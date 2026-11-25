@@ -9,22 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* ==========================================================================
-   Announcement Banner
-   ========================================================================== */
-function dismissBanner() {
-  const banner = document.getElementById('topNotification');
-  if (banner) {
-    banner.style.display = 'none';
-    sessionStorage.setItem('banner_dismissed', 'true');
-  }
-}
-
-if (sessionStorage.getItem('banner_dismissed') === 'true') {
-  const banner = document.getElementById('topNotification');
-  if (banner) banner.style.display = 'none';
-}
-
-/* ==========================================================================
    Mobile Menu Drawer
    ========================================================================== */
 function toggleMobileMenu() {
