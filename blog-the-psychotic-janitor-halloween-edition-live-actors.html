@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="da-DK">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Psychotic Janitor: Halloween Edition (Live Actors) | Blog | Escape Copenhagen</title>
+  <meta name="description" content="The Psychotic Janitor har mistet forstanden og foruroligende lyde runger nu i de gamle kælderlokaler. Det er op til jer modige agenter at afdække de…">
+  <link rel="shortcut icon" href="https://escape-cph.dk/wp-content/uploads/favicon.png">
+  <link rel="apple-touch-icon" href="https://escape-cph.dk/wp-content/uploads/apple-touch-icon.png">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Outfit:wght@400;500;600;700;800&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="booking.css">
+  <link rel="stylesheet" href="room-page.css">
+</head>
+<body>
+
+  <!-- Top Toolbar -->
+  <header class="top-toolbar">
+    <div class="container toolbar-inner">
+      <div class="toolbar-left">
+        <a href="tel:+4542909191" class="phone-link">
+          <svg class="icon-svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+            <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+          </svg>
+          +45 4290 9191
+        </a>
+        <span class="toolbar-divider">|</span>
+        <div class="toolbar-badges">
+          <a href="https://www.tripadvisor.dk/Attraction_Review-g189541-d7187567-Reviews-Escape_Copenhagen-Copenhagen_Zealand.html" target="_blank" rel="noopener" title="TripAdvisor">
+            <img src="https://escape-cph.dk/wp-content/uploads/tripadvisor_top.svg" alt="TripAdvisor Reviews" height="12">
+          </a>
+          <a href="https://www.facebook.com/escapeCPH/" target="_blank" rel="noopener" title="Facebook">
+            <img src="https://escape-cph.dk/wp-content/uploads/facebook_top.svg" alt="Facebook Reviews" height="12">
+          </a>
+        </div>
+      </div>
+      <div class="toolbar-right">
+        <div class="lang-switch">
+          <button class="lang-btn active" title="Dansk">
+            <img src="https://escape-cph.dk/wp-content/plugins/sitepress-multilingual-cms/res/flags/da.png" alt="Dansk" width="16" height="11">
+            <span>DA</span>
+          </button>
+          <button class="lang-btn" title="English" onclick="toggleLanguageAlert()">
+            <img src="https://escape-cph.dk/wp-content/plugins/sitepress-multilingual-cms/res/flags/en.png" alt="English" width="16" height="11">
+            <span>EN</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sticky Main Navigation -->
+  <nav class="main-navbar" id="mainNavbar">
+    <div class="container nav-inner">
+      <a href="index.html" class="brand-logo">
+        <img src="https://escape-cph.dk/wp-content/uploads/escape_cph_logo.svg" alt="Escape Copenhagen" width="136" height="49">
+      </a>
+
+      <!-- Desktop Menu -->
+      <ul class="nav-links">
+        <li class="nav-item has-dropdown">
+          <a href="index.html#rooms" class="nav-link">ESCAPE ROOMS <span class="arrow-down">&#9662;</span></a>
+          <div class="nav-dropdown-mega">
+            <div class="dropdown-column">
+              <h4>Klassiske Rum</h4>
+              <a href="vikings.html">Vikings</a>
+              <a href="rogue-general.html">The Rogue General</a>
+              <a href="dr-evils-plan.html">Dr. Evil’s Plan</a>
+              <a href="psychotic-janitor.html">The Psychotic Janitor</a>
+            </div>
+            <div class="dropdown-column">
+              <h4>Spænding & VR</h4>
+              <a href="terrorist-cell.html">The Terrorist Cell</a>
+              <a href="hacked.html">Hacked!</a>
+              <a href="virtual-reality.html">Virtual Reality Ubisoft</a>
+            </div>
+          </div>
+        </li>
+        <li class="nav-item has-dropdown">
+          <a href="index.html#erhverv" class="nav-link">ERHVERV <span class="arrow-down">&#9662;</span></a>
+          <div class="nav-dropdown">
+            <a href="index.html#teambuilding">Teambuilding i København</a>
+            <a href="index.html#erhverv">Teambuilding hos jer</a>
+            <a href="index.html#erhverv">Institutioner og skoler</a>
+            <a href="index.html#erhverv">Cyber Awareness Training</a>
+            <a href="index.html#room-stopbomb">Stop the Bomb VR</a>
+            <a href="index.html#erhverv">Julefrokost</a>
+          </div>
+        </li>
+        <li class="nav-item has-dropdown">
+          <a href="index.html#murdermysteries" class="nav-link">MURDER MYSTERIES <span class="arrow-down">&#9662;</span></a>
+          <div class="nav-dropdown">
+            <a href="herredsfogden.html">Herredsfogden på Frilandsmuseet</a>
+            <a href="stormen.html">Stormen på København 1659</a>
+          </div>
+        </li>
+        <li class="nav-item has-dropdown">
+          <a href="index.html#aktiviteter" class="nav-link">AKTIVITETER <span class="arrow-down">&#9662;</span></a>
+          <div class="nav-dropdown">
+            <a href="index.html#aktiviteter">Brætspilscafé</a>
+            <a href="index.html#aktiviteter">Familieaktiviteter</a>
+            <a href="index.html#aktiviteter">Polterabend</a>
+          </div>
+        </li>
+        <li class="nav-item has-dropdown">
+          <a href="om-os.html" class="nav-link">OM OS <span class="arrow-down">&#9662;</span></a>
+          <div class="nav-dropdown">
+            <a href="om-os.html">Om os</a>
+            <a href="blog.html">Blog</a>
+            <a href="job.html">Job</a>
+          </div>
+        </li>
+        <li class="nav-item"><a href="faq.html" class="nav-link">FAQ</a></li>
+        <li class="nav-item"><a href="index.html#locations" class="nav-link">FIND OS</a></li>
+      </ul>
+
+      <!-- Action Buttons -->
+      <div class="nav-actions">
+        <button class="btn btn-primary nav-book-btn" onclick="openBookingModal()">BOOK ONLINE</button>
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Åbn menu" onclick="toggleMobileMenu()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Drawer Navigation -->
+  <div class="mobile-drawer" id="mobileDrawer">
+    <div class="drawer-header">
+      <img src="https://escape-cph.dk/wp-content/uploads/escape_cph_logo.svg" alt="Escape Copenhagen" width="120">
+      <button class="drawer-close" onclick="toggleMobileMenu()">&times;</button>
+    </div>
+    <div class="drawer-content">
+      <ul class="mobile-menu">
+        <li><a href="index.html#rooms" onclick="toggleMobileMenu()">Escape Rooms</a></li>
+        <li><a href="virtual-reality.html" onclick="toggleMobileMenu()">Virtual Reality</a></li>
+        <li><a href="index.html#teambuilding" onclick="toggleMobileMenu()">Erhverv & Teambuilding</a></li>
+        <li><a href="index.html#murdermysteries" onclick="toggleMobileMenu()">Murder Mysteries</a></li>
+        <li><a href="om-os.html" onclick="toggleMobileMenu()">Om Escape Copenhagen</a></li>
+        <li><a href="blog.html" onclick="toggleMobileMenu()">Blog</a></li>
+        <li><a href="job.html" onclick="toggleMobileMenu()">Job</a></li>
+        <li><a href="faq.html" onclick="toggleMobileMenu()">FAQ</a></li>
+        <li><a href="index.html#locations" onclick="toggleMobileMenu()">Lokationer & Find vej</a></li>
+      </ul>
+      <div class="drawer-footer">
+        <a href="tel:+4542909191" class="drawer-phone">Ring: +45 4290 9191</a>
+        <button class="btn btn-primary btn-block" onclick="toggleMobileMenu(); openBookingModal();">BOOK ONLINE</button>
+      </div>
+    </div>
+  </div>
+  <div class="drawer-backdrop" id="drawerBackdrop" onclick="toggleMobileMenu()"></div>
+
+
+  <main class="rp-page">
+    <nav class="rp-crumbs" aria-label="Brødkrumme">
+      <div class="container"><a href="om-os.html">Om os</a><span aria-hidden="true"> › </span><a href="blog.html">Blog</a><span aria-hidden="true"> › </span><span aria-current="page">The Psychotic Janitor: Halloween Edition (Live Actors)</span></div>
+    </nav>
+
+    <article class="blog-article">
+      <div class="container blog-art-in">
+        <h1>The Psychotic Janitor: Halloween Edition (Live Actors)</h1>
+        <p class="blog-meta">Skrevet af Melissa d. 15. september 2023</p>
+        <div class="blog-content">
+<p class="blog-imgs"><img class="blog-img" src="images/blog/psychotic-halloween-cover-1024x561.jpg" alt="" loading="lazy" style="aspect-ratio:2560/1403"></p>
+<p>The Psychotic Janitor har mistet forstanden og foruroligende lyde runger nu i de gamle kælderlokaler. Det er op til jer modige agenter at afdække de grufulde hemmeligheder, der skjuler sig i skyggerne under Nørre Farimagsgade, inden han er tilbage. 🔪🩸</p>
+<p><strong><a href="index.html#rooms">BOOK HER</a><br>
+Hvor:</strong> Nørre Farimagsgade 7<br>
+<strong>Hvornår:</strong> d. 28. oktober. Se ledige tidsrum <a href="index.html#rooms">her</a><br>
+<strong>Hvordan:</strong> Vælg &#8220;The Psychotic Janitor&#8221; ved booking<br>
+<strong>Alder:</strong> 15 år+<br>
+<strong>Antal deltagere:</strong> 4 &#8211; 16 (ved 8-16 deltagere opdeles man i 2 hold)<br>
+<strong>Sprog:</strong> Dansk/Engelsk</p>
+<p>The Psychotic Janitor Halloween Edition er en escape room oplevelse med live actors.<br>
+Som noget helt unikt tilbyder vi i år denne uhyggelige version af vores escape room The Psychotic Janitor, med grusomme overraskelser undervejs. Oplevelsen kan kun spilles lørdag den 28. oktober og der er kun få pladser til rådighed. Prisen er dog den helt samme som sædvanligt &#8211; 350 kr. pr. person. Så saml dit modigste hold af venner og familie og forsøg at holde hovedet koldt i den frygtindgydende kælder på Nørre Farimagsgade. I kan være mellem 4-16 deltagere.</p>
+<p><strong>Spørgsmål? Så ring på 42 90 91 91</strong><br>
+<a href="index.html#rooms">BOOK HER</a></p>
+<p>Play on!<br>
+<strong>Melissa</strong><br>
+Escape Copenhagen</p>
+        </div>
+        <nav class="blog-prevnext" aria-label="Indlæg"><a class="prev" href="blog-besoeg-af-eksperter-fra-supertrends.html"><span>‹ Forrige</span><strong>Besøg af eksperter fra “Supertrends”</strong></a><a class="next" href="blog-cyber-security-escape-room-2.html"><span>Næste ›</span><strong>HACKED! på Computerworld’s Cloud Festival</strong></a></nav>
+        <p class="blog-back"><a href="blog.html">&larr; Tilbage til bloggen</a></p>
+      </div>
+    </article>
+  </main>
+
+
+  <!-- Locations & Comprehensive Footer -->
+  <footer class="site-footer" id="locations">
+    <div class="container">
+      <div class="footer-grid">
+        
+        <!-- Col 1: Kontakt & Firma -->
+        <div class="footer-col">
+          <div class="footer-card-box">
+            <h3 class="footer-title">Kontakt</h3>
+            <ul class="footer-contact-list">
+              <li>
+                <a href="mailto:info@escape-cph.dk">info@escape-cph.dk</a>
+              </li>
+              <li>
+                <a href="tel:+4542909191">+45 4290 9191</a>
+              </li>
+              <li>CPH Active ApS</li>
+              <li>CVR: 36404280</li>
+            </ul>
+            <div class="footer-divider"></div>
+            <h4>Find vej</h4>
+            <p class="footer-small">Lokalerne ligger 5-7 minutters gang fra Nørreport Station. Parkér bilen i p-kælderen under Israels Plads.</p>
+            <div class="footer-divider"></div>
+            <h4>Information</h4>
+            <ul class="footer-sublinks">
+              <li><a href="faq.html">FAQ</a></li>
+              <li><a href="index.html#privatliv">Cookie- og privatlivspolitik</a></li>
+              <li><a href="index.html#sitemap">Sitemap</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Col 2: Nørre Farimagsgade 7 -->
+        <div class="footer-col">
+          <h3 class="location-name">Nørre Farimagsgade 7</h3>
+          <p class="location-zip">1364 København K</p>
+          <a href="https://g.page/escapeCPH?share" target="_blank" rel="noopener" class="directions-btn">Find vej på Google Maps &rarr;</a>
+          
+          <div class="hours-box">
+            <h4>Åbningstider</h4>
+            <p>Hverdage: 16.30 - 21.00<br>Lørdag: 10.00 - 21.00<br>Søndag: Lukket<br><em>Sidste spil starter kl. 19:30</em></p>
+          </div>
+
+          <h4 class="location-rooms-title">Escape rooms på denne adresse:</h4>
+          <ul class="location-rooms-list">
+            <li><a href="psychotic-janitor.html">The Psychotic Janitor A + B</a></li>
+            <li><a href="terrorist-cell.html">The Terrorist Cell A + B</a></li>
+          </ul>
+
+          <div class="social-links-row">
+            <a href="https://www.facebook.com/escapeCPH/" target="_blank" rel="noopener" class="social-icon-btn" title="Facebook">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>
+            </a>
+            <a href="https://www.instagram.com/escapecopenhagen/" target="_blank" rel="noopener" class="social-icon-btn" title="Instagram">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Col 3: Nørre Voldgade 18 -->
+        <div class="footer-col">
+          <h3 class="location-name">Nørre Voldgade 18</h3>
+          <p class="location-zip">1358 København K (V. Nørreport)</p>
+          <a href="https://g.page/escapecopenhagen?share" target="_blank" rel="noopener" class="directions-btn">Find vej på Google Maps &rarr;</a>
+          
+          <div class="hours-box">
+            <h4>Åbningstider</h4>
+            <p>Hverdage: 09.00 - 21.00<br>Weekender: 10.00 - 21.00<br><em>Sidste spil starter kl. 19:30</em></p>
+          </div>
+
+          <h4 class="location-rooms-title">Escape rooms på denne adresse:</h4>
+          <ul class="location-rooms-list">
+            <li><a href="vikings.html">Vikings A + B</a></li>
+            <li><a href="rogue-general.html">The Rogue General</a></li>
+            <li><a href="dr-evils-plan.html">Dr. Evil's Plan</a></li>
+            <li><a href="virtual-reality.html">Virtual Reality (Ubisoft)</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Tornebuskegade 1 -->
+        <div class="footer-col">
+          <h3 class="location-name">Tornebuskegade 1</h3>
+          <p class="location-zip">1131 København K</p>
+          <a href="https://goo.gl/maps/tfk8b8R2PXb9EM1v5" target="_blank" rel="noopener" class="directions-btn">Find vej på Google Maps &rarr;</a>
+          
+          <div class="hours-box">
+            <h4>Åbningstider</h4>
+            <p>Hverdage: 09.00 - 21.00<br>Lørdag: 10.00 - 21.00<br>Søndag: Lukket</p>
+          </div>
+
+          <h4 class="location-rooms-title">Escape rooms på denne adresse:</h4>
+          <ul class="location-rooms-list">
+            <li><a href="hacked.html">HACKED! A + B</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom-bar">
+        <p>&copy; 2026 Escape Copenhagen (CPH Active ApS). Alle rettigheder forbeholdes. Designet & udviklet med passion for gåder.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating Mobile Quick Actions Bar -->
+  <div class="mobile-bottom-bar">
+    <a href="tel:+4542909191" class="bar-btn">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+        <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+      </svg>
+      <span>Ring op</span>
+    </a>
+    <button class="bar-btn bar-book-btn" onclick="openBookingModal()">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+        <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/>
+      </svg>
+      <span>Book</span>
+    </button>
+    <button class="bar-btn" onclick="toggleMobileMenu()">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+      </svg>
+      <span>Menu</span>
+    </button>
+  </div>
+
+
+  <!-- Notification Toast -->
+  <div class="toast-notification" id="toastNotification">
+    <span id="toastMessage">Handlingen er udført!</span>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="booking.js"></script>
+  <script src="app.js"></script>
+  </body>
+</html>
