@@ -176,3 +176,42 @@
 .faq-cta .rp-h2 { justify-content: center; text-transform: none; letter-spacing: 0; }
 .faq-cta p { color: var(--color-text-muted); margin-bottom: 24px; font-size: 1.05rem; }
 @media (max-width: 600px) { .faq-hero { padding: 40px 0 24px; } .faq-cat { margin-bottom: 32px; } .faq-chip { padding: 8px 14px; font-size: 0.85rem; } }
+
+/* ==========================================================================
+   Om os page (om-os.html)
+   ========================================================================== */
+.om-hero { min-height: 280px; padding: 80px 0 90px; }
+.om-story { padding: 64px 0 24px; }
+.om-story-in { max-width: 860px; }
+.om-lead { font-family: var(--font-heading); font-size: clamp(1.4rem, 2.6vw, 1.9rem); line-height: 1.4; color: #fff; margin-bottom: 36px; padding-left: 20px; border-left: 3px solid var(--color-primary); }
+.om-h2 { text-transform: none; letter-spacing: 0; font-size: clamp(1.5rem, 2.6vw, 2rem); margin-bottom: 18px; }
+.om-btns { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 36px; }
+.om-gt { padding: 56px 0 24px; }
+.om-gt-grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 40px; align-items: start; }
+.om-gallery { grid-template-columns: repeat(3, 1fr); }
+.om-tile { background: var(--color-surface); border: 1px solid var(--color-card-border); border-radius: var(--radius-md); padding: 28px; box-shadow: var(--shadow-sm); }
+.om-timeline { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.om-timeline li { display: grid; grid-template-columns: 84px 32px 1fr; gap: 12px; align-items: center; padding: 11px 0; border-top: 1px solid var(--color-card-border); }
+.om-timeline li:first-child { border-top: 0; }
+.om-date { font-weight: 700; color: var(--color-primary); font-size: 0.9rem; }
+.om-ico { width: 32px; height: 32px; object-fit: contain; }
+.om-ev { color: #fff; line-height: 1.4; }
+.om-team { padding: 56px 0 88px; }
+.om-team-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
+.om-person { background: var(--color-surface); border: 1px solid var(--color-card-border); border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm); }
+.om-person img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; object-position: center top; display: block; }
+.om-person-body { padding: 24px; display: flex; flex-direction: column; gap: 8px; }
+.om-person-body h3 { font-family: var(--font-heading); font-size: 1.5rem; color: #fff; }
+.om-role { color: var(--color-primary); font-weight: 700; font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase; }
+.om-person-body p { color: var(--color-text-muted); line-height: 1.7; }
+@media (max-width: 991px) { .om-gt-grid { grid-template-columns: 1fr; } .om-team-grid { grid-template-columns: 1fr; } }
+@media (max-width: 600px) {
+  .om-hero { min-height: 200px; padding: 56px 0 64px; }
+  .om-story { padding: 40px 0 16px; }
+  .om-gt { padding-top: 32px; }
+  .om-tile { padding: 20px; }
+  .om-timeline li { grid-template-columns: 70px 28px 1fr; gap: 10px; }
+  .om-ico { width: 28px; height: 28px; }
+  .om-gallery { grid-template-columns: repeat(2, 1fr); }
+  .om-team { padding: 40px 0 60px; }
+}
