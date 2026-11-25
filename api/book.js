@@ -90,12 +90,13 @@ module.exports = async function handler(req, res) {
             customer: [{
               mobile, name, email, company, language,
               emailNotifications: 1, smsNotifications: 0,
-              bookings: items.map((it) => ({
+              bookings: items.map((it, idx) => ({
                 date: it.date,
                 arrival: it.time,
                 persons: Number(it.persons),
                 bookingType: ROOMS[it.room].type,
                 autoTable: true,
+                ignorePayment: idx > 0 ? 1 : 0, // only the first room needs the card
                 guestNote: note,
                 comment: b.promo ? 'Rabatkode: ' + clean(b.promo, 50) : undefined
               }))
@@ -125,9 +126,7 @@ module.exports = async function handler(req, res) {
     if (!usedBatch) {
       for (const it of items) {
         if (created.length) await sleep(400);
-        const booking = await etb('/v2/bookings', {
-          method: 'POST',
-          body: {
+        const body = {
             date: it.date,
             time: it.time,
             persons: Number(it.persons),
@@ -142,8 +141,19 @@ module.exports = async function handler(req, res) {
             emailNotifications: 1,
             guestNote: note,
             reference: b.promo ? clean(b.promo, 50) : undefined
-          }
-        });
+        };
+        // Only the first room needs the card; the others skip payment so the guest confirms once.
+        if (created.length) body.ignorePayment = 1;
+        let booking;
+        try {
+          booking = await etb('/v2/bookings', { method: 'POST', body });
+        } catch (e) {
+          // If the API key may not skip payment, book normally (that room will then ask for its own card).
+          if (!(created.length && e instanceof EtbError && (e.upstream === 401 || e.upstream === 403))) throw e;
+          console.error('ignorePayment not permitted – booking with payment');
+          delete body.ignorePayment;
+          booking = await etb('/v2/bookings', { method: 'POST', body });
+        }
         created.push({ room: it.room, date: it.date, time: it.time, persons: Number(it.persons), bookingId: booking.bookingID, paymentUrl: booking.paymentURL || null });
       }
     }

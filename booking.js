@@ -82,7 +82,7 @@
       conflict: 'Et af de valgte tidspunkter blev desværre netop optaget. Ingen bookinger er oprettet – vælg et andet tidspunkt.',
       genericErr: 'Booking mislykkedes. Prøv igen, eller ring til os.', partialErr: 'Noget gik galt, og vi kunne ikke rydde helt op. Ring til os, så hjælper vi.',
       confirmTitle: 'Bekræft med kort', doneTitle: 'Tak for jeres booking!',
-      confirmIntro: 'Jeres tider er reserveret. Bekræft hver booking med et kort for at gennemføre den – der trækkes kun et gebyr ved udeblivelse.',
+      confirmIntro: 'Jeres tider er reserveret. Bekræft bookingen med ét kort for at gennemføre den – der trækkes kun et gebyr ved udeblivelse.',
       doneIntro: 'En bekræftelse er sendt til jeres e-mail.', guarantee: 'Kortgaranti', confirmBtn: 'Bekræft med kort', back: 'Tilbage', newBooking: 'Ny booking',
       dow: ['søn', 'man', 'tir', 'ons', 'tor', 'fre', 'lør'], dowL: ['søndag', 'mandag', 'tirsdag', 'onsdag', 'torsdag', 'fredag', 'lørdag'],
       mon: ['jan', 'feb', 'mar', 'apr', 'maj', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'],
@@ -126,7 +126,7 @@
       conflict: 'One of the chosen times was just taken. No bookings were made – please pick another time.',
       genericErr: 'Booking failed. Please try again or call us.', partialErr: 'Something went wrong and we could not fully clean up. Please call us and we will help.',
       confirmTitle: 'Confirm with a card', doneTitle: 'Thanks for your booking!',
-      confirmIntro: 'Your times are reserved. Confirm each booking with a card to complete it – a fee is only charged for no-shows.',
+      confirmIntro: 'Your times are reserved. Confirm the booking with one card to complete it – a fee is only charged for no-shows.',
       doneIntro: 'A confirmation has been sent to your email.', guarantee: 'Card guarantee', confirmBtn: 'Confirm with card', back: 'Back', newBooking: 'New booking',
       dow: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'], dowL: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
       mon: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
@@ -527,7 +527,7 @@
         S.submitting = false;
         if (res.ok && res.j.ok) {
           var pays = res.j.bookings.filter(function (b) { return b.paymentUrl; });
-          if (res.j.bookings.length === 1 && pays.length === 1) { window.location.href = pays[0].paymentUrl; return; }
+          if (pays.length === 1) { window.location.href = pays[0].paymentUrl; return; }
           S.result = res.j; S.step = 3; S.sel = []; S.sess = {}; S.draft = {}; render(); scrollTop();
           return;
         }
