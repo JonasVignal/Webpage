@@ -15,8 +15,8 @@
   var IMG = 'https://escape-cph.dk/wp-content/uploads/';
   var NV = 'Nørre Voldgade', NF = 'Nørre Farimagsgade', TB = 'Tornebuskegade';
   var ROOMS = [
-    { id: 'vik1', name: 'Vikings I', min: 4, max: 8, loc: NV, tone: '#5A3E2B', img: IMG + 'viking_small.jpg' },
-    { id: 'vik2', name: 'Vikings II', min: 4, max: 8, loc: NV, tone: '#6E4A31', img: IMG + 'viking_small.jpg' },
+    { id: 'vik1', name: 'Vikings A', min: 4, max: 8, loc: NV, tone: '#5A3E2B', img: IMG + 'viking_small.jpg' },
+    { id: 'vik2', name: 'Vikings B', min: 4, max: 8, loc: NV, tone: '#6E4A31', img: IMG + 'viking_small.jpg' },
     { id: 'evil', name: 'Dr. Evil’s Plan', min: 4, max: 8, loc: NV, tone: '#3B2E5A', img: IMG + 'Dr-Evil.jpg' },
     { id: 'rogue', name: 'The Rogue General', min: 3, max: 8, loc: NV, tone: '#3D4A2E', img: IMG + 'Escape_General_small.png' },
     { id: 'jan1', name: 'The Psychotic Janitor I', min: 4, max: 8, loc: NF, tone: '#2F4F4F', img: IMG + 'janitor_small.jpg' },

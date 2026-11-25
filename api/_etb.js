@@ -8,8 +8,8 @@ const BASE_URL = 'https://api.easytable.com';
 
 // Room ids used by the booking flow (booking.js)  ->  easyTable booking type + group size limits.
 const ROOMS = {
-  vik1: { type: 1460, min: 4, max: 8, name: 'Vikings I' },
-  vik2: { type: 1900, min: 4, max: 8, name: 'Vikings II' },
+  vik1: { type: 1460, min: 4, max: 8, name: 'Vikings A' },
+  vik2: { type: 1900, min: 4, max: 8, name: 'Vikings B' },
   evil: { type: 2460, min: 4, max: 8, name: 'Dr. Evil’s Plan' },
   rogue: { type: 3701, min: 3, max: 8, name: 'The Rogue General' },
   jan1: { type: 1456, min: 4, max: 8, name: 'The Psychotic Janitor I' },
