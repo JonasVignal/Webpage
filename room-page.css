@@ -159,3 +159,20 @@
 .rp-video-frame iframe, .rp-video-frame video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 .rp-all-vr { margin-top: 28px; text-align: center; font-weight: 600; }
 @media (max-width: 600px) { .rp-hero-short { padding: 56px 0 64px; min-height: 240px; } .rp-video { padding-bottom: 48px; } }
+
+/* ==========================================================================
+   FAQ page (faq.html)
+   ========================================================================== */
+.faq-hero { padding: 64px 0 36px; text-align: center; }
+.faq-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 8px; }
+.faq-chip { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border: 1px solid var(--color-card-border); border-radius: var(--radius-full); background: var(--color-surface); color: #fff; font-weight: 600; font-size: 0.92rem; transition: all var(--transition-fast); }
+.faq-chip span { background: rgba(243, 156, 18, 0.18); color: var(--color-primary); border-radius: var(--radius-full); padding: 1px 8px; font-size: 0.78rem; }
+.faq-chip:hover { border-color: var(--color-primary); color: #fff; transform: translateY(-2px); }
+.faq-body { border-top: none; padding-top: 24px; }
+.faq-cat { scroll-margin-top: 130px; margin-bottom: 44px; }
+.faq-cat:last-child { margin-bottom: 0; }
+.faq-cat .rp-h2 { text-transform: none; letter-spacing: 0; font-size: clamp(1.5rem, 2.6vw, 2rem); margin-bottom: 18px; }
+.faq-cta { background: var(--color-bg); border-top: 1px solid var(--color-card-border); padding: 64px 0; text-align: center; }
+.faq-cta .rp-h2 { justify-content: center; text-transform: none; letter-spacing: 0; }
+.faq-cta p { color: var(--color-text-muted); margin-bottom: 24px; font-size: 1.05rem; }
+@media (max-width: 600px) { .faq-hero { padding: 40px 0 24px; } .faq-cat { margin-bottom: 32px; } .faq-chip { padding: 8px 14px; font-size: 0.85rem; } }
