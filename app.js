@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initTestimonialsSlider();
   initPriceCalculator();
   initAvailability();
-  initCalendar();
 });
 
 /* ==========================================================================
@@ -143,7 +142,6 @@ function openBookingModal(preselectedRoom = '') {
 
   updateCalculatedPrice();
   refreshAvailability();
-  refreshCalendar();
 
   if (modal) {
     modal.classList.add('open');
@@ -288,150 +286,6 @@ async function refreshAvailability() {
     timeSelect.innerHTML = '<option value="">Kunne ikke hente tider</option>';
     setBookingStatus(err.message || 'Kunne ikke hente ledige tider.', true);
   }
-}
-
-/* ---- Calendar view (month grid with bookable days) ---- */
-const calState = { year: null, month: null, days: {}, request: 0, timer: null };
-const DA_MONTHS = ['januar', 'februar', 'marts', 'april', 'maj', 'juni', 'juli', 'august', 'september', 'oktober', 'november', 'december'];
-const DA_DOW = ['man', 'tir', 'ons', 'tor', 'fre', 'lør', 'søn'];
-
-function pad2(n) { return String(n).padStart(2, '0'); }
-
-function initCalendar() {
-  const box = document.getElementById('bookCalendar');
-  if (!box) return;
-  const dateInput = document.getElementById('bookDate');
-  const base = dateInput && dateInput.value ? new Date(dateInput.value + 'T00:00:00') : new Date();
-  calState.year = base.getFullYear();
-  calState.month = base.getMonth();
-
-  const toggle = document.getElementById('calToggle');
-  if (toggle) {
-    toggle.addEventListener('click', () => {
-      const hide = !box.hidden;
-      box.hidden = hide;
-      toggle.textContent = hide ? 'Vis kalender' : 'Skjul kalender';
-      toggle.setAttribute('aria-expanded', String(!hide));
-    });
-  }
-  if (dateInput) {
-    dateInput.addEventListener('change', () => {
-      // typed/picked date: jump the calendar to that month and refresh the highlight
-      if (!dateInput.value) return;
-      const d = new Date(dateInput.value + 'T00:00:00');
-      if (d.getFullYear() !== calState.year || d.getMonth() !== calState.month) {
-        calState.year = d.getFullYear();
-        calState.month = d.getMonth();
-        refreshCalendar();
-      } else {
-        renderCalendar();
-      }
-    });
-  }
-  ['selectRoom', 'bookPlayers'].forEach((id) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.addEventListener('change', scheduleCalendarRefresh);
-    if (id === 'bookPlayers') el.addEventListener('input', scheduleCalendarRefresh);
-  });
-  renderCalendar();
-}
-
-function scheduleCalendarRefresh() {
-  clearTimeout(calState.timer);
-  calState.timer = setTimeout(refreshCalendar, 400);
-}
-
-async function refreshCalendar() {
-  const box = document.getElementById('bookCalendar');
-  const room = document.getElementById('selectRoom')?.value;
-  const persons = document.getElementById('bookPlayers')?.value;
-  if (!box || !room || !persons) return;
-
-  const id = ++calState.request;
-  box.classList.add('loading');
-  try {
-    const month = `${calState.year}-${pad2(calState.month + 1)}`;
-    const res = await fetch('/api/days?' + new URLSearchParams({ room, month, persons }));
-    const data = await res.json().catch(() => ({}));
-    if (id !== calState.request) return;
-    calState.days = res.ok ? data.days : null; // null = unknown: leave days selectable
-  } catch (_) {
-    if (id !== calState.request) return;
-    calState.days = null;
-  }
-  box.classList.remove('loading');
-  renderCalendar();
-}
-
-function renderCalendar() {
-  const box = document.getElementById('bookCalendar');
-  if (!box) return;
-  const dateInput = document.getElementById('bookDate');
-  const selected = dateInput ? dateInput.value : '';
-  const todayStr = new Date().toISOString().slice(0, 10);
-  const { year, month } = calState;
-  const first = new Date(year, month, 1);
-  const lead = (first.getDay() + 6) % 7; // Monday-first
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-  const now = new Date();
-  const atMinMonth = year === now.getFullYear() && month === now.getMonth();
-
-  box.innerHTML = '';
-  const head = document.createElement('div');
-  head.className = 'cal-head';
-  const prev = document.createElement('button');
-  prev.type = 'button'; prev.className = 'cal-nav'; prev.textContent = '‹'; prev.setAttribute('aria-label', 'Forrige måned');
-  prev.disabled = atMinMonth;
-  prev.onclick = () => shiftCalendar(-1);
-  const title = document.createElement('div');
-  title.className = 'cal-title'; title.textContent = `${DA_MONTHS[month]} ${year}`;
-  const next = document.createElement('button');
-  next.type = 'button'; next.className = 'cal-nav'; next.textContent = '›'; next.setAttribute('aria-label', 'Næste måned');
-  next.onclick = () => shiftCalendar(1);
-  head.append(prev, title, next);
-  box.appendChild(head);
-
-  const grid = document.createElement('div');
-  grid.className = 'cal-grid';
-  DA_DOW.forEach((d) => { const c = document.createElement('div'); c.className = 'cal-dow'; c.textContent = d; grid.appendChild(c); });
-  for (let i = 0; i < lead; i++) { const b = document.createElement('div'); b.className = 'cal-blank'; grid.appendChild(b); }
-
-  for (let d = 1; d <= daysInMonth; d++) {
-    const key = `${year}-${pad2(month + 1)}-${pad2(d)}`;
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'cal-day' + (key === todayStr ? ' today' : '') + (key === selected ? ' selected' : '');
-    btn.textContent = d;
-    const bookable = calState.days ? calState.days[key] === true : key >= todayStr;
-    btn.disabled = key < todayStr || !bookable;
-    if (!btn.disabled) {
-      btn.onclick = () => {
-        if (dateInput) {
-          dateInput.value = key;
-          dateInput.dispatchEvent(new Event('change', { bubbles: true }));
-        }
-      };
-    }
-    grid.appendChild(btn);
-  }
-  box.appendChild(grid);
-
-  const legend = document.createElement('div');
-  legend.className = 'cal-legend';
-  legend.textContent = calState.days
-    ? 'Overstregede dage kan ikke bookes online. Vælg en dag for at se ledige tidspunkter.'
-    : 'Vælg en dag for at se ledige tidspunkter.';
-  box.appendChild(legend);
-}
-
-function shiftCalendar(delta) {
-  const d = new Date(calState.year, calState.month + delta, 1);
-  calState.year = d.getFullYear();
-  calState.month = d.getMonth();
-  calState.days = {};
-  renderCalendar();
-  refreshCalendar();
 }
 
 async function handleBookingSubmit(event) {

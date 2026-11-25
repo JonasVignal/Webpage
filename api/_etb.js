@@ -113,27 +113,4 @@ async function getAvailability(room, date, persons) {
   return { open, times, booked };
 }
 
-/**
- * Which days of a month can be booked online (configuration-based: open, inside the booking
- * window and past the minimum notice – it does not know whether every slot is already taken).
- * month: 'YYYY-MM'.  Returns { 'YYYY-MM-DD': true|false }
- */
-async function getDays(room, month, persons) {
-  const typeIds = ROOMS[room];
-  if (!typeIds) throw new EtbError(400, 'Dette rum kan ikke bookes online – kontakt os venligst.');
-  const [y, m] = month.split('-').map(Number);
-  const last = new Date(Date.UTC(y, m, 0)).getUTCDate();
-  const data = await etb('/v2/availability/days', {
-    query: { startDate: `${month}-01`, endDate: `${month}-${String(last).padStart(2, '0')}`, persons, typeID: typeIds[0] }
-  });
-  const out = {};
-  for (let d = 1; d <= last; d++) out[`${month}-${String(d).padStart(2, '0')}`] = false;
-  for (const day of (data && data.availability) || []) {
-    const [mm, dd, yyyy] = String(day.date).split('/'); // API dates are MM/DD/YYYY
-    const key = `${yyyy}-${mm}-${dd}`;
-    if (key in out) out[key] = (day.times || []).some((t) => t.available === 1);
-  }
-  return out;
-}
-
-module.exports = { ROOMS, EtbError, etb, getAvailability, getDays, validDate, parsePersons };
+module.exports = { ROOMS, EtbError, etb, getAvailability, validDate, parsePersons };
