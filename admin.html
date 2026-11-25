@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="da-DK">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Blog-admin | Escape Copenhagen</title>
+  <link rel="shortcut icon" href="https://escape-cph.dk/wp-content/uploads/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Outfit:wght@400;500;600;700;800&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="room-page.css">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body class="adm">
+
+  <header class="adm-bar">
+    <div class="adm-bar-in">
+      <a class="adm-brand" href="admin.html"><img src="https://escape-cph.dk/wp-content/uploads/escape_cph_logo.svg" alt="Escape Copenhagen" height="34"><span>Blog-admin</span></a>
+      <nav class="adm-nav" id="admNav" hidden>
+        <a href="blog.html" target="_blank" rel="noopener">Se bloggen</a>
+        <button type="button" class="adm-link" id="btnLogout">Log ud</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="adm-main">
+
+    <!-- Login -->
+    <section id="screenLogin" class="adm-card adm-login" hidden>
+      <h1>Log ind</h1>
+      <p class="adm-muted">Kun for administratorer af Escape Copenhagens blog.</p>
+      <form id="formLogin" autocomplete="on">
+        <label for="loginUser">Brugernavn</label>
+        <input id="loginUser" name="username" type="text" autocomplete="username" required>
+        <label for="loginPass">Adgangskode</label>
+        <input id="loginPass" name="password" type="password" autocomplete="current-password" required>
+        <p class="adm-error" id="loginError" role="alert" hidden></p>
+        <button type="submit" class="btn btn-primary btn-block" id="btnLogin">Log ind</button>
+      </form>
+    </section>
+
+    <!-- Post list -->
+    <section id="screenList" hidden>
+      <div class="adm-head">
+        <h1>Indlæg</h1>
+        <button type="button" class="btn btn-primary" id="btnNew">+ Nyt indlæg</button>
+      </div>
+      <div class="adm-card adm-list" id="postList" aria-live="polite"></div>
+      <p class="adm-muted adm-note">Indlæg fra den gamle hjemmeside (de 55 ældste) ligger som faste sider og kan ikke redigeres her. Alt nyt, du skriver her, vises øverst på bloggen.</p>
+    </section>
+
+    <!-- Editor -->
+    <section id="screenEdit" hidden>
+      <div class="adm-head">
+        <button type="button" class="adm-link" id="btnBack">&larr; Alle indlæg</button>
+        <span class="adm-status" id="saveState" aria-live="polite"></span>
+      </div>
+
+      <div class="adm-edit-grid">
+        <div class="adm-edit-main">
+          <label for="fTitle" class="sr">Titel</label>
+          <input id="fTitle" class="adm-title" type="text" placeholder="Titel på indlægget" maxlength="200">
+
+          <div class="adm-toolbar" id="toolbar" role="toolbar" aria-label="Formatering">
+            <button type="button" data-cmd="h2" title="Overskrift">H2</button>
+            <button type="button" data-cmd="h3" title="Underoverskrift">H3</button>
+            <span class="sep"></span>
+            <button type="button" data-cmd="bold" title="Fed (Ctrl/Cmd+B)"><b>B</b></button>
+            <button type="button" data-cmd="italic" title="Kursiv (Ctrl/Cmd+I)"><i>I</i></button>
+            <button type="button" data-cmd="underline" title="Understreget"><u>U</u></button>
+            <span class="sep"></span>
+            <button type="button" data-cmd="ul" title="Punktliste">&bull; Liste</button>
+            <button type="button" data-cmd="ol" title="Nummereret liste">1. Liste</button>
+            <button type="button" data-cmd="quote" title="Citat">&ldquo; Citat</button>
+            <span class="sep"></span>
+            <button type="button" data-cmd="link" title="Indsæt link">Link</button>
+            <button type="button" data-cmd="unlink" title="Fjern link">Fjern link</button>
+            <button type="button" data-cmd="image" title="Indsæt billede">Billede</button>
+            <button type="button" data-cmd="youtube" title="Indsæt YouTube-video">Video</button>
+            <button type="button" data-cmd="hr" title="Skillelinje">&mdash;</button>
+            <span class="sep"></span>
+            <button type="button" data-cmd="undo" title="Fortryd">Fortryd</button>
+            <button type="button" data-cmd="redo" title="Gentag">Gentag</button>
+            <button type="button" data-cmd="clear" title="Fjern formatering">Ryd</button>
+            <button type="button" data-cmd="source" title="Vis/rediger HTML" id="btnSource">&lt;/&gt;</button>
+          </div>
+
+          <div id="editor" class="adm-editor blog-content" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Indhold" data-placeholder="Skriv dit indlæg her…"></div>
+          <textarea id="source" class="adm-source" spellcheck="false" hidden aria-label="HTML-kode"></textarea>
+        </div>
+
+        <aside class="adm-edit-side">
+          <div class="adm-card">
+            <h2>Udgivelse</h2>
+            <fieldset class="adm-radio">
+              <legend class="sr">Status</legend>
+              <label><input type="radio" name="status" value="draft" checked> Kladde</label>
+              <label><input type="radio" name="status" value="published"> Udgivet</label>
+            </fieldset>
+            <label for="fDate">Dato</label>
+            <input id="fDate" type="datetime-local">
+            <p class="adm-hint">Vælger du en dato i fremtiden, vises indlægget først fra da.</p>
+            <label for="fAuthor">Skrevet af</label>
+            <input id="fAuthor" type="text" maxlength="80" placeholder="Fx Andreas">
+            <label for="fSlug">Adresse</label>
+            <div class="adm-slug"><span>/blog/</span><input id="fSlug" type="text" maxlength="80" placeholder="automatisk-ud-fra-titel"></div>
+            <div class="adm-actions">
+              <button type="button" class="btn btn-primary btn-block" id="btnSave">Gem</button>
+              <button type="button" class="btn btn-outline btn-block" id="btnPreview">Vis forhåndsvisning</button>
+              <a class="adm-link" id="btnView" href="#" target="_blank" rel="noopener" hidden>Åbn indlægget &rarr;</a>
+              <button type="button" class="adm-link adm-danger" id="btnDelete" hidden>Slet indlæg</button>
+            </div>
+          </div>
+
+          <div class="adm-card">
+            <h2>Forsidebillede</h2>
+            <div class="adm-cover" id="coverBox" hidden><img id="coverImg" alt=""><button type="button" class="adm-link adm-danger" id="btnCoverRemove">Fjern billede</button></div>
+            <button type="button" class="btn btn-outline btn-block" id="btnCover">Vælg billede</button>
+            <p class="adm-hint">Vises på bloggens oversigt. Hvis du ikke vælger et, bruges det første billede i indlægget.</p>
+          </div>
+
+          <div class="adm-card">
+            <h2>Kort uddrag</h2>
+            <label for="fExcerpt" class="sr">Uddrag</label>
+            <textarea id="fExcerpt" rows="4" maxlength="400" placeholder="Vises på oversigten. Tom = de første ord af indlægget."></textarea>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <input type="file" id="fileImage" accept="image/jpeg,image/png,image/webp,image/gif" hidden>
+  <input type="file" id="fileCover" accept="image/jpeg,image/png,image/webp,image/gif" hidden>
+
+  <!-- Dialogs -->
+  <dialog id="dlgLink" class="adm-dialog">
+    <form method="dialog" id="formLink">
+      <h3>Indsæt link</h3>
+      <label for="linkUrl">Adresse</label>
+      <input id="linkUrl" type="text" placeholder="https://…  eller  vikings.html" required>
+      <div class="adm-dialog-btns"><button type="button" class="btn btn-outline btn-sm" data-close>Annullér</button><button type="submit" class="btn btn-primary btn-sm">Indsæt</button></div>
+    </form>
+  </dialog>
+  <dialog id="dlgYt" class="adm-dialog">
+    <form method="dialog" id="formYt">
+      <h3>Indsæt YouTube-video</h3>
+      <label for="ytUrl">YouTube-adresse</label>
+      <input id="ytUrl" type="text" placeholder="https://www.youtube.com/watch?v=…" required>
+      <div class="adm-dialog-btns"><button type="button" class="btn btn-outline btn-sm" data-close>Annullér</button><button type="submit" class="btn btn-primary btn-sm">Indsæt</button></div>
+    </form>
+  </dialog>
+  <dialog id="dlgAlt" class="adm-dialog">
+    <form method="dialog" id="formAlt">
+      <h3>Beskriv billedet</h3>
+      <img id="altPreview" alt="" class="adm-alt-preview">
+      <label for="altText">Kort beskrivelse (til skærmlæsere og Google)</label>
+      <input id="altText" type="text" maxlength="200" placeholder="Fx Gruppe af venner i Vikings-rummet">
+      <div class="adm-dialog-btns"><button type="button" class="btn btn-outline btn-sm" data-close>Annullér</button><button type="submit" class="btn btn-primary btn-sm">Indsæt billede</button></div>
+    </form>
+  </dialog>
+
+  <!-- Preview -->
+  <div class="adm-preview" id="preview" hidden role="dialog" aria-modal="true" aria-label="Forhåndsvisning">
+    <div class="adm-preview-bar"><strong>Forhåndsvisning</strong><button type="button" class="btn btn-outline btn-sm" id="btnPreviewClose">Luk</button></div>
+    <article class="blog-article"><div class="container blog-art-in">
+      <h1 id="pvTitle"></h1>
+      <p class="blog-meta" id="pvMeta"></p>
+      <div class="blog-content" id="pvBody"></div>
+    </div></article>
+  </div>
+
+  <div class="adm-toast" id="toast" role="status" aria-live="polite" hidden></div>
+  <script src="admin.js"></script>
+</body>
+</html>

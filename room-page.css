@@ -286,3 +286,9 @@ a.blog-pg:hover { border-color: var(--color-primary); color: #fff; }
   .om-more-grid { grid-template-columns: 1fr; }
   .blog-article { padding: 32px 0 60px; }
 }
+
+/* Posts written in the blog admin */
+.blog-content img:not(.blog-img) { max-width: 100%; height: auto; border-radius: var(--radius-sm); border: 1px solid var(--color-card-border); display: block; margin: 6px 0 18px; }
+.blog-content h2 { font-family: var(--font-heading); font-size: 2rem; color: #fff; margin: 38px 0 14px; line-height: 1.2; }
+.blog-content blockquote { margin: 0 0 20px; padding: 6px 0 6px 20px; border-left: 4px solid var(--color-primary); color: #e2e8f0; font-style: italic; }
+.blog-content iframe { width: 100%; max-width: 720px; aspect-ratio: 16 / 9; border: 0; border-radius: var(--radius-md); background: #000; display: block; margin: 8px 0 22px; }
