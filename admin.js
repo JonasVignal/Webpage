@@ -377,6 +377,8 @@
   });
   function txPrepare(doc) {
     tx.doc = doc; tx.orig = {}; tx.base = {};
+    // Open every collapsible box (FAQ etc.) so the texts inside can be reached
+    Array.prototype.forEach.call(doc.querySelectorAll('details'), function (d) { d.open = true; });
     var els = doc.querySelectorAll('[data-et]');
     Array.prototype.forEach.call(els, function (el) { tx.orig[el.getAttribute('data-et')] = cleanText(el); });
     api('content_get', { page: tx.file }).then(function (r) {
