@@ -1993,14 +1993,9 @@ img {
 }
 
 /* Date input: small white calendar icon */
-.form-group input[type="date"] {
-  color-scheme: dark;
-}
-
 .form-group input[type="date"]::-webkit-calendar-picker-indicator {
   filter: invert(1);
   cursor: pointer;
-  opacity: 0.9;
 }
 
 /* Video Modal */
