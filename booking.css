@@ -45,7 +45,7 @@
 /* Header (same look as the site's sticky navbar) */
 .bk-header { position: sticky; top: 0; z-index: 30; background: rgba(20, 23, 31, 0.94); backdrop-filter: blur(12px); border-bottom: 1px solid var(--bk-border-soft); }
 .bk-header-in { max-width: 1320px; margin: 0 auto; padding: 14px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 24px; }
-.bk-logo { height: 44px; width: auto; display: block; }
+.bk-logo { height: 44px; width: auto; display: block; filter: brightness(0) invert(1); }
 .bk-header-right { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 24px; }
 .bk-steps { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 20px; }
 .bk-step { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; font-weight: 500; color: var(--bk-muted); }

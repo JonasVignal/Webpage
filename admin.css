@@ -6,7 +6,7 @@ body.adm { padding-bottom: 0; background: var(--color-bg); color: var(--color-te
 .adm-bar { background: rgba(14, 16, 23, 0.96); border-bottom: 1px solid var(--color-card-border); position: sticky; top: 0; z-index: 50; }
 .adm-bar-in { max-width: 1280px; margin: 0 auto; padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 .adm-brand { display: flex; align-items: center; gap: 14px; color: #fff; font-family: var(--font-accent); font-weight: 700; letter-spacing: 0.5px; }
-.adm-brand img { opacity: 0.85; }
+.adm-brand img { filter: brightness(0) invert(1); }
 .adm-nav { display: flex; align-items: center; gap: 22px; font-weight: 600; font-size: 0.95rem; }
 .adm-link { background: none; border: 0; padding: 0; color: var(--color-primary); font: inherit; font-weight: 600; cursor: pointer; text-decoration: none; }
 .adm-link:hover { color: #ffb84d; text-decoration: underline; }
