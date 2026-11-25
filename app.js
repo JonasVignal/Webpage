@@ -160,9 +160,12 @@ function closeBookingModal() {
 function initDateInputs() {
   const dateInput = document.getElementById('bookDate');
   if (dateInput) {
-    const today = new Date().toISOString().split('T')[0];
-    dateInput.min = today;
-    dateInput.value = today;
+    // Bookings need 48 hours' notice: start on the day two days ahead (local date, not UTC).
+    const d = new Date();
+    d.setDate(d.getDate() + 2);
+    const earliest = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    dateInput.min = earliest;
+    dateInput.value = earliest;
   }
 }
 
