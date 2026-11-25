@@ -285,7 +285,7 @@
       return '<li class="bk-step' + (cur ? ' is-cur' : '') + (done ? ' is-done' : '') + '"><span class="bk-stepdot">' + n + '</span><span>' + esc(label) + '</span></li>';
     }).join('');
     return '<header class="bk-header"><div class="bk-header-in">' +
-      '<span class="bk-brand">ESCAPE COPENHAGEN</span>' +
+      '<img class="bk-logo" src="https://escape-cph.dk/wp-content/uploads/escape_cph_logo.svg" alt="Escape Copenhagen" width="136" height="49">' +
       '<div class="bk-header-right"><ol class="bk-steps" aria-label="' + esc(t.stepsAria) + '">' + steps + '</ol>' +
       '<div class="bk-lang" role="group" aria-label="Language / Sprog">' +
       '<button type="button" data-act="lang" data-v="da" aria-pressed="' + (S.lang === 'da') + '" class="' + (S.lang === 'da' ? 'on' : '') + '">DA</button>' +
@@ -403,7 +403,7 @@
       }).join('');
       if (forStep2) return '<div class="bk-sess plain"><div class="bk-sess-head"><b>' + esc(dayLabelShort(s.date) + ' · ' + s.time) + '</b><span class="bk-muted">' + esc(t.countLabel(s.n)) + '</span></div>' + lines + '</div>';
       var denom = Math.max(s.n, s.its.reduce(function (a, it) { return a + it.assigned; }, 0));
-      var segs = s.its.map(function (it) { return '<span style="width:' + (it.assigned / denom * 100).toFixed(2) + '%;background:' + it.room.tone + '"></span>'; }).join('') + (s.leftover > 0 ? '<span style="width:' + (s.leftover / denom * 100).toFixed(2) + '%;background:#CFCBC3"></span>' : '');
+      var segs = s.its.map(function (it) { return '<span style="width:' + (it.assigned / denom * 100).toFixed(2) + '%;background:' + it.room.tone + '"></span>'; }).join('') + (s.leftover > 0 ? '<span style="width:' + (s.leftover / denom * 100).toFixed(2) + '%;background:rgba(255,255,255,0.35)"></span>' : '');
       var msg = s.over ? t.over(s.sumMin) : (s.leftover > 0 ? t.left(s.leftover) : t.ok(s.n));
       return '<div class="bk-sess' + (S.day === s.date ? ' focus' : '') + '"><div class="bk-sess-head">' +
         '<button type="button" class="bk-sess-title" data-act="focusSess" data-sk="' + s.sk + '" aria-label="' + esc(t.focusAria) + '"><b>' + esc(dayLabelShort(s.date) + ' · ' + s.time) + '</b><span class="bk-muted sm">' + esc(t.sessSub(s.its.length)) + '</span></button>' +
