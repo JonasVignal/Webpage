@@ -1236,19 +1236,6 @@ img {
   margin-bottom: 8px;
 }
 
-.vr-more {
-  display: inline-block;
-  margin-bottom: 14px;
-  font-size: 0.85rem;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  color: var(--color-primary);
-}
-
-.vr-more:hover {
-  color: #ffb84d;
-}
-
 .vr-content h3 {
   font-family: var(--font-heading);
   font-size: 1.4rem;
