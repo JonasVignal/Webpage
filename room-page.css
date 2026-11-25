@@ -142,3 +142,20 @@
 
 /* Headings that are sentences rather than short titles */
 .rp-h2-sentence { text-transform: none; letter-spacing: 0; font-size: clamp(1.6rem, 2.6vw, 2.1rem); }
+
+/* ==========================================================================
+   VR game pages (vr-*.html)
+   ========================================================================== */
+.rp-crumbs { background: var(--color-bg-alt, #1a1e29); border-bottom: 1px solid var(--color-card-border); padding: 12px 0; font-size: 0.9rem; color: var(--color-text-muted); }
+.rp-crumbs a { color: var(--color-primary); }
+.rp-crumbs [aria-current] { color: #fff; }
+.rp-hero-short { padding: 90px 0 100px; min-height: 340px; }
+.rp-hero-h1 { font-family: var(--font-heading); font-size: clamp(2.6rem, 6vw, 4.4rem); font-weight: 700; color: #fff; text-shadow: 0 2px 20px rgba(0, 0, 0, 0.6); }
+.rp-gallery-col { display: flex; flex-direction: column; gap: 20px; }
+.rp-logo-img { width: 172px; max-width: 60%; height: auto; opacity: 0.95; }
+.rp-video { padding: 0 0 72px; }
+.rp-video-in { max-width: 960px; }
+.rp-video-frame { position: relative; aspect-ratio: 16 / 9; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--color-card-border); background: #000; box-shadow: var(--shadow-md); }
+.rp-video-frame iframe, .rp-video-frame video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.rp-all-vr { margin-top: 28px; text-align: center; font-weight: 600; }
+@media (max-width: 600px) { .rp-hero-short { padding: 56px 0 64px; min-height: 240px; } .rp-video { padding-bottom: 48px; } }
