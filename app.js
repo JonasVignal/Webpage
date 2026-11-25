@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initRoomFilters();
   initTestimonialsSlider();
   initPriceCalculator();
+  initAvailability();
+  initCalendar();
 });
 
 /* ==========================================================================
@@ -140,6 +142,8 @@ function openBookingModal(preselectedRoom = '') {
   }
 
   updateCalculatedPrice();
+  refreshAvailability();
+  refreshCalendar();
 
   if (modal) {
     modal.classList.add('open');
@@ -202,17 +206,284 @@ function updateCalculatedPrice() {
   priceDisplay.textContent = `${total.toLocaleString('da-DK')} kr. inkl. moms`;
 }
 
-function handleBookingSubmit(event) {
+/* ==========================================================================
+   Live availability + booking (easyTable via /api/*)
+   ========================================================================== */
+let availabilityTimer = null;
+let availabilityRequest = 0;
+
+function setBookingStatus(message, isError) {
+  const el = document.getElementById('bookingStatus');
+  if (!el) return;
+  el.textContent = message || '';
+  el.style.color = isError ? '#ff6b6b' : '';
+  el.style.display = message ? 'block' : 'none';
+}
+
+function initAvailability() {
+  ['selectRoom', 'bookDate', 'bookPlayers'].forEach((id) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('change', scheduleAvailabilityRefresh);
+    if (id === 'bookPlayers') el.addEventListener('input', scheduleAvailabilityRefresh);
+  });
+}
+
+function scheduleAvailabilityRefresh() {
+  clearTimeout(availabilityTimer);
+  availabilityTimer = setTimeout(() => { refreshAvailability(); }, 350);
+}
+
+async function refreshAvailability() {
+  const room = document.getElementById('selectRoom')?.value;
+  const date = document.getElementById('bookDate')?.value;
+  const persons = document.getElementById('bookPlayers')?.value;
+  const timeSelect = document.getElementById('bookTime');
+  const submitBtn = document.querySelector('#bookingForm button[type="submit"]');
+  if (!timeSelect || !room || !date || !persons) return;
+
+  const requestId = ++availabilityRequest;
+  const previous = timeSelect.value;
+  timeSelect.innerHTML = '<option value="">Henter ledige tider…</option>';
+  timeSelect.disabled = true;
+  if (submitBtn) submitBtn.disabled = true;
+  setBookingStatus('');
+
+  try {
+    const qs = new URLSearchParams({ room, date, persons });
+    const res = await fetch('/api/availability?' + qs);
+    const data = await res.json().catch(() => ({}));
+    if (requestId !== availabilityRequest) return; // a newer request superseded this one
+    if (!res.ok) throw new Error(data.error || 'Kunne ikke hente ledige tider.');
+
+    const options = [
+      ...data.times.map((t) => ({ time: t.time, free: true })),
+      ...data.booked.map((time) => ({ time, free: false }))
+    ].sort((a, b) => a.time.localeCompare(b.time));
+
+    timeSelect.innerHTML = '';
+    if (!data.open || data.times.length === 0) {
+      timeSelect.innerHTML = '<option value="">Ingen ledige tider</option>';
+      setBookingStatus(
+        data.open
+          ? 'Der er ingen ledige tider denne dag for det valgte antal deltagere. Prøv en anden dato.'
+          : 'Der kan ikke bookes online denne dag. Prøv en anden dato.',
+        true
+      );
+    } else {
+      options.forEach(({ time, free }) => {
+        const opt = document.createElement('option');
+        opt.value = time;
+        opt.textContent = free ? time : `${time} (optaget)`;
+        opt.disabled = !free;
+        timeSelect.appendChild(opt);
+      });
+      const keep = data.times.find((t) => t.time === previous);
+      timeSelect.value = keep ? keep.time : data.times[0].time;
+      timeSelect.disabled = false;
+      if (submitBtn) submitBtn.disabled = false;
+    }
+  } catch (err) {
+    if (requestId !== availabilityRequest) return;
+    timeSelect.innerHTML = '<option value="">Kunne ikke hente tider</option>';
+    setBookingStatus(err.message || 'Kunne ikke hente ledige tider.', true);
+  }
+}
+
+/* ---- Calendar view (month grid with bookable days) ---- */
+const calState = { year: null, month: null, days: {}, request: 0, timer: null };
+const DA_MONTHS = ['januar', 'februar', 'marts', 'april', 'maj', 'juni', 'juli', 'august', 'september', 'oktober', 'november', 'december'];
+const DA_DOW = ['man', 'tir', 'ons', 'tor', 'fre', 'lør', 'søn'];
+
+function pad2(n) { return String(n).padStart(2, '0'); }
+
+function initCalendar() {
+  const box = document.getElementById('bookCalendar');
+  if (!box) return;
+  const dateInput = document.getElementById('bookDate');
+  const base = dateInput && dateInput.value ? new Date(dateInput.value + 'T00:00:00') : new Date();
+  calState.year = base.getFullYear();
+  calState.month = base.getMonth();
+
+  const toggle = document.getElementById('calToggle');
+  if (toggle) {
+    toggle.addEventListener('click', () => {
+      const hide = !box.hidden;
+      box.hidden = hide;
+      toggle.textContent = hide ? 'Vis kalender' : 'Skjul kalender';
+      toggle.setAttribute('aria-expanded', String(!hide));
+    });
+  }
+  if (dateInput) {
+    dateInput.addEventListener('change', () => {
+      // typed/picked date: jump the calendar to that month and refresh the highlight
+      if (!dateInput.value) return;
+      const d = new Date(dateInput.value + 'T00:00:00');
+      if (d.getFullYear() !== calState.year || d.getMonth() !== calState.month) {
+        calState.year = d.getFullYear();
+        calState.month = d.getMonth();
+        refreshCalendar();
+      } else {
+        renderCalendar();
+      }
+    });
+  }
+  ['selectRoom', 'bookPlayers'].forEach((id) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('change', scheduleCalendarRefresh);
+    if (id === 'bookPlayers') el.addEventListener('input', scheduleCalendarRefresh);
+  });
+  renderCalendar();
+}
+
+function scheduleCalendarRefresh() {
+  clearTimeout(calState.timer);
+  calState.timer = setTimeout(refreshCalendar, 400);
+}
+
+async function refreshCalendar() {
+  const box = document.getElementById('bookCalendar');
+  const room = document.getElementById('selectRoom')?.value;
+  const persons = document.getElementById('bookPlayers')?.value;
+  if (!box || !room || !persons) return;
+
+  const id = ++calState.request;
+  box.classList.add('loading');
+  try {
+    const month = `${calState.year}-${pad2(calState.month + 1)}`;
+    const res = await fetch('/api/days?' + new URLSearchParams({ room, month, persons }));
+    const data = await res.json().catch(() => ({}));
+    if (id !== calState.request) return;
+    calState.days = res.ok ? data.days : null; // null = unknown: leave days selectable
+  } catch (_) {
+    if (id !== calState.request) return;
+    calState.days = null;
+  }
+  box.classList.remove('loading');
+  renderCalendar();
+}
+
+function renderCalendar() {
+  const box = document.getElementById('bookCalendar');
+  if (!box) return;
+  const dateInput = document.getElementById('bookDate');
+  const selected = dateInput ? dateInput.value : '';
+  const todayStr = new Date().toISOString().slice(0, 10);
+  const { year, month } = calState;
+  const first = new Date(year, month, 1);
+  const lead = (first.getDay() + 6) % 7; // Monday-first
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const now = new Date();
+  const atMinMonth = year === now.getFullYear() && month === now.getMonth();
+
+  box.innerHTML = '';
+  const head = document.createElement('div');
+  head.className = 'cal-head';
+  const prev = document.createElement('button');
+  prev.type = 'button'; prev.className = 'cal-nav'; prev.textContent = '‹'; prev.setAttribute('aria-label', 'Forrige måned');
+  prev.disabled = atMinMonth;
+  prev.onclick = () => shiftCalendar(-1);
+  const title = document.createElement('div');
+  title.className = 'cal-title'; title.textContent = `${DA_MONTHS[month]} ${year}`;
+  const next = document.createElement('button');
+  next.type = 'button'; next.className = 'cal-nav'; next.textContent = '›'; next.setAttribute('aria-label', 'Næste måned');
+  next.onclick = () => shiftCalendar(1);
+  head.append(prev, title, next);
+  box.appendChild(head);
+
+  const grid = document.createElement('div');
+  grid.className = 'cal-grid';
+  DA_DOW.forEach((d) => { const c = document.createElement('div'); c.className = 'cal-dow'; c.textContent = d; grid.appendChild(c); });
+  for (let i = 0; i < lead; i++) { const b = document.createElement('div'); b.className = 'cal-blank'; grid.appendChild(b); }
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const key = `${year}-${pad2(month + 1)}-${pad2(d)}`;
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'cal-day' + (key === todayStr ? ' today' : '') + (key === selected ? ' selected' : '');
+    btn.textContent = d;
+    const bookable = calState.days ? calState.days[key] === true : key >= todayStr;
+    btn.disabled = key < todayStr || !bookable;
+    if (!btn.disabled) {
+      btn.onclick = () => {
+        if (dateInput) {
+          dateInput.value = key;
+          dateInput.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+      };
+    }
+    grid.appendChild(btn);
+  }
+  box.appendChild(grid);
+
+  const legend = document.createElement('div');
+  legend.className = 'cal-legend';
+  legend.textContent = calState.days
+    ? 'Overstregede dage kan ikke bookes online. Vælg en dag for at se ledige tidspunkter.'
+    : 'Vælg en dag for at se ledige tidspunkter.';
+  box.appendChild(legend);
+}
+
+function shiftCalendar(delta) {
+  const d = new Date(calState.year, calState.month + delta, 1);
+  calState.year = d.getFullYear();
+  calState.month = d.getMonth();
+  calState.days = {};
+  renderCalendar();
+  refreshCalendar();
+}
+
+async function handleBookingSubmit(event) {
   event.preventDefault();
-  const room = document.getElementById('selectRoom').value;
-  const date = document.getElementById('bookDate').value;
-  const time = document.getElementById('bookTime').value;
-  const players = document.getElementById('bookPlayers').value;
-  const name = document.getElementById('custName').value;
+  const submitBtn = document.querySelector('#bookingForm button[type="submit"]');
+  const payload = {
+    room: document.getElementById('selectRoom').value,
+    date: document.getElementById('bookDate').value,
+    time: document.getElementById('bookTime').value,
+    persons: document.getElementById('bookPlayers').value,
+    name: document.getElementById('custName').value,
+    phone: document.getElementById('custPhone').value,
+    email: document.getElementById('custEmail').value,
+    promo: document.getElementById('promoCode').value
+  };
+  if (!payload.time) {
+    setBookingStatus('Vælg et ledigt tidspunkt.', true);
+    return;
+  }
 
-  closeBookingModal();
+  const originalLabel = submitBtn ? submitBtn.textContent : '';
+  if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'BOOKER…'; }
+  setBookingStatus('');
 
-  showToast(`Tak for din reservation, ${name}! Du har booket ${room} d. ${date} kl. ${time} for ${players} deltagere. En bekræftelse er sendt.`);
+  try {
+    const res = await fetch('/api/book', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json().catch(() => ({}));
+
+    if (!res.ok) {
+      setBookingStatus(data.error || 'Booking mislykkedes. Prøv igen eller ring til os.', true);
+      if (res.status === 409) refreshAvailability(); // slot was taken – show fresh times
+      return;
+    }
+
+    if (data.paymentUrl) {
+      // Booking requires a card guarantee/prepayment – send the guest to pay to complete it.
+      window.location.href = data.paymentUrl;
+      return;
+    }
+
+    closeBookingModal();
+    showToast(`Tak for din reservation, ${payload.name}! Du har booket ${payload.room} d. ${payload.date} kl. ${payload.time} for ${payload.persons} deltagere. En bekræftelse er sendt til ${payload.email}.`);
+    refreshAvailability();
+  } catch (err) {
+    setBookingStatus('Kunne ikke kontakte bookingsystemet. Prøv igen eller ring til os.', true);
+  } finally {
+    if (submitBtn) { submitBtn.textContent = originalLabel; submitBtn.disabled = false; }
+  }
 }
 
 /* ==========================================================================

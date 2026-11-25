@@ -896,15 +896,14 @@
             <div class="form-group">
               <label for="bookTime">Tidspunkt</label>
               <select id="bookTime" required>
-                <option value="11:00">11:00</option>
-                <option value="12:30">12:30</option>
-                <option value="14:00">14:00</option>
-                <option value="15:30">15:30</option>
-                <option value="17:00">17:00</option>
-                <option value="18:30" selected>18:30</option>
-                <option value="19:30">19:30 (Sidste spil)</option>
+                <option value="">Henter ledige tider…</option>
               </select>
             </div>
+          </div>
+
+          <div class="form-group">
+            <button type="button" class="cal-toggle" id="calToggle" aria-expanded="true" aria-controls="bookCalendar">Skjul kalender</button>
+            <div class="booking-calendar" id="bookCalendar" aria-label="Kalender"></div>
           </div>
 
           <div class="form-row">
@@ -941,6 +940,8 @@
             </div>
             <span class="calc-hint">*Priser fra 240-340 kr. pr. person afhængig af holdstørrelse. Rabat fratrækkes ved kassen.</span>
           </div>
+
+          <p id="bookingStatus" class="calc-hint" role="status" style="display:none;margin-bottom:12px"></p>
 
           <button type="submit" class="btn btn-primary btn-block btn-lg">BEKRÆFT RESERVATION</button>
         </form>

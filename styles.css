@@ -1992,6 +1992,85 @@ img {
   margin-top: 4px;
 }
 
+/* Booking calendar */
+.cal-toggle {
+  background: none;
+  border: 0;
+  color: var(--color-primary);
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 0 0 8px;
+  text-decoration: underline;
+}
+
+.booking-calendar {
+  background: var(--color-bg);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-md);
+  padding: 12px;
+}
+
+.booking-calendar[hidden] { display: none; }
+
+.cal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.cal-title {
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.cal-nav {
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  color: var(--color-text-main);
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-sm);
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.cal-nav:disabled { opacity: 0.35; cursor: default; }
+
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.cal-dow {
+  text-align: center;
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  padding: 2px 0 4px;
+}
+
+.cal-day {
+  aspect-ratio: 1 / 1;
+  min-height: 34px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text-main);
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.cal-day:hover:not(:disabled) { background: var(--color-surface-hover); border-color: var(--color-primary); }
+.cal-day:disabled { background: transparent; color: var(--color-text-muted); opacity: 0.4; cursor: default; text-decoration: line-through; }
+.cal-day.today { border-color: var(--color-card-border); }
+.cal-day.selected { background: var(--color-primary); color: var(--color-text-dark); font-weight: 700; }
+.cal-blank { visibility: hidden; }
+.cal-legend { margin-top: 8px; font-size: 0.75rem; color: var(--color-text-muted); }
+.booking-calendar.loading .cal-grid { opacity: 0.5; }
+
 /* Video Modal */
 .video-modal-window {
   max-width: 800px;
