@@ -15,31 +15,28 @@
   var IMG = 'https://escape-cph.dk/wp-content/uploads/';
   var NV = 'Nørre Voldgade', NF = 'Nørre Farimagsgade', TB = 'Tornebuskegade';
   var ROOMS = [
-    { id: 'vik1', name: 'Vikings I', min: 4, max: 8, loc: NV, base: 279, tone: '#5A3E2B', img: IMG + 'viking_small.jpg' },
-    { id: 'vik2', name: 'Vikings II', min: 4, max: 8, loc: NV, base: 279, tone: '#6E4A31', img: IMG + 'viking_small.jpg' },
-    { id: 'evil', name: 'Dr. Evil’s Plan', min: 4, max: 8, loc: NV, base: 279, tone: '#3B2E5A', img: IMG + 'Dr-Evil.jpg' },
-    { id: 'rogue', name: 'The Rogue General', min: 3, max: 8, loc: NV, base: 279, tone: '#3D4A2E', img: IMG + 'Escape_General_small.png' },
-    { id: 'jan1', name: 'The Psychotic Janitor I', min: 4, max: 8, loc: NF, base: 279, tone: '#2F4F4F', img: IMG + 'janitor_small.jpg' },
-    { id: 'jan2', name: 'The Psychotic Janitor II', min: 4, max: 8, loc: NF, base: 279, tone: '#2A5A5A', img: IMG + 'janitor_small.jpg' },
-    { id: 'cell1', name: 'The Terrorist Cell I', min: 4, max: 8, loc: NF, base: 279, tone: '#5A2E2E', img: IMG + 'terrorist_small.jpg' },
-    { id: 'cell2', name: 'The Terrorist Cell II', min: 4, max: 8, loc: NF, base: 279, tone: '#6B3434', img: IMG + 'terrorist_small.jpg' },
-    { id: 'hack1', name: 'HACKED! I Exclusive', min: 3, max: 6, loc: TB, base: 349, tone: '#1C2B36', img: IMG + 'ESCAPE-ROOM-Hacker_small.png' },
-    { id: 'hack2', name: 'HACKED! II Exclusive', min: 3, max: 6, loc: TB, base: 349, tone: '#22394A', img: IMG + 'ESCAPE-ROOM-Hacker_small.png' },
-    { id: 'vr', name: 'Virtual Reality', min: 2, max: 2, loc: '', base: 249, tone: '#2A2418', img: 'https://escape-cph.dk/wp-content/themes/yootheme/cache/pyramid_small-460dabd9.jpg' }
+    { id: 'vik1', name: 'Vikings I', min: 4, max: 8, loc: NV, tone: '#5A3E2B', img: IMG + 'viking_small.jpg' },
+    { id: 'vik2', name: 'Vikings II', min: 4, max: 8, loc: NV, tone: '#6E4A31', img: IMG + 'viking_small.jpg' },
+    { id: 'evil', name: 'Dr. Evil’s Plan', min: 4, max: 8, loc: NV, tone: '#3B2E5A', img: IMG + 'Dr-Evil.jpg' },
+    { id: 'rogue', name: 'The Rogue General', min: 3, max: 8, loc: NV, tone: '#3D4A2E', img: IMG + 'Escape_General_small.png' },
+    { id: 'jan1', name: 'The Psychotic Janitor I', min: 4, max: 8, loc: NF, tone: '#2F4F4F', img: IMG + 'janitor_small.jpg' },
+    { id: 'jan2', name: 'The Psychotic Janitor II', min: 4, max: 8, loc: NF, tone: '#2A5A5A', img: IMG + 'janitor_small.jpg' },
+    { id: 'cell1', name: 'The Terrorist Cell I', min: 4, max: 8, loc: NF, tone: '#5A2E2E', img: IMG + 'terrorist_small.jpg' },
+    { id: 'cell2', name: 'The Terrorist Cell II', min: 4, max: 8, loc: NF, tone: '#6B3434', img: IMG + 'terrorist_small.jpg' },
+    { id: 'hack1', name: 'HACKED! I Exclusive', min: 3, max: 6, loc: TB, tone: '#1C2B36', img: IMG + 'ESCAPE-ROOM-Hacker_small.png' },
+    { id: 'hack2', name: 'HACKED! II Exclusive', min: 3, max: 6, loc: TB, tone: '#22394A', img: IMG + 'ESCAPE-ROOM-Hacker_small.png' },
+    { id: 'vr', name: 'Virtual Reality', min: 2, max: 2, loc: '', tone: '#2A2418', img: 'https://escape-cph.dk/wp-content/themes/yootheme/cache/pyramid_small-460dabd9.jpg' }
   ];
   var MIN_NOTICE_DAYS = 2;   // bookings need 48 hours' notice
   var MAX_DAYS = 180;        // how far ahead the calendar goes (closed/unbookable days are greyed out)
   var DEFAULT_PLAYERS = 4;
   var MAX_PLAYERS = 40;
 
-  // Price per player. Weekday mornings (before 12:00) −15 %; Fri/Sat evenings (18:00 and later) +40 kr.
-  function price(dateStr, room, time) {
-    var d = parseDate(dateStr).getDay();
-    var mins = toMinutes(time);
-    var weekday = d >= 1 && d <= 5;
-    if (weekday && mins < 12 * 60) return { pps: Math.round(room.base * 0.85 / 5) * 5, kind: 'deal' };
-    if ((d === 5 || d === 6) && mins >= 18 * 60) return { pps: room.base + 40, kind: 'peak' };
-    return { pps: room.base, kind: '' };
+  // Price per player (DKK, incl. VAT) by weekday – the same for every room.
+  // 0 = Sunday … 6 = Saturday.
+  var PRICE_BY_WEEKDAY = { 0: 240, 1: 240, 2: 299, 3: 299, 4: 299, 5: 329, 6: 329 };
+  function price(dateStr) {
+    return { pps: PRICE_BY_WEEKDAY[parseDate(dateStr).getDay()], kind: '' };
   }
 
   /* ----------------------------------------------------------------------
@@ -279,11 +276,7 @@
   function dayLabelShort(date) { var d = parseDate(date), t = T(); return t.dShort(t.dow[d.getDay()], d.getDate(), t.mon[d.getMonth()]); }
   function dayLabelLong(date) { var d = parseDate(date), t = T(); return t.dLong(t.dowL[d.getDay()], d.getDate(), t.monL[d.getMonth()]); }
 
-  function dayFrom(date) {
-    var from = Infinity;
-    ROOMS.forEach(function (r) { ['09:00', '12:00', '18:00'].forEach(function (tm) { from = Math.min(from, price(date, r, tm).pps); }); });
-    return from;
-  }
+  function dayFrom(date) { return price(date).pps; }
 
   function headerHtml() {
     var t = T();
@@ -311,7 +304,7 @@
       days += '<button type="button" class="bk-day' + (active ? ' is-active' : '') + '" data-act="day" data-date="' + date + '"' + (ok ? '' : ' disabled') +
         ' aria-pressed="' + active + '" aria-label="' + esc(dayLabelLong(date)) + '">' +
         '<span class="bk-day-dow">' + esc(t.dow[d.getDay()]) + '</span><span class="bk-day-num">' + d.getDate() + '</span>' +
-        '<span class="bk-day-from">' + (ok ? esc(t.from + ' ' + from) : '–') + '</span>' + (has ? '<span class="bk-dot" aria-hidden="true"></span>' : '') + '</button>';
+        '<span class="bk-day-from">' + (ok ? esc(from + ' kr') : '–') + '</span>' + (has ? '<span class="bk-dot" aria-hidden="true"></span>' : '') + '</button>';
     }
     var s0 = parseDate(dateAt(S.stripStart)), s1 = parseDate(dateAt(end - 1));
     var month = s0.getMonth() === s1.getMonth() ? t.monL[s0.getMonth()] + ' ' + s0.getFullYear() : t.monL[s0.getMonth()] + ' – ' + t.monL[s1.getMonth()] + ' ' + s1.getFullYear();
@@ -387,7 +380,7 @@
       return '<article class="bk-time' + (selCount ? ' has-sel' : '') + '">' +
         '<button type="button" class="bk-time-head" data-act="toggleTime" data-sk="' + sk + '" aria-expanded="' + open + '"' + (free === 0 ? ' disabled' : '') + '>' +
         '<span class="bk-time-t">' + esc(time) + '</span>' +
-        '<span class="bk-time-info"><b>' + esc(free === 0 ? t.fullyBooked : t.roomsFree(free, ROOMS.length)) + '</b><span class="bk-muted">' + (free ? esc(t.from + ' ' + fmt(from) + ' / ' + t.perPlayer) : '') + '</span></span>' +
+        '<span class="bk-time-info"><b>' + esc(free === 0 ? t.fullyBooked : t.roomsFree(free, ROOMS.length)) + '</b><span class="bk-muted">' + (free ? esc(fmt(from) + ' / ' + t.perPlayer) : '') + '</span></span>' +
         '<span class="bk-dots">' + dots + '</span>' + tag +
         (selCount ? '<span class="bk-selpill">' + esc(t.selCount(selCount)) + '</span>' : '') +
         (free ? '<span class="bk-chev' + (open ? ' up' : '') + '">' + ICON.chev + '</span>' : '') + '</button>' +
@@ -432,8 +425,7 @@
     return '<main class="bk-main"><div class="bk-head"><h1>' + esc(t.title) + '</h1><p>' + esc(t.intro) + '</p>' +
       (S.notice ? '<div class="bk-status warn" role="alert">' + ICON.warn + '<span>' + esc(S.notice) + '</span></div>' : '') + '</div>' +
       strip +
-      '<div class="bk-cols"><section class="bk-left"><div class="bk-left-head"><h2>' + esc(dayTitle) + '</h2><div class="bk-legend"><span>' + esc(t.priceNote) + '</span>' +
-      '<span><i class="bk-tag deal">−15%</i> ' + esc(t.dealNote) + '</span><span><i class="bk-tag peak">' + esc(t.peak) + '</i> ' + esc(t.peakNote) + '</span></div></div>' +
+      '<div class="bk-cols"><section class="bk-left"><div class="bk-left-head"><h2>' + esc(dayTitle) + '</h2><div class="bk-legend"><span>' + esc(t.priceNote) + '</span></div></div>' +
       '<p class="bk-muted">' + esc(t.pickTime) + '</p>' + rows + '</section>' +
       '<aside class="bk-aside"><h2>' + esc(t.yourBooking) + '</h2>' +
       (cart.sessions.length ? c.sess : '<div class="bk-empty">' + esc(t.emptyV2) + '</div>') +
