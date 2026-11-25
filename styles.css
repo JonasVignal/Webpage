@@ -1005,29 +1005,6 @@ img {
   opacity: 0.4;
 }
 
-.room-difficulty {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 14px;
-}
-
-.diff-label {
-  font-size: 0.82rem;
-  color: var(--color-text-muted);
-  line-height: 1;
-  display: inline-flex;
-  align-items: center;
-}
-
-.diff-stars {
-  width: 85px;
-  max-width: 85px;
-  height: auto;
-  display: block;
-  margin: 0;
-}
-
 .room-desc {
   font-size: 0.92rem;
   color: #cbd5e1;

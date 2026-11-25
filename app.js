@@ -348,12 +348,11 @@ async function handleBookingSubmit(event) {
    ========================================================================== */
 let activeDetailRoomName = '';
 
-function showRoomDetails(name, duration, players, difficulty, location, desc) {
+function showRoomDetails(name, duration, players, location, desc) {
   activeDetailRoomName = name;
   document.getElementById('roomDetailTitle').textContent = name;
   document.getElementById('roomDetailDuration').textContent = duration;
   document.getElementById('roomDetailPlayers').textContent = players;
-  document.getElementById('roomDetailDiff').textContent = difficulty;
   document.getElementById('roomDetailLocation').textContent = location;
   document.getElementById('roomDetailText').textContent = desc;
 
