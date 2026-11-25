@@ -1175,8 +1175,21 @@ img {
 }
 
 @media (min-width: 768px) {
+  /* 6 columns so 3 cards fit on the first row and the last 2 are centred below */
   .vr-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  .vr-card {
+    grid-column: span 2;
+  }
+
+  .vr-card:nth-child(4) {
+    grid-column: 2 / span 2;
+  }
+
+  .vr-card:nth-child(5) {
+    grid-column: 4 / span 2;
   }
 }
 
