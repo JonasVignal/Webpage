@@ -12,6 +12,8 @@ const MAGIC = [
   ['image/gif', 'gif', (b) => b.slice(0, 3).toString() === 'GIF']
 ];
 
+// Page keys are file names like "vikings.html" (no folders).
+function pageKey(v) { const s = String(v || ''); return /^[a-z0-9][a-z0-9._-]{0,80}\.html$/.test(s) && s !== 'admin.html' ? s : ''; }
 function bad(res, code, msg) { return res.status(code).json({ error: msg }); }
 const str = (v, n) => String(v == null ? '' : v).replace(/[\u0000-\u001f]/g, ' ').trim().slice(0, n);
 
@@ -100,6 +102,37 @@ module.exports = async function handler(req, res) {
         const i = state.posts.findIndex((x) => x.id === body.id);
         if (i < 0) { const err = new Error('Indlægget findes ikke.'); err.code = 404; throw err; }
         state.posts.splice(i, 1);
+      });
+      return res.status(200).json({ ok: true });
+    }
+
+    /* ---------------------------------------------------------- page texts */
+    if (action === 'content_get') {
+      const page = pageKey(body.page);
+      if (!page) return bad(res, 400, 'Ugyldig side.');
+      const { state } = await B.readContent();
+      return res.status(200).json({ changes: state.pages[page] || {} });
+    }
+
+    if (action === 'content_save') {
+      const page = pageKey(body.page);
+      const ch = body.changes && typeof body.changes === 'object' ? body.changes : null;
+      if (!page || !ch) return bad(res, 400, 'Ugyldig forespørgsel.');
+      const ids = Object.keys(ch);
+      if (ids.length > 600) return bad(res, 400, 'For mange ændringer på én gang.');
+      const clean = {};
+      for (const id of ids) {
+        if (!/^t\d{1,5}$/.test(id)) return bad(res, 400, 'Ugyldigt tekst-id.');
+        if (ch[id] === null) { clean[id] = null; continue; }
+        const html = B.cleanInline(ch[id]);
+        if (html.length > 6000) return bad(res, 400, 'En af teksterne er for lang.');
+        if (!B.plainText(html).length) return bad(res, 400, 'En tekst kan ikke være tom – brug "Nulstil" for at gå tilbage til originalen.');
+        clean[id] = html;
+      }
+      await B.mutateContent(async (state) => {
+        const cur = state.pages[page] || {};
+        for (const id of Object.keys(clean)) { if (clean[id] === null) delete cur[id]; else cur[id] = clean[id]; }
+        if (Object.keys(cur).length) state.pages[page] = cur; else delete state.pages[page];
       });
       return res.status(200).json({ ok: true });
     }

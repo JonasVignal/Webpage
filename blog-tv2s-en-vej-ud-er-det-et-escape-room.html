@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="booking.css">
   <link rel="stylesheet" href="room-page.css">
+  <script src="site-text.js" defer></script>
 </head>
 <body>
 
@@ -165,9 +166,9 @@
 
     <article class="blog-article">
       <div class="container blog-art-in">
-        <h1>TV2s En vej ud. Er det et Escape Room?</h1>
-        <p class="blog-meta">Skrevet af Andreas d. 12. januar 2026</p>
-        <div class="blog-content">
+        <h1 data-et="t1">TV2s En vej ud. Er det et Escape Room?</h1>
+        <p class="blog-meta" data-et="t2">Skrevet af Andreas d. 12. januar 2026</p>
+        <div class="blog-content" data-et="t3">
 <strong>TV 2 genudsender i disse vinterdage sæson 2 af tv-programmet </strong><em><strong>En vej ud</strong></em><strong>, hvor to hold bestående af hver to kendte danskere konkurrerer mod hinanden i et escape room.<br>
 </strong>
 Det er et underholdende program, hvor vi følger deltagernes kamp med at knække koder, løse kreative opgaver og samarbejde under pres. I <em>En vej ud</em> får vi samtidig et kig bag kulisserne på nogle af de “magiske” elementer, som deltagerne bliver udsat for undervejs.
@@ -177,7 +178,7 @@ Hver episode byder på nye temaer helt i stil med vores egne escape rooms hos Es
 <em>En vej ud</em> er et program, vi elsker at se, og vi håber, at I også finder det underholdende og måske bliver inspireret til selv at prøve en tur i et af vores 11 escape rooms.
         </div>
         <nav class="blog-prevnext" aria-label="Indlæg"><a class="prev" href="blog-spillet-hacked-paa-cyber-security-festival-i-kbh.html"><span>‹ Forrige</span><strong>Spillet HACKED! På Cyber Security Festival i Kbh.</strong></a><a class="next" href="blog-escape-room-men-hvad-saa-bagefter.html"><span>Næste ›</span><strong>Escape room – men hvad så bagefter?</strong></a></nav>
-        <p class="blog-back"><a href="blog.html">&larr; Tilbage til bloggen</a></p>
+        <p class="blog-back" data-et="t4"><a href="blog.html">&larr; Tilbage til bloggen</a></p>
       </div>
     </article>
   </main>
@@ -293,26 +294,26 @@ Hver episode byder på nye temaer helt i stil med vores egne escape rooms hos Es
       <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
         <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
       </svg>
-      <span>Ring op</span>
+      <span data-et="t5">Ring op</span>
     </a>
     <button class="bar-btn bar-book-btn" onclick="openBookingModal()">
       <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
         <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/>
       </svg>
-      <span>Book</span>
+      <span data-et="t6">Book</span>
     </button>
     <button class="bar-btn" onclick="toggleMobileMenu()">
       <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
         <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
       </svg>
-      <span>Menu</span>
+      <span data-et="t7">Menu</span>
     </button>
   </div>
 
 
   <!-- Notification Toast -->
   <div class="toast-notification" id="toastNotification">
-    <span id="toastMessage">Handlingen er udført!</span>
+    <span id="toastMessage" data-et="t8">Handlingen er udført!</span>
   </div>
 
   <!-- JavaScript -->

@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="booking.css">
   <link rel="stylesheet" href="room-page.css">
+  <script src="site-text.js" defer></script>
 </head>
 <body>
 
@@ -165,18 +166,18 @@
 
     <article class="blog-article">
       <div class="container blog-art-in">
-        <h1>Nyt VR spil! – Dagger of Time  – Introtilbud 25% rabat!</h1>
-        <p class="blog-meta">Skrevet af Andreas d. 12. august 2020</p>
+        <h1 data-et="t1">Nyt VR spil! – Dagger of Time  – Introtilbud 25% rabat!</h1>
+        <p class="blog-meta" data-et="t2">Skrevet af Andreas d. 12. august 2020</p>
         <div class="blog-content">
-<p>Dagger of Time er Ubisofts spritnye Virtual Reality Escape Room. Det og de to forløbere kan spilles hos os med 25 % rabat til og med den 23. august 2020 (mandag undtaget). Spillet The Dagger of Time er udviklet af UBISOFT og foregår i Prince of Persia universet. Det er deres sværeste VR escape room til dato. Spillet og de to forløbere kan spilles hos os.<br>
+<p data-et="t3">Dagger of Time er Ubisofts spritnye Virtual Reality Escape Room. Det og de to forløbere kan spilles hos os med 25 % rabat til og med den 23. august 2020 (mandag undtaget). Spillet The Dagger of Time er udviklet af UBISOFT og foregår i Prince of Persia universet. Det er deres sværeste VR escape room til dato. Spillet og de to forløbere kan spilles hos os.<br>
 <br>
 I kan let ændre spil efter dialog med vores gamemaster, så spillets sværhedsgrad passer jeres niveau. Få 25 % rabat, ved at skrive &#8220;Dagger25%&#8221; i kommentarfeltet. Som noget nyt kan spillet spilles af to, tre eller fire spillere i samme ”rum”. Vi har seks Oculus Virtual Reality stationer i alt.</p>
-<p>Story:</p>
-<p>Når du holder Dagger of Time, vil du opleve, hvordan det føles at kunne bremse, stoppe eller endda spole tiden tilbage! Historien forgår lige efter begivenhederne om de to troner. Deltagerne er hidkaldt af tidsgudinden Kaileena, for at stoppe den onde Magiker. Magikeren arbejder på, at skabe en hær af sandmonstre ved at gendanne sandet i timeglasset. Kaileena giver jer ”The Dagger of Time”, så I kan nå frem til timeglaskammeret og bruge den til at stoppe den onde magiker. Men kan I nå frem inden tiden render ud for jer?</p>
+<p data-et="t4">Story:</p>
+<p data-et="t5">Når du holder Dagger of Time, vil du opleve, hvordan det føles at kunne bremse, stoppe eller endda spole tiden tilbage! Historien forgår lige efter begivenhederne om de to troner. Deltagerne er hidkaldt af tidsgudinden Kaileena, for at stoppe den onde Magiker. Magikeren arbejder på, at skabe en hær af sandmonstre ved at gendanne sandet i timeglasset. Kaileena giver jer ”The Dagger of Time”, så I kan nå frem til timeglaskammeret og bruge den til at stoppe den onde magiker. Men kan I nå frem inden tiden render ud for jer?</p>
 <p class="blog-imgs"><img class="blog-img" src="images/blog/POP_DOT_Keyart_Horizontal_Highres-1024x640.jpg" alt="" loading="lazy" style="aspect-ratio:2560/1600"></p>
         </div>
         <nav class="blog-prevnext" aria-label="Indlæg"><a class="prev" href="blog-hvad-er-et-escape-room.html"><span>‹ Forrige</span><strong>Hvad er et Escape Room?</strong></a><a class="next" href="blog-nyt-escape-room-the-rogue-general-er-ankommet.html"><span>Næste ›</span><strong>Nyt Escape Room – The Rogue General er ankommet!</strong></a></nav>
-        <p class="blog-back"><a href="blog.html">&larr; Tilbage til bloggen</a></p>
+        <p class="blog-back" data-et="t6"><a href="blog.html">&larr; Tilbage til bloggen</a></p>
       </div>
     </article>
   </main>
@@ -292,26 +293,26 @@ I kan let ændre spil efter dialog med vores gamemaster, så spillets sværhedsg
       <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
         <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
       </svg>
-      <span>Ring op</span>
+      <span data-et="t7">Ring op</span>
     </a>
     <button class="bar-btn bar-book-btn" onclick="openBookingModal()">
       <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
         <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/>
       </svg>
-      <span>Book</span>
+      <span data-et="t8">Book</span>
     </button>
     <button class="bar-btn" onclick="toggleMobileMenu()">
       <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
         <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
       </svg>
-      <span>Menu</span>
+      <span data-et="t9">Menu</span>
     </button>
   </div>
 
 
   <!-- Notification Toast -->
   <div class="toast-notification" id="toastNotification">
-    <span id="toastMessage">Handlingen er udført!</span>
+    <span id="toastMessage" data-et="t10">Handlingen er udført!</span>
   </div>
 
   <!-- JavaScript -->

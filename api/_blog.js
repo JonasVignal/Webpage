@@ -20,18 +20,19 @@ const SESSION_HOURS = 12;
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 /* ------------------------------------------------------------------ storage */
-async function readState() {
-  const r = await get(POSTS_PATH, { access: 'private', useCache: false });
-  if (!r || r.statusCode !== 200) return { state: { version: 1, posts: [] }, etag: null };
+const CONTENT_PATH = 'site/content.json';   // { version, pages: { "vikings.html": { t12: "<html>" } } }
+
+async function readJson(pathname, fallback) {
+  const r = await get(pathname, { access: 'private', useCache: false });
+  if (!r || r.statusCode !== 200) return { state: fallback(), etag: null };
   const text = await new Response(r.stream).text();
   let state;
-  try { state = JSON.parse(text); } catch (_) { state = { version: 1, posts: [] }; }
-  if (!Array.isArray(state.posts)) state.posts = [];
+  try { state = JSON.parse(text); } catch (_) { state = fallback(); }
   return { state, etag: r.blob.etag };
 }
 
-async function writeState(state, etag) {
-  await put(POSTS_PATH, JSON.stringify(state), {
+async function writeJson(pathname, state, etag) {
+  await put(pathname, JSON.stringify(state), {
     access: 'private',
     contentType: 'application/json',
     allowOverwrite: true,
@@ -41,12 +42,12 @@ async function writeState(state, etag) {
 }
 
 /** Read-modify-write with a retry if someone saved at the same moment. */
-async function mutate(fn) {
+async function mutateJson(pathname, fallback, fn) {
   for (let i = 0; i < 4; i++) {
-    const { state, etag } = await readState();
+    const { state, etag } = await readJson(pathname, fallback);
     const result = await fn(state);
     try {
-      await writeState(state, etag);
+      await writeJson(pathname, state, etag);
       return result;
     } catch (e) {
       if (e && e.name === 'BlobPreconditionFailedError') continue;
@@ -54,6 +55,32 @@ async function mutate(fn) {
     }
   }
   throw new Error('Kunne ikke gemme – prøv igen.');
+}
+
+const emptyPosts = () => ({ version: 1, posts: [] });
+const emptyContent = () => ({ version: 1, pages: {} });
+async function readState() {
+  const r = await readJson(POSTS_PATH, emptyPosts);
+  if (!Array.isArray(r.state.posts)) r.state.posts = [];
+  return r;
+}
+const mutate = (fn) => mutateJson(POSTS_PATH, emptyPosts, fn);
+async function readContent() {
+  const r = await readJson(CONTENT_PATH, emptyContent);
+  if (!r.state.pages || typeof r.state.pages !== 'object') r.state.pages = {};
+  return r;
+}
+const mutateContent = (fn) => mutateJson(CONTENT_PATH, emptyContent, fn);
+
+/** Small inline markup only – used for editable text on the ordinary pages. */
+function cleanInline(html) {
+  return sanitizeHtml(String(html || ''), {
+    allowedTags: ['br', 'strong', 'b', 'em', 'i', 'u', 'a', 'span', 'small', 'mark'],
+    allowedAttributes: { a: ['href', 'target', 'rel', 'class'], span: ['class'] },
+    allowedSchemes: ['http', 'https', 'mailto', 'tel'],
+    allowProtocolRelative: false,
+    exclusiveFilter: (frame) => frame.tag === 'a' && !frame.attribs.href
+  }).trim();
 }
 
 /* ------------------------------------------------------------------ content */
@@ -167,6 +194,6 @@ function noteFail(ip) {
 function clearFails(ip) { fails.delete(ip); }
 
 module.exports = {
-  POSTS_PATH, COOKIE, sleep, readState, mutate, slugify, cleanHtml, plainText, excerptFrom, firstImage, publicPost,
+  POSTS_PATH, CONTENT_PATH, COOKIE, sleep, readState, mutate, readContent, mutateContent, cleanInline, slugify, cleanHtml, plainText, excerptFrom, firstImage, publicPost,
   safeEqual, authConfigured, makeSession, isAdmin, cookieHeader, tooManyFails, noteFail, clearFails
 };

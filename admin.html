@@ -19,7 +19,9 @@
     <div class="adm-bar-in">
       <a class="adm-brand" href="admin.html"><img src="https://escape-cph.dk/wp-content/uploads/escape_cph_logo.svg" alt="Escape Copenhagen" height="34"><span>Blog-admin</span></a>
       <nav class="adm-nav" id="admNav" hidden>
-        <a href="blog.html" target="_blank" rel="noopener">Se bloggen</a>
+        <button type="button" class="adm-link adm-tab" id="tabPosts">Blogindlæg</button>
+        <button type="button" class="adm-link adm-tab" id="tabText">Sidetekster</button>
+        <a href="index.html" target="_blank" rel="noopener">Se sitet</a>
         <button type="button" class="adm-link" id="btnLogout">Log ud</button>
       </nav>
     </div>
@@ -49,6 +51,25 @@
       </div>
       <div class="adm-card adm-list" id="postList" aria-live="polite"></div>
       <p class="adm-muted adm-note">Indlæg fra den gamle hjemmeside (de 55 ældste) ligger som faste sider og kan ikke redigeres her. Alt nyt, du skriver her, vises øverst på bloggen.</p>
+    </section>
+
+    <!-- Site texts -->
+    <section id="screenText" hidden>
+      <div class="adm-head">
+        <h1>Sidetekster</h1>
+        <span class="adm-status" id="txState" aria-live="polite"></span>
+      </div>
+      <div class="adm-card adm-tx-bar">
+        <div class="adm-tx-pick">
+          <label for="txPage" class="sr">Vælg side</label>
+          <select id="txPage"></select>
+        </div>
+        <label class="adm-check"><input type="checkbox" id="txShow" checked> Fremhæv tekster, der kan rettes</label>
+        <button type="button" class="btn btn-outline btn-sm" id="txReset" disabled>Nulstil valgt tekst</button>
+        <button type="button" class="btn btn-primary btn-sm" id="txSave" disabled>Gem ændringer</button>
+      </div>
+      <p class="adm-muted adm-note">Klik direkte på en tekst på siden nedenfor og ret den. <strong>Ctrl/Cmd+B</strong> gør fed, <strong>Ctrl/Cmd+I</strong> kursiv, og <strong>Enter</strong> giver et linjeskift. Menu og sidefod samt tekster, der hentes automatisk (fx tider og priser i booking), kan ikke rettes her.</p>
+      <div class="adm-frame-wrap"><iframe id="txFrame" title="Side der redigeres"></iframe></div>
     </section>
 
     <!-- Editor -->

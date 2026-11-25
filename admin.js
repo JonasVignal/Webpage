@@ -31,8 +31,10 @@
     clearTimeout(toastT); toastT = setTimeout(function () { t.hidden = true; }, err ? 5000 : 2600);
   }
   function show(name) {
-    ['Login', 'List', 'Edit'].forEach(function (n) { $('screen' + n).hidden = n !== name; });
+    ['Login', 'List', 'Edit', 'Text'].forEach(function (n) { $('screen' + n).hidden = n !== name; });
     $('admNav').hidden = name === 'Login';
+    $('tabPosts').classList.toggle('on', name === 'List' || name === 'Edit');
+    $('tabText').classList.toggle('on', name === 'Text');
     window.scrollTo(0, 0);
   }
   function toLocalInput(iso) {
@@ -338,6 +340,100 @@
     $('pvBody').innerHTML = getHtml(); $('preview').hidden = false;
   });
   $('btnPreviewClose').addEventListener('click', function () { $('preview').hidden = true; $('pvBody').innerHTML = ''; });
+
+  /* ---------- site texts ---------- */
+  var tx = { file: '', doc: null, orig: {}, base: {}, dirty: {}, cur: null, pages: null };
+  function txSet() {
+    var n = Object.keys(tx.dirty).length;
+    $('txSave').disabled = !n; $('txSave').textContent = n ? 'Gem ændringer (' + n + ')' : 'Gem ændringer';
+    $('txState').textContent = n ? 'Ikke gemt' : ''; $('txState').className = 'adm-status' + (n ? ' dirty' : '');
+    $('txReset').disabled = !(tx.cur && tx.cur.getAttribute('data-et') && cleanText(tx.cur) !== tx.orig[tx.cur.getAttribute('data-et')]);
+    dirty = n > 0;
+  }
+  function cleanText(el) { return clean(el.innerHTML).replace(/(<br>)+$/g, ''); }
+  function openTexts() {
+    if (!leave()) return; dirty = false; show('Text');
+    if (tx.pages) return;
+    fetch('admin-pages.json').then(function (r) { return r.json(); }).then(function (j) {
+      tx.pages = j.pages;
+      var groups = { 'Sider': [], 'Blogindlæg (gamle)': [] };
+      j.pages.forEach(function (p) { (/^blog-/.test(p.file) && p.file !== 'blog.html' ? groups['Blogindlæg (gamle)'] : groups['Sider']).push(p); });
+      $('txPage').innerHTML = Object.keys(groups).map(function (g) {
+        return '<optgroup label="' + g + '">' + groups[g].map(function (p) { return '<option value="' + esc(p.file) + '">' + esc(p.title) + ' (' + p.file + ')</option>'; }).join('') + '</optgroup>';
+      }).join('');
+      txLoad($('txPage').value);
+    });
+  }
+  function txLoad(file) {
+    tx.file = file; tx.dirty = {}; tx.cur = null; txSet();
+    var f = $('txFrame');
+    f.onload = function () { txPrepare(f.contentDocument); };
+    f.src = '/' + file + '?edit=1';
+  }
+  $('txPage').addEventListener('change', function () {
+    var sel = this, prev = tx.file;
+    if (!leave()) { sel.value = prev; return; }
+    txLoad(sel.value);
+  });
+  function txPrepare(doc) {
+    tx.doc = doc; tx.orig = {}; tx.base = {};
+    var els = doc.querySelectorAll('[data-et]');
+    Array.prototype.forEach.call(els, function (el) { tx.orig[el.getAttribute('data-et')] = cleanText(el); });
+    api('content_get', { page: tx.file }).then(function (r) {
+      Object.keys(r.changes).forEach(function (id) { var el = doc.querySelector('[data-et="' + id + '"]'); if (el) el.innerHTML = r.changes[id]; });
+      Array.prototype.forEach.call(els, function (el) { tx.base[el.getAttribute('data-et')] = cleanText(el); el.setAttribute('contenteditable', 'true'); el.setAttribute('spellcheck', 'true'); });
+    }).catch(function (x) { if (x.status === 401) show('Login'); else toast(x.message, true); });
+    var st = doc.createElement('style');
+    st.textContent = '[data-et][contenteditable]{cursor:text;transition:none!important}.ecph-show [data-et][contenteditable]{outline:1px dashed rgba(243,156,18,.55);outline-offset:3px}[data-et][contenteditable]:hover{outline:2px dashed #f39c12!important;outline-offset:3px}[data-et][contenteditable]:focus{outline:2px solid #f39c12!important;outline-offset:3px;background:rgba(243,156,18,.08)}[data-et].ecph-changed{box-shadow:-6px 0 0 -3px #81d742}html{scroll-behavior:auto!important}';
+    doc.head.appendChild(st);
+    doc.documentElement.classList.toggle('ecph-show', $('txShow').checked);
+    // Make the page inert: no navigation, no booking pop-ups, no form posts while editing
+    doc.addEventListener('click', function (e) { var t = e.target; if (t.closest && t.closest('[data-et]')) { e.preventDefault(); e.stopPropagation(); } else if (t.closest && t.closest('a,button,[onclick]')) { e.preventDefault(); e.stopPropagation(); } }, true);
+    doc.addEventListener('submit', function (e) { e.preventDefault(); }, true);
+    doc.addEventListener('keydown', function (e) {
+      var el = e.target && e.target.closest && e.target.closest('[data-et]'); if (!el) return;
+      if (e.key === 'Enter') { e.preventDefault(); doc.execCommand('insertLineBreak'); }
+      else if (e.key === ' ' && el.closest('button,summary')) { e.preventDefault(); doc.execCommand('insertText', false, ' '); }
+    }, true);
+    doc.addEventListener('keyup', function (e) { if (e.key === ' ') e.preventDefault(); }, true);
+    doc.addEventListener('paste', function (e) {
+      var el = e.target && e.target.closest && e.target.closest('[data-et]'); if (!el) return;
+      e.preventDefault(); doc.execCommand('insertText', false, (e.clipboardData || window.clipboardData).getData('text/plain').replace(/\s*\n\s*/g, ' '));
+    }, true);
+    doc.addEventListener('focusin', function (e) { tx.cur = e.target.closest && e.target.closest('[data-et]'); txSet(); });
+    doc.addEventListener('input', function (e) {
+      var el = e.target.closest && e.target.closest('[data-et]'); if (!el) return;
+      var id = el.getAttribute('data-et'), now = cleanText(el);
+      if (now === tx.base[id]) delete tx.dirty[id]; else tx.dirty[id] = now;
+      el.classList.toggle('ecph-changed', id in tx.dirty);
+      txSet();
+    });
+  }
+  $('txShow').addEventListener('change', function () { if (tx.doc) tx.doc.documentElement.classList.toggle('ecph-show', this.checked); });
+  $('txReset').addEventListener('click', function () {
+    var el = tx.cur; if (!el) return; var id = el.getAttribute('data-et');
+    el.innerHTML = tx.orig[id];
+    if (tx.orig[id] === tx.base[id]) delete tx.dirty[id]; else tx.dirty[id] = tx.orig[id];
+    el.classList.toggle('ecph-changed', id in tx.dirty); txSet(); el.focus();
+  });
+  $('txSave').addEventListener('click', function () {
+    var changes = {};
+    Object.keys(tx.dirty).forEach(function (id) {
+      var el = tx.doc.querySelector('[data-et="' + id + '"]');
+      changes[id] = tx.dirty[id] === tx.orig[id] ? null : (el ? cleanText(el) : tx.dirty[id]);
+    });
+    var b = $('txSave'); b.disabled = true; b.textContent = 'Gemmer…';
+    api('content_save', { page: tx.file, changes: changes }).then(function () {
+      Object.keys(tx.dirty).forEach(function (id) { tx.base[id] = tx.dirty[id]; var el = tx.doc.querySelector('[data-et="' + id + '"]'); if (el) el.classList.remove('ecph-changed'); });
+      tx.dirty = {}; txSet(); toast('Gemt – ændringerne er live om få sekunder');
+    }).catch(function (x) { if (x.status === 401) { toast('Din session er udløbet – log ind igen.', true); show('Login'); } else toast(x.message, true); txSet(); });
+  });
+  $('tabText').addEventListener('click', function () { if (!$('screenText').hidden) return; if (!$('screenEdit').hidden && !leave()) return; dirty = false; openTexts(); });
+  $('tabPosts').addEventListener('click', function () { if (!$('screenList').hidden) return; if (!leave()) return; dirty = false; loadList(); });
+  document.addEventListener('keydown', function (e) {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 's' && !$('screenText').hidden) { e.preventDefault(); if (!$('txSave').disabled) $('txSave').click(); }
+  });
+  window.addEventListener('beforeunload', function (e) { if (dirty && !$('screenText').hidden) { e.preventDefault(); e.returnValue = ''; } });
 
   boot();
 })();

@@ -16,6 +16,7 @@
   <!-- Main Stylesheet -->
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="booking.css">
+  <script src="site-text.js" defer></script>
 </head>
 <body>
 
@@ -167,37 +168,37 @@
     </div>
 
     <div class="container hero-content">
-      <div class="hero-badge-tag">CENTRAL KØBENHAVN &bull; V. NØRREPORT ST.</div>
-      <h1 class="hero-title">Københavns bedste Escape Rooms</h1>
-      <p class="hero-lead">
+      <div class="hero-badge-tag" data-et="t1">CENTRAL KØBENHAVN &bull; V. NØRREPORT ST.</div>
+      <h1 class="hero-title" data-et="t2">Københavns bedste Escape Rooms</h1>
+      <p class="hero-lead" data-et="t3">
         Vores centrale Escape Rooms ligger midt mellem Nørreport og Rådhuspladsen. Book escape rooms med dine kollegaer, venner, til fødselsdage eller polterabend.
       </p>
 
       <div class="hero-cta-group">
-        <a href="#rooms" class="btn btn-outline hero-btn">SE VORES ROOMS</a>
-        <button class="btn btn-primary hero-btn" onclick="openBookingModal()">BOOK ONLINE</button>
+        <a href="#rooms" class="btn btn-outline hero-btn" data-et="t4">SE VORES ROOMS</a>
+        <button class="btn btn-primary hero-btn" onclick="openBookingModal()" data-et="t5">BOOK ONLINE</button>
       </div>
 
       <!-- Hero Statistics Bar -->
       <div class="banner-stats-container">
-        <div class="stats-priser-card">
+        <div class="stats-priser-card" data-et="t6">
           <span class="price-from">Fra 240 kr.</span>
           <a href="#rooms" class="banner-priser-link">SE ALLE VORES PRISER &rarr;</a>
         </div>
         <div class="stats-metrics-grid">
-          <div class="stat-item">
+          <div class="stat-item" data-et="t7">
             <span class="stat-number">1100m²</span>
             <span class="stat-label">Escape Rooms i København</span>
           </div>
-          <div class="stat-item">
+          <div class="stat-item" data-et="t8">
             <span class="stat-number">Siden 2014</span>
             <span class="stat-label">Første rum på Refshaleøen</span>
           </div>
-          <div class="stat-item">
+          <div class="stat-item" data-et="t9">
             <span class="stat-number">10 Rooms</span>
             <span class="stat-label">Op til 80 deltagere samtidig</span>
           </div>
-          <div class="stat-item">
+          <div class="stat-item" data-et="t10">
             <span class="stat-number">+175.000</span>
             <span class="stat-label">Glade kunder og events</span>
           </div>
@@ -215,7 +216,7 @@
   <section class="intro-section">
     <div class="container text-center">
       <div class="intro-box">
-        <p class="intro-lead">
+        <p class="intro-lead" data-et="t11">
           Velkommen til mission control. I har <strong>60 minutter</strong> til at løse en række gåder i fællesskab. 
           Kan I bevare overblikket og løse opgaverne før det er for sent? Tag udfordringen op i et af vores mange Escape Rooms. 
           <span class="pulse-text">Uret tikker...</span>
@@ -228,18 +229,18 @@
   <section class="rooms-section" id="rooms">
     <div class="container">
       <div class="section-header text-center">
-        <span class="section-eyebrow">UDVALGTE OPLEVELSER</span>
-        <h2 class="section-title">Escape Rooms</h2>
+        <span class="section-eyebrow" data-et="t12">UDVALGTE OPLEVELSER</span>
+        <h2 class="section-title" data-et="t13">Escape Rooms</h2>
         <div class="divider-icon"></div>
-        <p class="section-subtitle">Vælg din mission. Alle rum er bygget med gennemførte kulisser, mekaniske gåder og stemningsfuld lyd.</p>
+        <p class="section-subtitle" data-et="t14">Vælg din mission. Alle rum er bygget med gennemførte kulisser, mekaniske gåder og stemningsfuld lyd.</p>
       </div>
 
       <!-- Filter Tabs -->
       <div class="room-filters">
-        <button class="filter-btn active" data-filter="all">Alle Rooms</button>
-        <button class="filter-btn" data-filter="classic">Klassisk Escape Room</button>
-        <button class="filter-btn" data-filter="large">Store Grupper (Op til 16)</button>
-        <button class="filter-btn" data-filter="vr">Virtual Reality</button>
+        <button class="filter-btn active" data-filter="all" data-et="t15">Alle Rooms</button>
+        <button class="filter-btn" data-filter="classic" data-et="t16">Klassisk Escape Room</button>
+        <button class="filter-btn" data-filter="large" data-et="t17">Store Grupper (Op til 16)</button>
+        <button class="filter-btn" data-filter="vr" data-et="t18">Virtual Reality</button>
       </div>
 
       <!-- Rooms Grid -->
@@ -250,22 +251,22 @@
           <div class="room-image-wrap">
             <img src="https://escape-cph.dk/wp-content/uploads/Escape_General_small.png" alt="The Rogue General Escape Room" class="room-img" loading="lazy">
             <div class="room-gradient-overlay"></div>
-            <div class="room-badge-top">Populær</div>
+            <div class="room-badge-top" data-et="t19">Populær</div>
           </div>
           <div class="room-info">
             <div class="room-header-row">
               <img src="https://escape-cph.dk/wp-content/uploads/icon-rank_the-rogue-general.webp" alt="The Rogue General Rank" class="room-mini-icon">
-              <h3 class="room-title">The Rogue General</h3>
+              <h3 class="room-title" data-et="t20">The Rogue General</h3>
             </div>
             <div class="room-specs">
               <span class="spec"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2-9.99 2zm4.24 13.73l-4.73-2.84V7h1.5v5.14l4.05 2.43-.82 1.16z"/></svg> 60 min</span>
               <span class="spec-dot">&bull;</span>
               <span class="spec"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 3s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg> 3-8 deltagere</span>
             </div>
-            <p class="room-desc">Find de hemmelige militærdokumenter og afbryd generalens planer før tiden rinder ud.</p>
+            <p class="room-desc" data-et="t21">Find de hemmelige militærdokumenter og afbryd generalens planer før tiden rinder ud.</p>
             <div class="room-card-actions">
-              <a class="btn btn-outline btn-sm" href="rogue-general.html">Læs mere</a>
-              <button class="btn btn-primary btn-sm" onclick="openBookingModal('The Rogue General')">Book Rum</button>
+              <a class="btn btn-outline btn-sm" href="rogue-general.html" data-et="t22">Læs mere</a>
+              <button class="btn btn-primary btn-sm" onclick="openBookingModal('The Rogue General')" data-et="t23">Book Rum</button>
             </div>
           </div>
         </article>
@@ -279,17 +280,17 @@
           <div class="room-info">
             <div class="room-header-row">
               <img src="https://escape-cph.dk/wp-content/uploads/dr-evil_icon-kopi.webp" alt="Dr. Evil Icon" class="room-mini-icon">
-              <h3 class="room-title">Dr. Evil's Plan</h3>
+              <h3 class="room-title" data-et="t24">Dr. Evil's Plan</h3>
             </div>
             <div class="room-specs">
               <span class="spec"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2-9.99 2zm4.24 13.73l-4.73-2.84V7h1.5v5.14l4.05 2.43-.82 1.16z"/></svg> 60 min</span>
               <span class="spec-dot">&bull;</span>
               <span class="spec"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 3s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg> 4-8 deltagere</span>
             </div>
-            <p class="room-desc">Dr. Evil vil udrydde verdensfreden. Infiltrér laboratoriet og stands dommedagsvåbnet.</p>
+            <p class="room-desc" data-et="t25">Dr. Evil vil udrydde verdensfreden. Infiltrér laboratoriet og stands dommedagsvåbnet.</p>
             <div class="room-card-actions">
-              <a class="btn btn-outline btn-sm" href="dr-evils-plan.html">Læs mere</a>
-              <button class="btn btn-primary btn-sm" onclick="openBookingModal('Dr. Evil’s Plan')">Book Rum</button>
+              <a class="btn btn-outline btn-sm" href="dr-evils-plan.html" data-et="t26">Læs mere</a>
+              <button class="btn btn-primary btn-sm" onclick="openBookingModal('Dr. Evil’s Plan')" data-et="t27">Book Rum</button>
             </div>
           </div>
         </article>
@@ -299,22 +300,22 @@
           <div class="room-image-wrap">
             <img src="https://escape-cph.dk/wp-content/uploads/terrorist_small.jpg" alt="The Terrorist Cell Escape Room" class="room-img" loading="lazy">
             <div class="room-gradient-overlay"></div>
-            <div class="room-badge-top">Flere rum (op til 16)</div>
+            <div class="room-badge-top" data-et="t28">Flere rum (op til 16)</div>
           </div>
           <div class="room-info">
             <div class="room-header-row">
               <img src="https://escape-cph.dk/wp-content/uploads/terrorist_icon-1.png" alt="Terrorist Icon" class="room-mini-icon">
-              <h3 class="room-title">The Terrorist Cell</h3>
+              <h3 class="room-title" data-et="t29">The Terrorist Cell</h3>
             </div>
             <div class="room-specs">
               <span class="spec"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2-9.99 2zm4.24 13.73l-4.73-2.84V7h1.5v5.14l4.05 2.43-.82 1.16z"/></svg> 60 min</span>
               <span class="spec-dot">&bull;</span>
               <span class="spec"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 3s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg> 4-16 deltagere</span>
             </div>
-            <p class="room-desc">I er taget til fange af en terrorcelle. Kan I bryde ud af cellerne og stoppe bomben?</p>
+            <p class="room-desc" data-et="t30">I er taget til fange af en terrorcelle. Kan I bryde ud af cellerne og stoppe bomben?</p>
             <div class="room-card-actions">
-              <a class="btn btn-outline btn-sm" href="terrorist-cell.html">Læs mere</a>
-              <button class="btn btn-primary btn-sm" onclick="openBookingModal('The Terrorist Cell')">Book Rum</button>
+              <a class="btn btn-outline btn-sm" href="terrorist-cell.html" data-et="t31">Læs mere</a>
+              <button class="btn btn-primary btn-sm" onclick="openBookingModal('The Terrorist Cell')" data-et="t32">Book Rum</button>
             </div>
           </div>
         </article>
@@ -324,22 +325,22 @@
           <div class="room-image-wrap">
             <img src="https://escape-cph.dk/wp-content/uploads/janitor_small.jpg" alt="The Psychotic Janitor Escape Room" class="room-img" loading="lazy">
             <div class="room-gradient-overlay"></div>
-            <div class="room-badge-top">Flere rum (op til 16)</div>
+            <div class="room-badge-top" data-et="t33">Flere rum (op til 16)</div>
           </div>
           <div class="room-info">
             <div class="room-header-row">
               <img src="https://escape-cph.dk/wp-content/uploads/janitor_icon.png" alt="Janitor Icon" class="room-mini-icon">
-              <h3 class="room-title">The Psychotic Janitor</h3>
+              <h3 class="room-title" data-et="t34">The Psychotic Janitor</h3>
             </div>
             <div class="room-specs">
               <span class="spec"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2-9.99 2zm4.24 13.73l-4.73-2.84V7h1.5v5.14l4.05 2.43-.82 1.16z"/></svg> 60 min</span>
               <span class="spec-dot">&bull;</span>
               <span class="spec"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 3s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg> 4-16 deltagere</span>
             </div>
-            <p class="room-desc">En uhyggelig kældervarmemester lurer i skyggerne. Nerverne sidder uden på tøjet!</p>
+            <p class="room-desc" data-et="t35">En uhyggelig kældervarmemester lurer i skyggerne. Nerverne sidder uden på tøjet!</p>
             <div class="room-card-actions">
-              <a class="btn btn-outline btn-sm" href="psychotic-janitor.html">Læs mere</a>
-              <button class="btn btn-primary btn-sm" onclick="openBookingModal('The Psychotic Janitor')">Book Rum</button>
+              <a class="btn btn-outline btn-sm" href="psychotic-janitor.html" data-et="t36">Læs mere</a>
+              <button class="btn btn-primary btn-sm" onclick="openBookingModal('The Psychotic Janitor')" data-et="t37">Book Rum</button>
             </div>
           </div>
         </article>
@@ -349,22 +350,22 @@
           <div class="room-image-wrap">
             <img src="https://escape-cph.dk/wp-content/uploads/viking_small.jpg" alt="Vikings Escape Room" class="room-img" loading="lazy">
             <div class="room-gradient-overlay"></div>
-            <div class="room-badge-top">Flere rum (op til 16)</div>
+            <div class="room-badge-top" data-et="t38">Flere rum (op til 16)</div>
           </div>
           <div class="room-info">
             <div class="room-header-row">
               <img src="https://escape-cph.dk/wp-content/uploads/viking_icon.png" alt="Viking Icon" class="room-mini-icon">
-              <h3 class="room-title">Vikings</h3>
+              <h3 class="room-title" data-et="t39">Vikings</h3>
             </div>
             <div class="room-specs">
               <span class="spec"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2-9.99 2zm4.24 13.73l-4.73-2.84V7h1.5v5.14l4.05 2.43-.82 1.16z"/></svg> 60 min</span>
               <span class="spec-dot">&bull;</span>
               <span class="spec"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 3s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg> 4-16 deltagere</span>
             </div>
-            <p class="room-desc">Tidsrejsende strandet i vikingetiden! Find energikrystaller til tidsmaskinen før vikingerne vender hjem.</p>
+            <p class="room-desc" data-et="t40">Tidsrejsende strandet i vikingetiden! Find energikrystaller til tidsmaskinen før vikingerne vender hjem.</p>
             <div class="room-card-actions">
-              <a class="btn btn-outline btn-sm" href="vikings.html">Læs mere</a>
-              <button class="btn btn-primary btn-sm" onclick="openBookingModal('Vikings')">Book Rum</button>
+              <a class="btn btn-outline btn-sm" href="vikings.html" data-et="t41">Læs mere</a>
+              <button class="btn btn-primary btn-sm" onclick="openBookingModal('Vikings')" data-et="t42">Book Rum</button>
             </div>
           </div>
         </article>
@@ -374,22 +375,22 @@
           <div class="room-image-wrap">
             <img src="https://escape-cph.dk/wp-content/uploads/ESCAPE-ROOM-Hacker_small.png" alt="Hacked Escape Room" class="room-img" loading="lazy">
             <div class="room-gradient-overlay"></div>
-            <div class="room-badge-top">Flere rum (op til 12)</div>
+            <div class="room-badge-top" data-et="t43">Flere rum (op til 12)</div>
           </div>
           <div class="room-info">
             <div class="room-header-row">
               <img src="https://escape-cph.dk/wp-content/uploads/hacker_ikon.png" alt="Hacker Icon" class="room-mini-icon">
-              <h3 class="room-title">Hacked!</h3>
+              <h3 class="room-title" data-et="t44">Hacked!</h3>
             </div>
             <div class="room-specs">
               <span class="spec"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2-9.99 2zm4.24 13.73l-4.73-2.84V7h1.5v5.14l4.05 2.43-.82 1.16z"/></svg> 60 min</span>
               <span class="spec-dot">&bull;</span>
               <span class="spec"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 3s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg> 3-12 deltagere</span>
             </div>
-            <p class="room-desc">Et sofistikeret cyberangreb truer infrastrukturen. Knæk krypteringen og red systemet.</p>
+            <p class="room-desc" data-et="t45">Et sofistikeret cyberangreb truer infrastrukturen. Knæk krypteringen og red systemet.</p>
             <div class="room-card-actions">
-              <a class="btn btn-outline btn-sm" href="hacked.html">Læs mere</a>
-              <button class="btn btn-primary btn-sm" onclick="openBookingModal('Hacked!')">Book Rum</button>
+              <a class="btn btn-outline btn-sm" href="hacked.html" data-et="t46">Læs mere</a>
+              <button class="btn btn-primary btn-sm" onclick="openBookingModal('Hacked!')" data-et="t47">Book Rum</button>
             </div>
           </div>
         </article>
@@ -397,8 +398,8 @@
       </div>
 
       <div class="rooms-cta-banner text-center">
-        <p>Skal I holde et større firmaarrangement eller polterabend for op til 80 deltagere?</p>
-        <button class="btn btn-primary" onclick="openBookingModal()">BOOK HELE HUSET ELLER FLERE ROOMS &rarr;</button>
+        <p data-et="t48">Skal I holde et større firmaarrangement eller polterabend for op til 80 deltagere?</p>
+        <button class="btn btn-primary" onclick="openBookingModal()" data-et="t49">BOOK HELE HUSET ELLER FLERE ROOMS &rarr;</button>
       </div>
     </div>
   </section>
@@ -410,11 +411,11 @@
         
         <!-- Left: Hvad er et Escape Room + Video Box -->
         <div class="about-card left-card">
-          <h2 class="card-heading">Hvad er et Escape Room?</h2>
-          <p>
+          <h2 class="card-heading" data-et="t50">Hvad er et Escape Room?</h2>
+          <p data-et="t51">
             Et Escape Room er en teambuildingaktivitet for virksomheder, venner & familier, som søger en udfordrende oplevelse.
           </p>
-          <p>
+          <p data-et="t52">
             I et <a href="#rooms" class="inline-link">klassisk Escape Room</a> bliver I lukket ind i et rum og har <strong>60 minutter</strong> til at løse en række koder og gåder for at løse missionen. I undslipper kun gennem samarbejde, kommunikation og logisk tænkning.
           </p>
           
@@ -426,27 +427,27 @@
                   <path d="M8 5v14l11-7z"/>
                 </svg>
               </div>
-              <span class="play-text">SE VIDEO OM OPLEVELSEN</span>
+              <span class="play-text" data-et="t53">SE VIDEO OM OPLEVELSEN</span>
             </div>
           </div>
         </div>
 
         <!-- Right: Hvem kan deltage? Accordion -->
         <div class="about-card right-card" id="hvem-kan-deltage">
-          <h2 class="card-heading">Hvem kan deltage?</h2>
+          <h2 class="card-heading" data-et="t54">Hvem kan deltage?</h2>
           
           <div class="accordion-group">
             
             <!-- Accordion 1: Virksomheder -->
             <div class="accordion-item active">
-              <button class="accordion-trigger" onclick="toggleAccordion(this)">
+              <button class="accordion-trigger" onclick="toggleAccordion(this)" data-et="t55">
                 <span>Virksomheder & Teambuilding</span>
                 <span class="acc-icon">&minus;</span>
               </button>
               <div class="accordion-body">
                 <div class="acc-media-row">
                   <img src="https://escape-cph.dk/wp-content/uploads/A_ER_Udvalg_EscapeRoom_Okt2022_MGL7987-kollegaer.jpeg" alt="Teambuilding for virksomheder" class="acc-thumb" loading="lazy">
-                  <p>
+                  <p data-et="t56">
                     Escape Rooms er blevet utroligt populære til firmaevents og teambuilding, da spillet udfordrer vanetænkning og kræver god kommunikation. Escape Copenhagen er en af Danmarks største udbydere med kapacitet til <strong>80 deltagere på én gang</strong>, beliggende lige ved Nørreport St. med masser af restauranter tæt på.
                   </p>
                 </div>
@@ -455,14 +456,14 @@
 
             <!-- Accordion 2: Venner -->
             <div class="accordion-item">
-              <button class="accordion-trigger" onclick="toggleAccordion(this)">
+              <button class="accordion-trigger" onclick="toggleAccordion(this)" data-et="t57">
                 <span>Venner & Polterabend</span>
                 <span class="acc-icon">+</span>
               </button>
               <div class="accordion-body">
                 <div class="acc-media-row">
                   <img src="https://escape-cph.dk/wp-content/uploads/ER_Udvalg_EscapeRoom_Okt2022_MGL7457-venner.jpeg" alt="Venner i Escape Room" class="acc-thumb" loading="lazy">
-                  <p>
+                  <p data-et="t58">
                     Træt af passiv underholdning? Her skal I aktivt deltage, samarbejde og kommunikere under tidspres. Perfekt til polterabend, fødselsdage eller vennegrupper, der vil have et adrenalinsus og masser at tale om bagefter over en drink.
                   </p>
                 </div>
@@ -471,14 +472,14 @@
 
             <!-- Accordion 3: Familie -->
             <div class="accordion-item">
-              <button class="accordion-trigger" onclick="toggleAccordion(this)">
+              <button class="accordion-trigger" onclick="toggleAccordion(this)" data-et="t59">
                 <span>Familie & Børn</span>
                 <span class="acc-icon">+</span>
               </button>
               <div class="accordion-body">
                 <div class="acc-media-row">
                   <img src="https://escape-cph.dk/wp-content/uploads/MGL7205_escaperoom-familie.jpeg" alt="Familieaktivitet" class="acc-thumb" loading="lazy">
-                  <p>
+                  <p data-et="t60">
                     Forældre er meget velkomne sammen med børn. Alle rum er designet til voksne, men børn fra 12-års alderen kan deltage aktivt med deres familie. Børn under 12 år er gratis i selskab med voksne. En fantastisk samlende oplevelse på tværs af generationer!
                   </p>
                 </div>
@@ -487,7 +488,7 @@
 
           </div>
 
-          <a href="faq.html" class="btn btn-outline btn-block mt-3">FÅ FLERE SVAR I VORES FAQ &rarr;</a>
+          <a href="faq.html" class="btn btn-outline btn-block mt-3" data-et="t61">FÅ FLERE SVAR I VORES FAQ &rarr;</a>
         </div>
 
       </div>
@@ -498,10 +499,10 @@
   <section class="vr-section" id="virtual-reality">
     <div class="container">
       <div class="section-header text-center">
-        <span class="section-eyebrow">UBISOFT VR ESCAPE ADVENTURES</span>
-        <h2 class="section-title">Virtual Reality</h2>
+        <span class="section-eyebrow" data-et="t62">UBISOFT VR ESCAPE ADVENTURES</span>
+        <h2 class="section-title" data-et="t63">Virtual Reality</h2>
         <div class="divider-icon"></div>
-        <p class="section-subtitle">Dyk ned i forbløffende virtuelle verdener med trådløse VR-headsets, 360-graders immersion og fælles problemløsning.</p>
+        <p class="section-subtitle" data-et="t64">Dyk ned i forbløffende virtuelle verdener med trådløse VR-headsets, 360-graders immersion og fælles problemløsning.</p>
       </div>
 
       <div class="vr-grid">
@@ -514,12 +515,12 @@
           </div>
           <div class="vr-content">
             <img src="https://escape-cph.dk/wp-content/uploads/pyramid_icon.png" alt="Pyramid Icon" class="vr-mini-icon">
-            <h3>Escape The Lost Pyramid</h3>
-            <div class="vr-meta">60 min &bull; 2 deltagere (Assassin's Creed)</div>
-            <p>Træd ind i det antikke Egypten og find vej ud af den forsvundne pyramide.</p>
+            <h3 data-et="t65">Escape The Lost Pyramid</h3>
+            <div class="vr-meta" data-et="t66">60 min &bull; 2 deltagere (Assassin's Creed)</div>
+            <p data-et="t67">Træd ind i det antikke Egypten og find vej ud af den forsvundne pyramide.</p>
             <div class="room-card-actions">
-              <a class="btn btn-outline btn-sm" href="vr-escape-the-lost-pyramid.html">Læs mere</a>
-              <button class="btn btn-primary btn-sm" onclick="openBookingModal('Escape The Lost Pyramid')">Book VR</button>
+              <a class="btn btn-outline btn-sm" href="vr-escape-the-lost-pyramid.html" data-et="t68">Læs mere</a>
+              <button class="btn btn-primary btn-sm" onclick="openBookingModal('Escape The Lost Pyramid')" data-et="t69">Book VR</button>
             </div>
           </div>
         </article>
@@ -532,12 +533,12 @@
           </div>
           <div class="vr-content">
             <img src="https://escape-cph.dk/wp-content/uploads/medusa_icon.png" alt="Medusa Icon" class="vr-mini-icon">
-            <h3>Beyond Medusa's Gate</h3>
-            <div class="vr-meta">60 min &bull; 2 deltagere (Det antikke Grækenland)</div>
-            <p>Oplev det storslåede Grækenland og løs gåder i en hemmelig kystgrotte.</p>
+            <h3 data-et="t70">Beyond Medusa's Gate</h3>
+            <div class="vr-meta" data-et="t71">60 min &bull; 2 deltagere (Det antikke Grækenland)</div>
+            <p data-et="t72">Oplev det storslåede Grækenland og løs gåder i en hemmelig kystgrotte.</p>
             <div class="room-card-actions">
-              <a class="btn btn-outline btn-sm" href="vr-beyond-medusas-gate.html">Læs mere</a>
-              <button class="btn btn-primary btn-sm" onclick="openBookingModal('Beyond Medusa’s Gate')">Book VR</button>
+              <a class="btn btn-outline btn-sm" href="vr-beyond-medusas-gate.html" data-et="t73">Læs mere</a>
+              <button class="btn btn-primary btn-sm" onclick="openBookingModal('Beyond Medusa’s Gate')" data-et="t74">Book VR</button>
             </div>
           </div>
         </article>
@@ -550,12 +551,12 @@
           </div>
           <div class="vr-content">
             <img src="https://escape-cph.dk/wp-content/uploads/prince-of-percia_icon.png" alt="Prince of Persia Icon" class="vr-mini-icon">
-            <h3>The Dagger Of Time</h3>
-            <div class="vr-meta">60 min &bull; 2 deltagere (Prince of Persia)</div>
-            <p>Brug tidens dolk til at spole tiden frem og tilbage for at forcere fælder.</p>
+            <h3 data-et="t75">The Dagger Of Time</h3>
+            <div class="vr-meta" data-et="t76">60 min &bull; 2 deltagere (Prince of Persia)</div>
+            <p data-et="t77">Brug tidens dolk til at spole tiden frem og tilbage for at forcere fælder.</p>
             <div class="room-card-actions">
-              <a class="btn btn-outline btn-sm" href="vr-the-dagger-of-time.html">Læs mere</a>
-              <button class="btn btn-primary btn-sm" onclick="openBookingModal('The Dagger of Time')">Book VR</button>
+              <a class="btn btn-outline btn-sm" href="vr-the-dagger-of-time.html" data-et="t78">Læs mere</a>
+              <button class="btn btn-primary btn-sm" onclick="openBookingModal('The Dagger of Time')" data-et="t79">Book VR</button>
             </div>
           </div>
         </article>
@@ -568,12 +569,12 @@
           </div>
           <div class="vr-content">
             <img src="images/virtual-reality/notre-dame-icon.png" alt="Notre-Dame Icon" class="vr-mini-icon">
-            <h3>Save Notre-Dame on fire</h3>
-            <div class="vr-meta">45 min &bull; 2 deltagere (Notre-Dame On Fire)</div>
-            <p>Red katedralen og Tornekronen som brandmand i den historiske brand i Paris.</p>
+            <h3 data-et="t80">Save Notre-Dame on fire</h3>
+            <div class="vr-meta" data-et="t81">45 min &bull; 2 deltagere (Notre-Dame On Fire)</div>
+            <p data-et="t82">Red katedralen og Tornekronen som brandmand i den historiske brand i Paris.</p>
             <div class="room-card-actions">
-              <a class="btn btn-outline btn-sm" href="vr-save-notre-dame-on-fire.html">Læs mere</a>
-              <button class="btn btn-primary btn-sm" onclick="openBookingModal('Save Notre-Dame on fire')">Book VR</button>
+              <a class="btn btn-outline btn-sm" href="vr-save-notre-dame-on-fire.html" data-et="t83">Læs mere</a>
+              <button class="btn btn-primary btn-sm" onclick="openBookingModal('Save Notre-Dame on fire')" data-et="t84">Book VR</button>
             </div>
           </div>
         </article>
@@ -586,12 +587,12 @@
           </div>
           <div class="vr-content">
             <span class="vr-mini-icon" style="display:block" aria-hidden="true"></span>
-            <h3>Star Force</h3>
-            <div class="vr-meta">45 min &bull; 2 deltagere (Science fiction)</div>
-            <p>Høst exokrystaller på planeten Sicaro-9 og forsvar jeres køretøj mod The Hives ruminsekter.</p>
+            <h3 data-et="t85">Star Force</h3>
+            <div class="vr-meta" data-et="t86">45 min &bull; 2 deltagere (Science fiction)</div>
+            <p data-et="t87">Høst exokrystaller på planeten Sicaro-9 og forsvar jeres køretøj mod The Hives ruminsekter.</p>
             <div class="room-card-actions">
-              <a class="btn btn-outline btn-sm" href="vr-star-force.html">Læs mere</a>
-              <button class="btn btn-primary btn-sm" onclick="openBookingModal('Star Force')">Book VR</button>
+              <a class="btn btn-outline btn-sm" href="vr-star-force.html" data-et="t88">Læs mere</a>
+              <button class="btn btn-primary btn-sm" onclick="openBookingModal('Star Force')" data-et="t89">Book VR</button>
             </div>
           </div>
         </article>
@@ -604,10 +605,10 @@
   <section class="teambuilding-section" id="murdermysteries">
     <div class="container">
       <div class="section-header text-center">
-        <span class="section-eyebrow">BYGÅDER & SÆRLIGE EVENTS</span>
-        <h2 class="section-title">Teambuilding & Aktiviteter</h2>
+        <span class="section-eyebrow" data-et="t90">BYGÅDER & SÆRLIGE EVENTS</span>
+        <h2 class="section-title" data-et="t91">Teambuilding & Aktiviteter</h2>
         <div class="divider-icon"></div>
-        <p class="section-subtitle">Udforsk Københavns historiske gader eller tag ud på Frilandsmuseet i vores prisvindende gådespil.</p>
+        <p class="section-subtitle" data-et="t92">Udforsk Københavns historiske gader eller tag ud på Frilandsmuseet i vores prisvindende gådespil.</p>
       </div>
 
       <div class="mysteries-grid">
@@ -616,13 +617,13 @@
         <div class="mystery-card" id="room-stormen">
           <div class="mystery-img-wrap">
             <img src="https://escape-cph.dk/wp-content/uploads/stormen1-1.jpg" alt="Stormen på København 1659" class="mystery-img" loading="lazy">
-            <div class="mystery-badge">Udendørs Bygåde</div>
+            <div class="mystery-badge" data-et="t93">Udendørs Bygåde</div>
           </div>
           <div class="mystery-body">
-            <h3>Stormen på København 1659</h3>
-            <div class="meta-tag">120 min &bull; 3-6 deltagere &bull; Københavns centrum</div>
-            <p>Et dramatisk historisk gådespil gennem Københavns ældste gader og stræder. Løs koderne for at forsvare byen mod den svenske belejring.</p>
-            <a class="btn btn-outline btn-sm" href="stormen.html">Læs mere</a>
+            <h3 data-et="t94">Stormen på København 1659</h3>
+            <div class="meta-tag" data-et="t95">120 min &bull; 3-6 deltagere &bull; Københavns centrum</div>
+            <p data-et="t96">Et dramatisk historisk gådespil gennem Københavns ældste gader og stræder. Løs koderne for at forsvare byen mod den svenske belejring.</p>
+            <a class="btn btn-outline btn-sm" href="stormen.html" data-et="t97">Læs mere</a>
           </div>
         </div>
 
@@ -630,13 +631,13 @@
         <div class="mystery-card" id="room-herredsfogden">
           <div class="mystery-img-wrap">
             <img src="https://escape-cph.dk/wp-content/uploads/herredsfogden-3.jpg" alt="Herredsfogdens Morderjagt på Frilandsmuseet" class="mystery-img" loading="lazy">
-            <div class="mystery-badge">Frilandsmuseet</div>
+            <div class="mystery-badge" data-et="t98">Frilandsmuseet</div>
           </div>
           <div class="mystery-body">
-            <h3>Herredsfogdens Morderjagt</h3>
-            <div class="meta-tag">120 min &bull; 3-6 deltagere &bull; Lyngby</div>
-            <p>Opklar et mystisk mord i det idylliske Frilandsmuseum. Et perfekt familie- eller firmaevent omgivet af historiske gårde.</p>
-            <a class="btn btn-outline btn-sm" href="herredsfogden.html">Læs mere</a>
+            <h3 data-et="t99">Herredsfogdens Morderjagt</h3>
+            <div class="meta-tag" data-et="t100">120 min &bull; 3-6 deltagere &bull; Lyngby</div>
+            <p data-et="t101">Opklar et mystisk mord i det idylliske Frilandsmuseum. Et perfekt familie- eller firmaevent omgivet af historiske gårde.</p>
+            <a class="btn btn-outline btn-sm" href="herredsfogden.html" data-et="t102">Læs mere</a>
           </div>
         </div>
 
@@ -644,13 +645,13 @@
         <div class="mystery-card" id="room-stopbomb">
           <div class="mystery-img-wrap">
             <img src="https://escape-cph.dk/wp-content/uploads/stb.jpg" alt="Stop The Bomb Teambuilding" class="mystery-img" loading="lazy">
-            <div class="mystery-badge">Store Grupper</div>
+            <div class="mystery-badge" data-et="t103">Store Grupper</div>
           </div>
           <div class="mystery-body">
-            <h3>Stop The Bomb VR</h3>
-            <div class="meta-tag">60 min &bull; 12-60 deltagere &bull; Erhvervsevent</div>
-            <p>Intenst teambuilding-spil hvor én har headsettet på og ser bomben, mens kollegerne sidder med manualen og skal guide med præcision.</p>
-            <button class="btn btn-outline btn-sm" onclick="showRoomDetails('Stop The Bomb', '60 min', '12-60 personer', 'Hos os eller hos jer', 'En ekstrem test i stresshåndtering, præcis mundtlig kommunikation og lynhurtig analyse. Ideel til store personalegrupper.')">Læs mere & Bestil</button>
+            <h3 data-et="t104">Stop The Bomb VR</h3>
+            <div class="meta-tag" data-et="t105">60 min &bull; 12-60 deltagere &bull; Erhvervsevent</div>
+            <p data-et="t106">Intenst teambuilding-spil hvor én har headsettet på og ser bomben, mens kollegerne sidder med manualen og skal guide med præcision.</p>
+            <button class="btn btn-outline btn-sm" onclick="showRoomDetails('Stop The Bomb', '60 min', '12-60 personer', 'Hos os eller hos jer', 'En ekstrem test i stresshåndtering, præcis mundtlig kommunikation og lynhurtig analyse. Ideel til store personalegrupper.')" data-et="t107">Læs mere & Bestil</button>
           </div>
         </div>
 
@@ -663,33 +664,33 @@
     <div class="container">
       <div class="testimonial-box">
         <div class="quote-mark">&#8220;</div>
-        <h2 class="testi-title">Det siger vores kunder</h2>
+        <h2 class="testi-title" data-et="t108">Det siger vores kunder</h2>
         <div class="divider-icon"></div>
 
         <div class="quotes-slider" id="quotesSlider">
           <div class="quote-slide active" data-index="0">
-            <p class="quote-text">
+            <p class="quote-text" data-et="t109">
               ”En helt igennem fantastisk oplevelse hos Escape Copenhagen. Så gennemført hele vejen igennem. Det skal helt sikkert besøges igen!”
             </p>
-            <div class="quote-author">&mdash; Mette S., København &bull; 5/5 stjerner</div>
+            <div class="quote-author" data-et="t110">&mdash; Mette S., København &bull; 5/5 stjerner</div>
           </div>
           <div class="quote-slide" data-index="1">
-            <p class="quote-text">
+            <p class="quote-text" data-et="t111">
               ”Virkelig godt og varieret spil! Vi er meget tilfredse, og kommer helt sikkert igen. Det er 2. gang vi er der, og dette rum var ligeså godt. Tilpas udfordrende så alle er med!”
             </p>
-            <div class="quote-author">&mdash; Christian P., Firmaarrangement &bull; 5/5 stjerner</div>
+            <div class="quote-author" data-et="t112">&mdash; Christian P., Firmaarrangement &bull; 5/5 stjerner</div>
           </div>
           <div class="quote-slide" data-index="2">
-            <p class="quote-text">
+            <p class="quote-text" data-et="t113">
               ”Spændende og tilpas krævende. Vi prøvede terrorcellen i Nørre Farimagsgade og den, stedet og personalet kan varmt anbefales.”
             </p>
-            <div class="quote-author">&mdash; Kasper T. & Venner &bull; 5/5 stjerner</div>
+            <div class="quote-author" data-et="t114">&mdash; Kasper T. & Venner &bull; 5/5 stjerner</div>
           </div>
           <div class="quote-slide" data-index="3">
-            <p class="quote-text">
+            <p class="quote-text" data-et="t115">
               ”Var inde og spille virtual reality med nogle kollegaer, og det kan afgjort siges at være en god oplevelse! De ansatte var så søde og spillet i tårnhøj kvalitet!”
             </p>
-            <div class="quote-author">&mdash; Sarah B. & Team &bull; 5/5 stjerner</div>
+            <div class="quote-author" data-et="t116">&mdash; Sarah B. & Team &bull; 5/5 stjerner</div>
           </div>
         </div>
 
@@ -702,7 +703,7 @@
 
         <div class="reviews-trust-badge">
           <div class="stars-gold">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-          <span>Vurderet <strong>5 / 5</strong> på TripAdvisor & Facebook (over 1.500+ anmeldelser)</span>
+          <span data-et="t117">Vurderet <strong>5 / 5</strong> på TripAdvisor & Facebook (over 1.500+ anmeldelser)</span>
         </div>
       </div>
     </div>
@@ -712,16 +713,16 @@
   <section class="editorial-section" id="om-os">
     <div class="container">
       <div class="editorial-content">
-        <h2>Escape Rooms i København</h2>
-        <p class="subtitle"><strong>– Undslip ved hjælp af kommunikation og kreativitet</strong></p>
-        <p>
+        <h2 data-et="t118">Escape Rooms i København</h2>
+        <p class="subtitle" data-et="t119"><strong>– Undslip ved hjælp af kommunikation og kreativitet</strong></p>
+        <p data-et="t120">
           Et Escape Room er et spændende og udfordrende live escape game, hvor du og din gruppe skal løse en mission. Her skal I ved hjælp af kommunikation, kreativitet og samarbejde løse gåder og knække koder, så I kan løse jeres mission, inden de 60 minutter er gået. I finder mange forskellige Escape Rooms hos Escape Copenhagen, og udfordringerne - og konsekvenserne varierer fra spil til spil. Fællesnævneren for alle spillene er dog, at I kun lykkes, hvis I lægger vanetænkningen på hylden og samarbejder som et team.
         </p>
-        <h3>Vi har mange unikke temaer hos Escape Copenhagen</h3>
-        <p>
+        <h3 data-et="t121">Vi har mange unikke temaer hos Escape Copenhagen</h3>
+        <p data-et="t122">
           Hvert rum har sit eget tema og er designet med unikke udfordringer. Nogle spil er adrenalinpumpende flugtforsøg fra terrorister, vikingehøvdinger og småpsykotiske viceværter, mens andre er mere mysterieopklarende og gådeorienterede.
         </p>
-        <p>
+        <p data-et="t123">
           I <em>Terrorist Cell</em> skal I forsøge at undslippe en gruppe terrorister, der har taget jer til fange. I <em>Vikings</em> er I som tidsrejsende strandet i vikingetiden, og I skal i fællesskab finde energikrystaller til tidsmaskinen. Nerverne sidder også uden på tøjet i <em>The Psychotic Janitor</em>, hvor en tvivlsom varmemester lurer i skyggerne.
         </p>
       </div>
@@ -732,12 +733,12 @@
   <section class="newsletter-section">
     <div class="container newsletter-inner">
       <div class="newsletter-text">
-        <h3>Tilmeld dig vores nyhedsbrev</h3>
-        <p>Modtag hemmelige rabatkoder, tidlig adgang til nye rooms og sæsonens bedste tilbud.</p>
+        <h3 data-et="t124">Tilmeld dig vores nyhedsbrev</h3>
+        <p data-et="t125">Modtag hemmelige rabatkoder, tidlig adgang til nye rooms og sæsonens bedste tilbud.</p>
       </div>
       <form class="newsletter-form" id="newsletterForm" onsubmit="handleNewsletter(event)">
         <input type="email" id="newsletterEmail" placeholder="Indtast din emailadresse..." required>
-        <button type="submit" class="btn btn-primary">Tilmeld</button>
+        <button type="submit" class="btn btn-primary" data-et="t126">Tilmeld</button>
       </form>
     </div>
   </section>
@@ -852,19 +853,19 @@
       <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
         <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
       </svg>
-      <span>Ring op</span>
+      <span data-et="t127">Ring op</span>
     </a>
     <button class="bar-btn bar-book-btn" onclick="openBookingModal()">
       <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
         <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/>
       </svg>
-      <span>Book</span>
+      <span data-et="t128">Book</span>
     </button>
     <button class="bar-btn" onclick="toggleMobileMenu()">
       <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
         <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
       </svg>
-      <span>Menu</span>
+      <span data-et="t129">Menu</span>
     </button>
   </div>
 
@@ -907,7 +908,7 @@
 
   <!-- Notification Toast -->
   <div class="toast-notification" id="toastNotification">
-    <span id="toastMessage">Handlingen er udført!</span>
+    <span id="toastMessage" data-et="t130">Handlingen er udført!</span>
   </div>
 
   <!-- JavaScript -->

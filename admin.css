@@ -105,3 +105,14 @@ body.adm { padding-bottom: 0; background: var(--color-bg); color: var(--color-te
   .adm-editor { padding: 18px !important; min-height: 360px; }
   .adm-title { font-size: 1.5rem !important; }
 }
+
+/* Site texts */
+.adm-tab { opacity: 0.7; }
+.adm-tab.on { opacity: 1; text-decoration: underline; text-underline-offset: 6px; }
+.adm-tx-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 18px; padding: 14px 18px; }
+.adm-tx-pick { flex: 1 1 280px; }
+.adm select { width: 100%; background: #0f121a; border: 1px solid rgba(255, 255, 255, 0.14); border-radius: var(--radius-sm); color: #fff; font: inherit; padding: 11px 13px; }
+.adm-check { display: flex !important; align-items: center; gap: 8px; margin: 0 !important; font-weight: 500 !important; cursor: pointer; }
+.adm-check input { accent-color: var(--color-primary); }
+.adm-frame-wrap { margin-top: 12px; border: 1px solid var(--color-card-border); border-radius: var(--radius-md); overflow: hidden; background: #000; }
+#txFrame { display: block; width: 100%; height: calc(100vh - 230px); min-height: 520px; border: 0; background: #0d1117; }

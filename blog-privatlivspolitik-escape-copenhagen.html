@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="booking.css">
   <link rel="stylesheet" href="room-page.css">
+  <script src="site-text.js" defer></script>
 </head>
 <body>
 
@@ -165,19 +166,19 @@
 
     <article class="blog-article">
       <div class="container blog-art-in">
-        <h1>Privatlivspolitik – Escape Copenhagen</h1>
-        <p class="blog-meta">Skrevet af admin d. 26. oktober 2018</p>
+        <h1 data-et="t1">Privatlivspolitik – Escape Copenhagen</h1>
+        <p class="blog-meta" data-et="t2">Skrevet af admin d. 26. oktober 2018</p>
         <div class="blog-content">
-<p>Vi indsamler data omkring dit besøg for at kunne give dig en bedre brugeroplevelse.<br>
+<p data-et="t3">Vi indsamler data omkring dit besøg for at kunne give dig en bedre brugeroplevelse.<br>
 Escape Copenhagen registrerer ingen data, der kan bruges til at identificere dig, med mindre du selv tilmelder dig tjenester (abonnementer, nyhedsbreve m.m).<br>
   <br>
 Escape Copenhagen videregiver eller sælger ingen persondata til tredjepart. Med henblik på forståelse, udvikling og forbedring af Escape Copenhagen indsamler vi løbende statistik om brugernes færden på websiten. For at få den mest præcise statistik benytter vi cookies.</p>
-<p>Cookies er en lille tekstbesked, der gemmes i din internetbrowser, når du besøger et websted. Denne cookie giver Escape Copenhagen mulighed for at holde øje med hvor mange, der besøger vores hjemmesider. Cookien bliver udelukkende gemt lokalt på din computer, og data fra cookies kan ikke bruges til at indsamle personlige oplysninger. Den har udelukkende til formål at give Escape Copenhagen en statistik over hvilke sider, der bliver besøgt på vores hjemmesider.</p>
-<p>Vi opfordrer dig til at acceptere de cookies, vores hjemmeside anvender, da de hjælper os til at forbedre brugeroplevelsen for dig og mange andre.</p>
-<p>Vil du læse mere om hvordan vi behandler data, så besøg vores <a href="https://escape-cph.dk/cookie-og-privatlivspolitik/" target="_blank" rel="noopener">side om databehandling her</a></p>
+<p data-et="t4">Cookies er en lille tekstbesked, der gemmes i din internetbrowser, når du besøger et websted. Denne cookie giver Escape Copenhagen mulighed for at holde øje med hvor mange, der besøger vores hjemmesider. Cookien bliver udelukkende gemt lokalt på din computer, og data fra cookies kan ikke bruges til at indsamle personlige oplysninger. Den har udelukkende til formål at give Escape Copenhagen en statistik over hvilke sider, der bliver besøgt på vores hjemmesider.</p>
+<p data-et="t5">Vi opfordrer dig til at acceptere de cookies, vores hjemmeside anvender, da de hjælper os til at forbedre brugeroplevelsen for dig og mange andre.</p>
+<p data-et="t6">Vil du læse mere om hvordan vi behandler data, så besøg vores <a href="https://escape-cph.dk/cookie-og-privatlivspolitik/" target="_blank" rel="noopener">side om databehandling her</a></p>
         </div>
         <nav class="blog-prevnext" aria-label="Indlæg"><a class="prev" href="blog-ideer-til-teambuilding.html"><span>‹ Forrige</span><strong>Idéer til teambuilding</strong></a><a class="next" href="blog-julefrokost-hos-escape-copenhagen.html"><span>Næste ›</span><strong>Julefrokost hos Escape Copenhagen?</strong></a></nav>
-        <p class="blog-back"><a href="blog.html">&larr; Tilbage til bloggen</a></p>
+        <p class="blog-back" data-et="t7"><a href="blog.html">&larr; Tilbage til bloggen</a></p>
       </div>
     </article>
   </main>
@@ -293,26 +294,26 @@ Escape Copenhagen videregiver eller sælger ingen persondata til tredjepart. Med
       <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
         <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
       </svg>
-      <span>Ring op</span>
+      <span data-et="t8">Ring op</span>
     </a>
     <button class="bar-btn bar-book-btn" onclick="openBookingModal()">
       <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
         <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/>
       </svg>
-      <span>Book</span>
+      <span data-et="t9">Book</span>
     </button>
     <button class="bar-btn" onclick="toggleMobileMenu()">
       <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
         <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
       </svg>
-      <span>Menu</span>
+      <span data-et="t10">Menu</span>
     </button>
   </div>
 
 
   <!-- Notification Toast -->
   <div class="toast-notification" id="toastNotification">
-    <span id="toastMessage">Handlingen er udført!</span>
+    <span id="toastMessage" data-et="t11">Handlingen er udført!</span>
   </div>
 
   <!-- JavaScript -->
