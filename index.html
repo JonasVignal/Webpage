@@ -15,6 +15,7 @@
   
   <!-- Main Stylesheet -->
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="booking.css">
 </head>
 <body>
 
@@ -822,92 +823,6 @@
     </button>
   </div>
 
-  <!-- Interactive Booking Modal -->
-  <div class="modal-overlay" id="bookingModal" onclick="closeModalOnBackdrop(event)">
-    <div class="modal-window">
-      <div class="modal-header">
-        <div class="modal-title-wrap">
-          <span class="modal-subtitle">ESCAPE COPENHAGEN BOOKING</span>
-          <h3 id="modalTitle">Book dit Escape Room</h3>
-        </div>
-        <button class="modal-close" onclick="closeBookingModal()">&times;</button>
-      </div>
-      <div class="modal-body">
-        <form id="bookingForm" onsubmit="handleBookingSubmit(event)">
-          <div class="form-group">
-            <label for="selectRoom">Vælg Spil / Rum</label>
-            <select id="selectRoom" required>
-              <option value="The Rogue General">The Rogue General (3-8 pers.) - Nørre Voldgade</option>
-              <option value="Dr. Evil’s Plan">Dr. Evil’s Plan (4-8 pers.) - Nørre Voldgade</option>
-              <option value="The Terrorist Cell v.2.0">The Terrorist Cell v.2.0 (4-16 pers.) - Nørre Farimagsgade</option>
-              <option value="The Psychotic Janitor">The Psychotic Janitor (4-16 pers.) - Nørre Farimagsgade</option>
-              <option value="Vikings">Vikings (4-16 pers.) - Nørre Voldgade</option>
-              <option value="Hacked!">Hacked! (3-12 pers.) - Tornebuskegade</option>
-              <option value="Escape The Lost Pyramid">Escape The Lost Pyramid VR (2 pers.)</option>
-              <option value="Beyond Medusa’s Gate">Beyond Medusa's Gate VR (2 pers.)</option>
-              <option value="The Dagger of Time">The Dagger of Time VR (2 pers.)</option>
-              <option value="Stormen på København 1659">Stormen på København (Udendørs bygåde)</option>
-              <option value="Herredsfogdens Morderjagt">Herredsfogdens Morderjagt (Frilandsmuseet)</option>
-              <option value="Stop The Bomb">Stop The Bomb (12-60 pers. firmaevent)</option>
-            </select>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="bookDate">Vælg Dato</label>
-              <input type="date" id="bookDate" required>
-            </div>
-            <div class="form-group">
-              <label for="bookTime">Tidspunkt</label>
-              <select id="bookTime" required>
-                <option value="">Henter ledige tider…</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="bookPlayers">Antal Deltagere</label>
-              <input type="number" id="bookPlayers" min="2" max="80" value="4" required>
-            </div>
-            <div class="form-group">
-              <label for="promoCode">Rabatkode</label>
-              <input type="text" id="promoCode" placeholder="F.eks. Escape42-20%">
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="custName">Fulde Navn</label>
-              <input type="text" id="custName" placeholder="F.eks. Jonas Vignal" required>
-            </div>
-            <div class="form-group">
-              <label for="custPhone">Telefonnummer</label>
-              <input type="tel" id="custPhone" placeholder="+45 12 34 56 78" required>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="custEmail">E-mail</label>
-            <input type="email" id="custEmail" placeholder="din-email@adresse.dk" required>
-          </div>
-
-          <div class="price-calculator-box">
-            <div class="calc-row">
-              <span>Estimeret pris:</span>
-              <strong id="estimatedPrice">1.160 kr. inkl. moms</strong>
-            </div>
-            <span class="calc-hint">*Priser fra 240-340 kr. pr. person afhængig af holdstørrelse. Rabat fratrækkes ved kassen.</span>
-          </div>
-
-          <p id="bookingStatus" class="calc-hint" role="status" style="display:none;margin-bottom:12px"></p>
-
-          <button type="submit" class="btn btn-primary btn-block btn-lg">BEKRÆFT RESERVATION</button>
-        </form>
-      </div>
-    </div>
-  </div>
-
   <!-- Room Details Modal -->
   <div class="modal-overlay" id="roomDetailModal" onclick="closeModalOnBackdrop(event)">
     <div class="modal-window">
@@ -951,6 +866,7 @@
   </div>
 
   <!-- JavaScript -->
+  <script src="booking.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
