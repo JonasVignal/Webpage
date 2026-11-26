@@ -137,6 +137,22 @@ module.exports = async function handler(req, res) {
       return res.status(200).json({ ok: true });
     }
 
+    /* ---------------------------------------------------------- prices */
+    if (action === 'prices_get') return res.status(200).json({ pps: await B.readPrices() });
+
+    if (action === 'prices_save') {
+      const src = body.pps && typeof body.pps === 'object' ? body.pps : null;
+      if (!src) return bad(res, 400, 'Ugyldig forespørgsel.');
+      const pps = {};
+      for (let d = 0; d < 7; d++) {
+        const v = Number(src[d]);
+        if (!Number.isInteger(v) || v < 1 || v > 4999) return bad(res, 400, 'Hver pris skal være et helt tal mellem 1 og 4999 kr.');
+        pps[d] = v;
+      }
+      await B.mutatePrices(async (state) => { state.pps = pps; });
+      return res.status(200).json({ ok: true, pps });
+    }
+
     /* ---------------------------------------------------------- upload */
     if (action === 'upload') {
       const buf = Buffer.from(String(body.data || ''), 'base64');

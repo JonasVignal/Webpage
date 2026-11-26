@@ -59,6 +59,18 @@ async function mutateJson(pathname, fallback, fn) {
 
 const emptyPosts = () => ({ version: 1, posts: [] });
 const emptyContent = () => ({ version: 1, pages: {} });
+
+/* Price per player by weekday (0 = Sunday … 6 = Saturday). Defaults are used until the admin saves new ones. */
+const PRICES_PATH = 'site/prices.json';
+const DEFAULT_PRICES = { 0: 240, 1: 240, 2: 299, 3: 299, 4: 299, 5: 329, 6: 329 };
+const emptyPrices = () => ({ version: 1, pps: { ...DEFAULT_PRICES } });
+async function readPrices() {
+  const r = await readJson(PRICES_PATH, emptyPrices);
+  const out = { ...DEFAULT_PRICES };
+  for (let d = 0; d < 7; d++) { const v = Number(r.state.pps && r.state.pps[d]); if (Number.isInteger(v) && v > 0 && v < 5000) out[d] = v; }
+  return out;
+}
+const mutatePrices = (fn) => mutateJson(PRICES_PATH, emptyPrices, fn);
 async function readState() {
   const r = await readJson(POSTS_PATH, emptyPosts);
   if (!Array.isArray(r.state.posts)) r.state.posts = [];
@@ -194,6 +206,6 @@ function noteFail(ip) {
 function clearFails(ip) { fails.delete(ip); }
 
 module.exports = {
-  POSTS_PATH, CONTENT_PATH, COOKIE, sleep, readState, mutate, readContent, mutateContent, cleanInline, slugify, cleanHtml, plainText, excerptFrom, firstImage, publicPost,
+  POSTS_PATH, CONTENT_PATH, COOKIE, sleep, readState, mutate, readContent, mutateContent, readPrices, mutatePrices, DEFAULT_PRICES, cleanInline, slugify, cleanHtml, plainText, excerptFrom, firstImage, publicPost,
   safeEqual, authConfigured, makeSession, isAdmin, cookieHeader, tooManyFails, noteFail, clearFails
 };

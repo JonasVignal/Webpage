@@ -35,6 +35,12 @@
   // Price per player (DKK, incl. VAT) by weekday – the same for every room.
   // 0 = Sunday … 6 = Saturday.
   var PRICE_BY_WEEKDAY = { 0: 240, 1: 240, 2: 299, 3: 299, 4: 299, 5: 329, 6: 329 };
+  // Live prices from the admin (falls back to the numbers above if the request fails).
+  fetch('/api/prices').then(function (r) { return r.json(); }).then(function (j) {
+    var ok = j && j.pps; if (!ok) return;
+    for (var d = 0; d < 7; d++) { var v = Number(j.pps[d]); if (v > 0) PRICE_BY_WEEKDAY[d] = v; }
+    if (typeof render === 'function' && S && S.open) render();
+  }).catch(function () {});
   function price(dateStr) {
     return { pps: PRICE_BY_WEEKDAY[parseDate(dateStr).getDay()], kind: '' };
   }

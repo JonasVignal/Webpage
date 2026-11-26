@@ -31,10 +31,11 @@
     clearTimeout(toastT); toastT = setTimeout(function () { t.hidden = true; }, err ? 5000 : 2600);
   }
   function show(name) {
-    ['Login', 'List', 'Edit', 'Text'].forEach(function (n) { $('screen' + n).hidden = n !== name; });
+    ['Login', 'List', 'Edit', 'Text', 'Prices'].forEach(function (n) { $('screen' + n).hidden = n !== name; });
     $('admNav').hidden = name === 'Login';
     $('tabPosts').classList.toggle('on', name === 'List' || name === 'Edit');
     $('tabText').classList.toggle('on', name === 'Text');
+    $('tabPrices').classList.toggle('on', name === 'Prices');
     window.scrollTo(0, 0);
   }
   function toLocalInput(iso) {
@@ -430,12 +431,46 @@
       tx.dirty = {}; txSet(); toast('Gemt – ændringerne er live om få sekunder');
     }).catch(function (x) { if (x.status === 401) { toast('Din session er udløbet – log ind igen.', true); show('Login'); } else toast(x.message, true); txSet(); });
   });
-  $('tabText').addEventListener('click', function () { if (!$('screenText').hidden) return; if (!$('screenEdit').hidden && !leave()) return; dirty = false; openTexts(); });
+  $('tabText').addEventListener('click', function () { if (!$('screenText').hidden) return; if ((!$('screenEdit').hidden || !$('screenPrices').hidden) && !leave()) return; dirty = false; openTexts(); });
   $('tabPosts').addEventListener('click', function () { if (!$('screenList').hidden) return; if (!leave()) return; dirty = false; loadList(); });
   document.addEventListener('keydown', function (e) {
     if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 's' && !$('screenText').hidden) { e.preventDefault(); if (!$('txSave').disabled) $('txSave').click(); }
   });
-  window.addEventListener('beforeunload', function (e) { if (dirty && !$('screenText').hidden) { e.preventDefault(); e.returnValue = ''; } });
+  window.addEventListener('beforeunload', function (e) { if (dirty && (!$('screenText').hidden || !$('screenPrices').hidden)) { e.preventDefault(); e.returnValue = ''; } });
+
+  /* ---------- prices ---------- */
+  var DAYS = [['1', 'Mandag'], ['2', 'Tirsdag'], ['3', 'Onsdag'], ['4', 'Torsdag'], ['5', 'Fredag'], ['6', 'Lørdag'], ['0', 'Søndag']];
+  var prBase = {};
+  function prRead() { var o = {}; DAYS.forEach(function (d) { o[d[0]] = $('pr' + d[0]).value.trim(); }); return o; }
+  function prDirty() { var c = prRead(); return DAYS.some(function (d) { return c[d[0]] !== String(prBase[d[0]]); }); }
+  function prSet() { $('prSave').disabled = !prDirty(); dirty = prDirty(); }
+  function openPrices() {
+    show('Prices'); $('prError').hidden = true;
+    $('prGrid').innerHTML = DAYS.map(function (d) {
+      return '<label class="adm-pr-row" for="pr' + d[0] + '"><span>' + d[1] + '</span><span class="adm-pr-in"><input id="pr' + d[0] + '" type="number" min="1" max="4999" step="1" inputmode="numeric" required disabled> kr.</span></label>';
+    }).join('');
+    api('prices_get').then(function (j) {
+      prBase = j.pps;
+      DAYS.forEach(function (d) { var i = $('pr' + d[0]); i.value = j.pps[d[0]]; i.disabled = false; });
+      prSet();
+    }).catch(function (x) { if (x.status === 401) { show('Login'); } else toast(x.message, true); });
+  }
+  $('prGrid').addEventListener('input', prSet);
+  $('prForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var c = prRead(), err = '';
+    DAYS.forEach(function (d) { var n = Number(c[d[0]]); if (!/^\d+$/.test(c[d[0]]) || n < 1 || n > 4999) err = 'Hver pris skal være et helt tal mellem 1 og 4999 kr.'; });
+    if (err) { $('prError').textContent = err; $('prError').hidden = false; return; }
+    $('prError').hidden = true;
+    var b = $('prSave'); b.disabled = true; b.textContent = 'Gemmer…';
+    api('prices_save', { pps: c }).then(function (j) {
+      prBase = j.pps; b.textContent = 'Gem priser'; prSet(); toast('Priser gemt – de er live om få sekunder');
+    }).catch(function (x) {
+      b.textContent = 'Gem priser'; prSet();
+      if (x.status === 401) { toast('Din session er udløbet – log ind igen.', true); show('Login'); } else toast(x.message, true);
+    });
+  });
+  $('tabPrices').addEventListener('click', function () { if (!$('screenPrices').hidden) return; if (!$('screenEdit').hidden && !leave()) return; dirty = false; openPrices(); });
 
   boot();
 })();

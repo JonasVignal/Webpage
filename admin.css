@@ -116,3 +116,10 @@ body.adm { padding-bottom: 0; background: var(--color-bg); color: var(--color-te
 .adm-check input { accent-color: var(--color-primary); }
 .adm-frame-wrap { margin-top: 12px; border: 1px solid var(--color-card-border); border-radius: var(--radius-md); overflow: hidden; background: #000; }
 #txFrame { display: block; width: 100%; height: calc(100vh - 230px); min-height: 520px; border: 0; background: #0d1117; }
+
+/* Prices */
+.adm-pr { padding: 18px; max-width: 520px; }
+.adm-pr-grid { display: grid; gap: 10px; margin: 14px 0 16px; }
+.adm-pr-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; font-weight: 600; }
+.adm-pr-in { display: inline-flex; align-items: center; gap: 8px; font-weight: 400; }
+.adm-pr-in input { width: 110px; padding: 8px 10px; text-align: right; font: inherit; border: 1px solid #cfd3d8; border-radius: 8px; }

@@ -1,3 +1,4 @@
+const B = require('./_blog');
 const { ROOMS, EtbError, sleep, etb, fetchAvailability, cancelBooking, validDate } = require('./_etb');
 
 // Guest mobile as digits incl. country code (easyTable wants an integer). Bare 8-digit numbers are Danish.
@@ -73,8 +74,10 @@ module.exports = async function handler(req, res) {
     const company = clean(c.company, 100) || undefined;
     // Each booking gets its own note with the price per person (the price the guest saw on the website).
     const dkk = (n) => Math.round(n).toLocaleString('da-DK');
+    // The price comes from the stored weekday prices, never from the browser.
+    const PRICES = await B.readPrices().catch(() => B.DEFAULT_PRICES);
     const noteFor = (it) => {
-      const pps = Number(it.pps);
+      const pps = Number(PRICES[new Date(it.date + 'T12:00:00Z').getUTCDay()]);
       const hasPrice = Number.isFinite(pps) && pps > 0 && pps < 5000;
       return [
         clean(c.comment, 500),
