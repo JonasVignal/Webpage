@@ -475,10 +475,11 @@
 
   /* ---------- discount codes ---------- */
   var cdCodes = [];
+  function dkkFmt(n) { return Number(n).toLocaleString('da-DK'); }
   function cdDirty() { return false; }
   function cdRender() {
     $('cdList').innerHTML = cdCodes.map(function (c, i) {
-      return '<li class="adm-cd-row"><b class="cd-name">' + esc(c.code) + '</b><span class="cd-pc">' + c.percent + '% rabat</span><button type="button" class="adm-link cd-del" data-i="' + i + '" aria-label="Slet rabatkoden ' + esc(c.code) + '">Slet</button></li>';
+      return '<li class="adm-cd-row"><b class="cd-name">' + esc(c.code) + '</b><span class="cd-pc">' + (c.amount ? dkkFmt(c.amount) + ' kr. rabat' : c.percent + '% rabat') + '</span><button type="button" class="adm-link cd-del" data-i="' + i + '" aria-label="Slet rabatkoden ' + esc(c.code) + '">Slet</button></li>';
     }).join('');
     $('cdEmpty').hidden = !!cdCodes.length;
     $('cdCount').textContent = cdCodes.length ? '(' + cdCodes.length + ')' : '';
@@ -500,15 +501,21 @@
     cdError(''); b.disabled = true;
     cdPersist(cdCodes.filter(function (x) { return x !== c; }), 'Rabatkoden ' + c.code + ' er slettet');
   });
+  $('cdType').addEventListener('change', function () {
+    var a = this.value === 'amount';
+    $('cdValLbl').textContent = a ? 'Rabat i kr.' : 'Rabat i %'; $('cdUnit').textContent = a ? 'kr.' : '%';
+    $('cdPct').max = a ? 50000 : 100; $('cdPct').placeholder = a ? '100' : '10';
+  });
   $('cdForm').addEventListener('submit', function (e) {
     e.preventDefault();
     var code = $('cdName').value.trim().toUpperCase().replace(/\s+/g, ''), pct = $('cdPct').value.trim();
     if (!/^[A-Z0-9ÆØÅ_-]{2,30}$/.test(code)) return cdError('Navnet skal være 2-30 tegn (bogstaver, tal, - eller _).');
-    if (!/^\d+$/.test(pct) || +pct < 1 || +pct > 100) return cdError('Rabatten skal være et helt tal mellem 1 og 100 %.');
+    var isAmt = $('cdType').value === 'amount';
+    if (!/^\d+$/.test(pct) || +pct < 1 || +pct > (isAmt ? 50000 : 100)) return cdError(isAmt ? 'Rabatten skal være et helt beløb mellem 1 og 50.000 kr.' : 'Rabatten skal være et helt tal mellem 1 og 100 %.');
     if (cdCodes.some(function (c) { return c.code === code; })) return cdError('Rabatkoden ' + code + ' findes allerede.');
     cdError('');
     var b = $('cdSave'); b.disabled = true;
-    cdPersist(cdCodes.concat([{ code: code, percent: +pct }]), 'Rabatkoden ' + code + ' er oprettet').then(function (ok) {
+    cdPersist(cdCodes.concat([isAmt ? { code: code, amount: +pct } : { code: code, percent: +pct }]), 'Rabatkoden ' + code + ' er oprettet').then(function (ok) {
       b.disabled = false; if (ok) { $('cdName').value = ''; $('cdPct').value = ''; $('cdName').focus(); }
     });
   });

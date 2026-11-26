@@ -90,10 +90,11 @@
       </div>
       <div class="adm-card adm-pr adm-codes">
         <h2>Rabatkoder</h2>
-        <p class="adm-muted">Lav en kode, og vælg hvor mange procent rabat den giver. Gæsten skriver koden i bookingen, og rabatten trækkes fra totalen. Koden og prisen pr. person efter rabat skrives i noten på bookingen i easyTable. Der skelnes ikke mellem store og små bogstaver.</p>
+        <p class="adm-muted">Lav en kode, og vælg om den giver en procentdel eller et fast beløb i kroner i rabat. Gæsten skriver koden i bookingen, og rabatten trækkes fra totalen (et kronebeløb trækkes fra hele bookingen, aldrig mere end totalen). Koden og prisen pr. person efter rabat skrives i noten på bookingen i easyTable. Der skelnes ikke mellem store og små bogstaver.</p>
         <form id="cdForm" class="adm-cd-new" novalidate>
           <label><span class="adm-cd-lbl">Navn på ny kode</span><input id="cdName" type="text" maxlength="30" placeholder="Fx SOMMER10" autocomplete="off" spellcheck="false"></label>
-          <label><span class="adm-cd-lbl">Rabat i %</span><span class="adm-pr-in"><input id="cdPct" type="number" min="1" max="100" step="1" inputmode="numeric" placeholder="10"> %</span></label>
+          <label><span class="adm-cd-lbl">Type</span><select id="cdType"><option value="percent">Procent (%)</option><option value="amount">Kroner (kr.)</option></select></label>
+          <label><span class="adm-cd-lbl" id="cdValLbl">Rabat i %</span><span class="adm-pr-in"><input id="cdPct" type="number" min="1" max="100" step="1" inputmode="numeric" placeholder="10"> <span id="cdUnit">%</span></span></label>
           <button type="submit" class="btn btn-primary" id="cdSave">Opret rabatkode</button>
         </form>
         <p class="adm-error" id="cdError" role="alert" hidden></p>

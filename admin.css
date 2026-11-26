@@ -146,3 +146,4 @@ body.adm { padding-bottom: 0; background: var(--color-bg); color: var(--color-te
 .cd-del { color: #ff9a8a; }
 .adm-cd-list { border-color: rgba(255,255,255,.18); }
 .adm-cd-row { border-color: rgba(255,255,255,.12); }
+#cdType { padding: 8px 10px; font: inherit; background: #fff; color: #111; border: 1px solid #cfd3d8; border-radius: 8px; }

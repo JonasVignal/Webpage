@@ -78,7 +78,7 @@
       name: 'Fulde navn', namePh: 'Fornavn og efternavn', phone: 'Telefon', email: 'E-mail', emailPh: 'Bekræftelsen sendes hertil',
       comment: 'Kommentar', optional: '(valgfri)', commentPh: 'Fødselsdag, firmaarrangement, tilgængelighed…',
       accept: 'Jeg accepterer', termsLink: 'handelsbetingelserne', required: '(påkrævet)', news: 'Send mig nyheder om nye rum og tilbud',
-      payTo: 'Book og fortsæt', booking: 'Booker…', yourOrder: 'Din ordre', codePh: 'Rabatkode (valgfri)', codeNote: 'Indtast din kode og tryk Anvend.', codeApply: 'Anvend', codeRemove: 'Fjern', codeBad: 'Koden er ikke gyldig.', codeBusy: 'Tjekker…', codeOk: function (c, p) { return c + ' – ' + p + '% rabat'; }, discountLine: 'Rabat', promoGone: 'Rabatkoden er ikke længere gyldig. Fjern den og prøv igen.',
+      payTo: 'Book og fortsæt', booking: 'Booker…', yourOrder: 'Din ordre', codePh: 'Rabatkode (valgfri)', codeNote: 'Indtast din kode og tryk Anvend.', codeApply: 'Anvend', codeRemove: 'Fjern', codeBad: 'Koden er ikke gyldig.', codeBusy: 'Tjekker…', codeOk: function (c, p, a) { return c + ' – ' + (a ? fmt(a) : p + '%') + ' rabat'; }, discountLine: 'Rabat', promoGone: 'Rabatkoden er ikke længere gyldig. Fjern den og prøv igen.',
       gamesLine: 'Spil', vatLine: 'Heraf moms (25%)', toPay: 'Samlet pris',
       priceNoteFinal: 'Prisen betales på dagen. Online bekræftes bookingen med et kort.',
       fixForm: 'Udfyld navn, telefon og e-mail, og accepter betingelserne.',
@@ -122,7 +122,7 @@
       name: 'Full name', namePh: 'First and last name', phone: 'Phone', email: 'Email', emailPh: 'Booking confirmation goes here',
       comment: 'Comment', optional: '(optional)', commentPh: 'Birthday, team event, accessibility needs…',
       accept: 'I accept the', termsLink: 'terms and conditions', required: '(required)', news: 'Send me news about new rooms and offers',
-      payTo: 'Book and continue', booking: 'Booking…', yourOrder: 'Your order', codePh: 'Discount code (optional)', codeNote: 'Enter your code and press Apply.', codeApply: 'Apply', codeRemove: 'Remove', codeBad: 'That code is not valid.', codeBusy: 'Checking…', codeOk: function (c, p) { return c + ' – ' + p + '% off'; }, discountLine: 'Discount', promoGone: 'The discount code is no longer valid. Remove it and try again.',
+      payTo: 'Book and continue', booking: 'Booking…', yourOrder: 'Your order', codePh: 'Discount code (optional)', codeNote: 'Enter your code and press Apply.', codeApply: 'Apply', codeRemove: 'Remove', codeBad: 'That code is not valid.', codeBusy: 'Checking…', codeOk: function (c, p, a) { return c + ' – ' + (a ? fmt(a) : p + '%') + ' off'; }, discountLine: 'Discount', promoGone: 'The discount code is no longer valid. Remove it and try again.',
       gamesLine: 'Games', vatLine: 'Of which VAT (25%)', toPay: 'Total price',
       priceNoteFinal: 'The price is paid on the day. Online, the booking is confirmed with a card.',
       fixForm: 'Fill in name, phone and email, and accept the terms.',
@@ -274,7 +274,7 @@
       total += sub;
       return { sk: sk, date: sk.split('|')[0], time: sk.split('|')[1], n: n, its: its, sumMin: sumMin, leftover: leftover, over: over, ok: ok, sub: sub };
     });
-    var disc = S.promo ? Math.round(total * S.promo.percent / 100) : 0;
+    var disc = !S.promo ? 0 : S.promo.amount ? Math.min(S.promo.amount, total) : Math.round(total * S.promo.percent / 100);
     return { items: items, sessions: sessions, total: total - disc, gross: total, discount: disc, allOk: allOk, minUsed: minUsed };
   }
 
@@ -471,14 +471,14 @@
       '<p class="bk-muted sm center" id="bkHint">' + (canSubmit() ? '' : esc(t.fixForm)) + '</p></form>' +
       '<aside class="bk-aside"><div class="bk-aside-head"><h2>' + esc(t.yourOrder) + '</h2><span class="bk-muted">' + esc(t.games(cart.items.length)) + '</span></div>' + v.sess +
       promoHtml(t, c) +
-      '<div class="bk-sum"><div><span>' + esc(t.gamesLine) + '</span><span>' + esc(fmt(cart.gross)) + '</span></div>' + (cart.discount ? '<div class="bk-disc"><span>' + esc(t.discountLine) + ' (' + S.promo.percent + '%)</span><span>−' + esc(fmt(cart.discount)) + '</span></div>' : '') + '<div><span>' + esc(t.vatLine) + '</span><span>' + esc(fmt(v.vat)) + '</span></div></div>' +
+      '<div class="bk-sum"><div><span>' + esc(t.gamesLine) + '</span><span>' + esc(fmt(cart.gross)) + '</span></div>' + (cart.discount ? '<div class="bk-disc"><span>' + esc(t.discountLine) + (S.promo.percent ? ' (' + S.promo.percent + '%)' : '') + '</span><span>−' + esc(fmt(cart.discount)) + '</span></div>' : '') + '<div><span>' + esc(t.vatLine) + '</span><span>' + esc(fmt(v.vat)) + '</span></div></div>' +
       '<div class="bk-total"><b>' + esc(t.toPay) + '</b><b class="bk-total-n">' + esc(fmt(cart.total)) + '</b></div>' +
       '<p class="bk-muted sm">' + esc(t.priceNoteFinal) + '</p></aside></div></main>';
   }
 
   function promoHtml(t, c) {
     if (S.promo) {
-      return '<div class="bk-promo ok"><span>' + ICON.check + ' ' + esc(t.codeOk(S.promo.code, S.promo.percent)) + '</span><button type="button" class="bk-promo-x" data-act="removePromo">' + esc(t.codeRemove) + '</button></div>';
+      return '<div class="bk-promo ok"><span>' + ICON.check + ' ' + esc(t.codeOk(S.promo.code, S.promo.percent, S.promo.amount)) + '</span><button type="button" class="bk-promo-x" data-act="removePromo">' + esc(t.codeRemove) + '</button></div>';
     }
     return '<div class="bk-field"><label for="bkCode" class="sr">' + esc(t.codePh) + '</label><div class="bk-promo"><input id="bkCode" data-in="promo" placeholder="' + esc(t.codePh) + '" value="' + esc(c.promo) + '" autocomplete="off">' +
       '<button type="button" class="bk-promo-btn" data-act="applyPromo"' + (S.promoState === 'busy' ? ' disabled' : '') + '>' + esc(S.promoState === 'busy' ? t.codeBusy : t.codeApply) + '</button></div>' +
@@ -489,7 +489,7 @@
     if (!code) return;
     S.promoState = 'busy'; render();
     fetch('/api/promo?code=' + encodeURIComponent(code)).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
-      if (j && j.percent) { S.promo = { code: j.code, percent: j.percent }; S.promoState = ''; S.customer.promo = j.code; }
+      if (j && (j.percent || j.amount)) { S.promo = { code: j.code, percent: j.percent || 0, amount: j.amount || 0 }; S.promoState = ''; S.customer.promo = j.code; }
       else S.promoState = 'bad';
       render();
     }).catch(function () { S.promoState = 'bad'; render(); });

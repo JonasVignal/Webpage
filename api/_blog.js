@@ -78,7 +78,9 @@ const normCode = (v) => String(v == null ? '' : v).trim().toUpperCase().replace(
 const validCode = (c) => /^[A-Z0-9ÆØÅ_-]{2,30}$/.test(c);
 async function readCodes() {
   const r = await readJson(CODES_PATH, emptyCodes);
-  return (Array.isArray(r.state.codes) ? r.state.codes : []).filter((c) => c && validCode(c.code) && Number.isInteger(c.percent) && c.percent >= 1 && c.percent <= 100);
+  // A code is either a percentage ({ code, percent: 1-100 }) or a fixed amount in kroner ({ code, amount: 1-50000 }).
+  return (Array.isArray(r.state.codes) ? r.state.codes : []).filter((c) => c && validCode(c.code) && (
+    (Number.isInteger(c.percent) && c.percent >= 1 && c.percent <= 100) || (Number.isInteger(c.amount) && c.amount >= 1 && c.amount <= 50000)));
 }
 const mutateCodes = (fn) => mutateJson(CODES_PATH, emptyCodes, fn);
 async function findCode(v) { const n = normCode(v); return n ? (await readCodes()).find((c) => c.code === n) || null : null; }

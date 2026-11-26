@@ -161,11 +161,12 @@ module.exports = async function handler(req, res) {
       if (!src || src.length > 100) return bad(res, 400, 'Ugyldig forespørgsel.');
       const seen = new Set(), codes = [];
       for (const c of src) {
-        const code = B.normCode(c && c.code), percent = Number(c && c.percent);
+        const code = B.normCode(c && c.code), isAmount = c && c.amount != null && c.amount !== '', percent = Number(c && c.percent), amount = Number(c && c.amount);
         if (!B.validCode(code)) return bad(res, 400, 'Navnet "' + str(c && c.code, 40) + '" er ikke gyldigt – brug 2-30 bogstaver, tal, - eller _.');
-        if (!Number.isInteger(percent) || percent < 1 || percent > 100) return bad(res, 400, 'Rabatten for "' + code + '" skal være et helt tal mellem 1 og 100 %.');
+        if (isAmount) { if (!Number.isInteger(amount) || amount < 1 || amount > 50000) return bad(res, 400, 'Rabatten for "' + code + '" skal være et helt beløb mellem 1 og 50.000 kr.'); }
+        else if (!Number.isInteger(percent) || percent < 1 || percent > 100) return bad(res, 400, 'Rabatten for "' + code + '" skal være et helt tal mellem 1 og 100 %.');
         if (seen.has(code)) return bad(res, 400, 'Rabatkoden "' + code + '" findes to gange.');
-        seen.add(code); codes.push({ code, percent });
+        seen.add(code); codes.push(isAmount ? { code, amount } : { code, percent });
       }
       await B.mutateCodes(async (state) => { state.codes = codes; });
       return res.status(200).json({ ok: true, codes });

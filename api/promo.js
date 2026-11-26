@@ -11,7 +11,7 @@ module.exports = async function handler(req, res) {
   try {
     const c = await B.findCode(req.query && req.query.code);
     if (!c) return res.status(404).json({ error: 'invalid' });
-    return res.status(200).json({ code: c.code, percent: c.percent });
+    return res.status(200).json(c.amount ? { code: c.code, amount: c.amount } : { code: c.code, percent: c.percent });
   } catch (e) {
     console.error('promo api error', e && e.message);
     return res.status(500).json({ error: 'unavailable' });

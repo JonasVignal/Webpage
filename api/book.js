@@ -84,14 +84,20 @@ module.exports = async function handler(req, res) {
     // The price comes from the stored weekday prices, never from the browser.
     const PRICES = await B.readPrices().catch(() => B.DEFAULT_PRICES);
     const dkk2 = (n) => (Math.round(n * 100) / 100).toLocaleString('da-DK', { maximumFractionDigits: 2 });
+    const baseOf = (it) => Number(PRICES[new Date(it.date + 'T12:00:00Z').getUTCDay()]);
+    const gross = items.reduce((a, it) => a + baseOf(it) * Number(it.persons), 0);
+    // Percent codes take a share off every game; kroner codes take a fixed amount off the whole booking (shared out pro rata).
+    const discount = !promo ? 0 : promo.amount ? Math.min(promo.amount, gross) : gross * promo.percent / 100;
+    const factor = gross > 0 ? 1 - discount / gross : 1;
+    const promoText = promo ? (promo.amount ? `${dkk(discount)} kr. rabat på hele bookingen` : `${promo.percent}% rabat`) : '';
     const noteFor = (it) => {
-      const base = Number(PRICES[new Date(it.date + 'T12:00:00Z').getUTCDay()]);
-      const pps = promo ? base * (100 - promo.percent) / 100 : base;
+      const base = baseOf(it);
+      const pps = base * factor;
       const hasPrice = Number.isFinite(pps) && pps > 0 && pps < 5000;
       return [
         clean(c.comment, 500),
         c.cvr ? 'CVR: ' + clean(c.cvr, 20) : '',
-        promo ? `Rabatkode: ${promo.code} (${promo.percent}% rabat på ${dkk(base)} kr. pr. person)` : '',
+        promo ? `Rabatkode: ${promo.code} (${promoText}; ordinær pris ${dkk(base)} kr. pr. person)` : '',
         hasPrice ? `Pris: ${dkk2(pps)} kr. pr. person (${Number(it.persons)} pers. = ${dkk2(pps * Number(it.persons))} kr.)` : '',
         items.length > 1 ? `Del af samlet booking (${items.length} spil).` : ''
       ].filter(Boolean).join('\r\n');
@@ -118,7 +124,7 @@ module.exports = async function handler(req, res) {
                 autoTable: true,
                 ignorePayment: idx > 0 ? 1 : 0, // only the first room needs the card
                 guestNote: noteFor(it),
-                comment: promo ? 'Rabatkode: ' + promo.code + ' (' + promo.percent + '%)' : undefined
+                comment: promo ? 'Rabatkode: ' + promo.code + ' (' + promoText + ')' : undefined
               }))
             }]
           }
