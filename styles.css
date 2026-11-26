@@ -214,10 +214,23 @@ img {
   gap: 24px;
 }
 
-@media (min-width: 1040px) {
+@media (min-width: 1260px) {
   .nav-links {
     display: flex;
   }
+}
+/* Nine menu items: keep each on one line and tighten spacing until there is room */
+.nav-link { white-space: nowrap; }
+a.nav-book-btn { display: none; white-space: nowrap; }
+@media (min-width: 640px) { a.nav-book-btn { display: inline-block; } }
+@media (min-width: 1260px) {
+  .nav-links { gap: 15px; }
+  .nav-link { font-size: 0.8rem; letter-spacing: 0.4px; }
+  .nav-actions .nav-book-btn { padding-left: 18px; padding-right: 18px; font-size: 0.82rem; }
+}
+@media (min-width: 1260px) and (max-width: 1319px) {
+  .nav-links { gap: 11px; }
+  .nav-link { font-size: 0.76rem; letter-spacing: 0.2px; }
 }
 
 .nav-item {
@@ -336,7 +349,7 @@ img {
   padding: 0;
 }
 
-@media (min-width: 1040px) {
+@media (min-width: 1260px) {
   .mobile-toggle {
     display: none;
   }

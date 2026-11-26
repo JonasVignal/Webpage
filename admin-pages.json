@@ -306,6 +306,11 @@
    "blocks": 46
   },
   {
+   "file": "cyber-sikkerhed.html",
+   "title": "Cyber Sikkerhed – cyber awareness, der bliver husket",
+   "blocks": 64
+  },
+  {
    "file": "dr-evils-plan.html",
    "title": "Dr. Evil’s Plan | Escape room i København | Spil fra 240 kr.",
    "blocks": 23
@@ -334,6 +339,11 @@
    "file": "job.html",
    "title": "Job | Bliv Game Master hos Escape Copenhagen",
    "blocks": 12
+  },
+  {
+   "file": "laeringsspil.html",
+   "title": "Læringsspil – spil, der får budskabet til at sidde fast",
+   "blocks": 129
   },
   {
    "file": "om-os.html",
