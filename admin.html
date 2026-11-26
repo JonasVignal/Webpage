@@ -91,15 +91,15 @@
       <div class="adm-card adm-pr adm-codes">
         <h2>Rabatkoder</h2>
         <p class="adm-muted">Lav en kode, og vælg hvor mange procent rabat den giver. Gæsten skriver koden i bookingen, og rabatten trækkes fra totalen. Koden og prisen pr. person efter rabat skrives i noten på bookingen i easyTable. Der skelnes ikke mellem store og små bogstaver.</p>
-        <form id="cdForm" novalidate>
-          <div id="cdList" class="adm-cd-list"></div>
-          <p class="adm-muted" id="cdEmpty" hidden>Ingen rabatkoder endnu.</p>
-          <p class="adm-error" id="cdError" role="alert" hidden></p>
-          <div class="adm-cd-actions">
-            <button type="button" class="btn btn-outline btn-sm" id="cdAdd">+ Ny rabatkode</button>
-            <button type="submit" class="btn btn-primary" id="cdSave" disabled>Gem rabatkoder</button>
-          </div>
+        <form id="cdForm" class="adm-cd-new" novalidate>
+          <label><span class="adm-cd-lbl">Navn på ny kode</span><input id="cdName" type="text" maxlength="30" placeholder="Fx SOMMER10" autocomplete="off" spellcheck="false"></label>
+          <label><span class="adm-cd-lbl">Rabat i %</span><span class="adm-pr-in"><input id="cdPct" type="number" min="1" max="100" step="1" inputmode="numeric" placeholder="10"> %</span></label>
+          <button type="submit" class="btn btn-primary" id="cdSave">Opret rabatkode</button>
         </form>
+        <p class="adm-error" id="cdError" role="alert" hidden></p>
+        <h3 class="adm-cd-h">Dine rabatkoder <span class="adm-muted" id="cdCount"></span></h3>
+        <ul id="cdList" class="adm-cd-list" aria-live="polite"></ul>
+        <p class="adm-muted" id="cdEmpty" hidden>Ingen rabatkoder endnu.</p>
       </div>
     </section>
 

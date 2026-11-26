@@ -443,7 +443,7 @@
   var prBase = {};
   function prRead() { var o = {}; DAYS.forEach(function (d) { o[d[0]] = $('pr' + d[0]).value.trim(); }); return o; }
   function prDirty() { if (!Object.keys(prBase).length || !$('pr1')) return false; var c = prRead(); return DAYS.some(function (d) { return c[d[0]] !== String(prBase[d[0]]); }); }
-  function prSet() { $('prSave').disabled = !prDirty(); dirty = prDirty() || (typeof cdDirty === 'function' && cdDirty()); }
+  function prSet() { $('prSave').disabled = !prDirty(); dirty = prDirty() || false; }
   function openPrices() {
     show('Prices'); $('prError').hidden = true; prBase = {};
     $('prGrid').innerHTML = DAYS.map(function (d) {
@@ -474,52 +474,42 @@
   $('tabPrices').addEventListener('click', function () { if (!$('screenPrices').hidden) return; if (!$('screenEdit').hidden && !leave()) return; dirty = false; openPrices(); });
 
   /* ---------- discount codes ---------- */
-  var cdBase = '[]';
-  function cdRows() {
-    return Array.prototype.map.call($('cdList').querySelectorAll('.adm-cd-row'), function (r) {
-      return { code: r.querySelector('.cd-code').value.trim().toUpperCase().replace(/\s+/g, ''), percent: r.querySelector('.cd-pct').value.trim() };
-    });
+  var cdCodes = [];
+  function cdDirty() { return false; }
+  function cdRender() {
+    $('cdList').innerHTML = cdCodes.map(function (c, i) {
+      return '<li class="adm-cd-row"><b class="cd-name">' + esc(c.code) + '</b><span class="cd-pc">' + c.percent + '% rabat</span><button type="button" class="adm-link cd-del" data-i="' + i + '" aria-label="Slet rabatkoden ' + esc(c.code) + '">Slet</button></li>';
+    }).join('');
+    $('cdEmpty').hidden = !!cdCodes.length;
+    $('cdCount').textContent = cdCodes.length ? '(' + cdCodes.length + ')' : '';
   }
-  function cdDirty() { return JSON.stringify(cdRows().map(function (r) { return { code: r.code, percent: String(r.percent) }; })) !== cdBase; }
-  function cdSet() { $('cdSave').disabled = !cdDirty(); $('cdEmpty').hidden = !!$('cdList').children.length; dirty = prDirty() || cdDirty(); }
-  function cdAddRow(code, pct) {
-    var d = document.createElement('div'); d.className = 'adm-cd-row';
-    d.innerHTML = '<label><span class="sr">Navn på rabatkode</span><input class="cd-code" type="text" maxlength="30" placeholder="FX SOMMER10" autocomplete="off" spellcheck="false"></label>' +
-      '<label class="adm-pr-in"><span class="sr">Rabat i procent</span><input class="cd-pct" type="number" min="1" max="100" step="1" inputmode="numeric" placeholder="10"> %</label>' +
-      '<button type="button" class="adm-link cd-del" aria-label="Slet rabatkode">Slet</button>';
-    d.querySelector('.cd-code').value = code || ''; d.querySelector('.cd-pct').value = pct || '';
-    $('cdList').appendChild(d); return d;
+  function cdError(m) { $('cdError').textContent = m || ''; $('cdError').hidden = !m; }
+  function cdPersist(list, okMsg) {
+    return api('codes_save', { codes: list }).then(function (j) { cdCodes = j.codes; cdRender(); toast(okMsg); return true; })
+      .catch(function (x) { if (x.status === 401) { toast('Din session er udløbet – log ind igen.', true); show('Login'); } else cdError(x.message); return false; });
   }
   function cdLoad() {
-    $('cdError').hidden = true; $('cdList').innerHTML = '';
-    return api('codes_get').then(function (j) {
-      j.codes.forEach(function (c) { cdAddRow(c.code, c.percent); });
-      cdBase = JSON.stringify(cdRows().map(function (r) { return { code: r.code, percent: String(r.percent) }; })); cdSet();
-    }).catch(function (x) { if (x.status === 401) show('Login'); else toast(x.message, true); });
+    cdError(''); 
+    return api('codes_get').then(function (j) { cdCodes = j.codes; cdRender(); })
+      .catch(function (x) { if (x.status === 401) show('Login'); else toast(x.message, true); });
   }
-  $('cdAdd').addEventListener('click', function () { var r = cdAddRow('', ''); r.querySelector('.cd-code').focus(); cdSet(); });
-  $('cdList').addEventListener('input', cdSet);
-  $('cdList').addEventListener('click', function (e) { var b = e.target.closest('.cd-del'); if (b) { b.closest('.adm-cd-row').remove(); cdSet(); } });
+  $('cdList').addEventListener('click', function (e) {
+    var b = e.target.closest('.cd-del'); if (!b) return;
+    var c = cdCodes[+b.getAttribute('data-i')]; if (!c) return;
+    if (!confirm('Slet rabatkoden ' + c.code + '? Den kan ikke længere bruges af gæster.')) return;
+    cdError(''); b.disabled = true;
+    cdPersist(cdCodes.filter(function (x) { return x !== c; }), 'Rabatkoden ' + c.code + ' er slettet');
+  });
   $('cdForm').addEventListener('submit', function (e) {
     e.preventDefault();
-    var rows = cdRows(), err = '', seen = {};
-    rows.forEach(function (r) {
-      if (err) return;
-      if (!/^[A-Z0-9ÆØÅ_-]{2,30}$/.test(r.code)) err = 'Hver rabatkode skal have et navn på 2-30 tegn (bogstaver, tal, - eller _).';
-      else if (!/^\d+$/.test(r.percent) || +r.percent < 1 || +r.percent > 100) err = 'Rabatten for "' + r.code + '" skal være et helt tal mellem 1 og 100 %.';
-      else if (seen[r.code]) err = 'Rabatkoden "' + r.code + '" findes to gange.';
-      seen[r.code] = 1;
-    });
-    if (err) { $('cdError').textContent = err; $('cdError').hidden = false; return; }
-    $('cdError').hidden = true;
-    var b = $('cdSave'); b.disabled = true; b.textContent = 'Gemmer…';
-    api('codes_save', { codes: rows.map(function (r) { return { code: r.code, percent: Number(r.percent) }; }) }).then(function (j) {
-      $('cdList').innerHTML = ''; j.codes.forEach(function (c) { cdAddRow(c.code, c.percent); });
-      cdBase = JSON.stringify(j.codes.map(function (c) { return { code: c.code, percent: String(c.percent) }; }));
-      b.textContent = 'Gem rabatkoder'; cdSet(); toast('Rabatkoder gemt');
-    }).catch(function (x) {
-      b.textContent = 'Gem rabatkoder'; cdSet();
-      if (x.status === 401) { toast('Din session er udløbet – log ind igen.', true); show('Login'); } else { $('cdError').textContent = x.message; $('cdError').hidden = false; }
+    var code = $('cdName').value.trim().toUpperCase().replace(/\s+/g, ''), pct = $('cdPct').value.trim();
+    if (!/^[A-Z0-9ÆØÅ_-]{2,30}$/.test(code)) return cdError('Navnet skal være 2-30 tegn (bogstaver, tal, - eller _).');
+    if (!/^\d+$/.test(pct) || +pct < 1 || +pct > 100) return cdError('Rabatten skal være et helt tal mellem 1 og 100 %.');
+    if (cdCodes.some(function (c) { return c.code === code; })) return cdError('Rabatkoden ' + code + ' findes allerede.');
+    cdError('');
+    var b = $('cdSave'); b.disabled = true;
+    cdPersist(cdCodes.concat([{ code: code, percent: +pct }]), 'Rabatkoden ' + code + ' er oprettet').then(function (ok) {
+      b.disabled = false; if (ok) { $('cdName').value = ''; $('cdPct').value = ''; $('cdName').focus(); }
     });
   });
 
