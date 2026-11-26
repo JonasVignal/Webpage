@@ -147,3 +147,9 @@ body.adm { padding-bottom: 0; background: var(--color-bg); color: var(--color-te
 .adm-cd-list { border-color: rgba(255,255,255,.18); }
 .adm-cd-row { border-color: rgba(255,255,255,.12); }
 #cdType { padding: 8px 10px; font: inherit; background: #fff; color: #111; border: 1px solid #cfd3d8; border-radius: 8px; }
+/* Price rows: narrow inputs, space from the day names */
+.adm-pr-row { justify-content: flex-start; gap: 24px; }
+.adm-pr-row > span:first-child { width: 90px; flex: none; }
+.adm-pr-row .adm-pr-in input { box-sizing: border-box; width: 110px; }
+.adm-pr label.adm-pr-row { display: flex; flex-direction: row; align-items: center; justify-content: flex-start; gap: 24px; }
+.adm-pr label.adm-pr-row > span:first-child { display: block; width: 90px; flex: none; }
