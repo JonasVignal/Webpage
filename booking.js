@@ -507,7 +507,7 @@
     var c = S.customer;
     S.submitting = true; S.error = ''; render();
     var items = [];
-    cart.sessions.forEach(function (s) { s.its.forEach(function (it) { items.push({ room: it.room.id, date: it.date, time: it.time, persons: it.assigned }); }); });
+    cart.sessions.forEach(function (s) { s.its.forEach(function (it) { items.push({ room: it.room.id, date: it.date, time: it.time, persons: it.assigned, pps: it.pps }); }); });
     fetch('/api/book', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

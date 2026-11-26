@@ -21,7 +21,7 @@ const clean = (v, n) => String(v == null ? '' : v).replace(/[\u0000-\u001f]/g, '
 
 /**
  * POST /api/book
- * { items: [{ room, date, time, persons }], customer: { name, phone, email, comment, company, cvr }, promo, lang }
+ * { items: [{ room, date, time, persons, pps }], customer: { name, phone, email, comment, company, cvr }, promo, lang }
  * Creates one easyTable booking per item. All-or-nothing: with several items it uses easyTable's batch endpoint
  * (atomic roll-back); without batch permission it books one by one and cancels what it made if one fails.
  */
@@ -71,11 +71,18 @@ module.exports = async function handler(req, res) {
 
     // 2) Create the bookings.
     const company = clean(c.company, 100) || undefined;
-    const note = [
-      clean(c.comment, 500),
-      c.cvr ? 'CVR: ' + clean(c.cvr, 20) : '',
-      items.length > 1 ? `Del af samlet booking (${items.length} spil) via hjemmesiden.` : 'Booket via hjemmesiden.'
-    ].filter(Boolean).join('\r\n');
+    // Each booking gets its own note with the price per person (the price the guest saw on the website).
+    const dkk = (n) => Math.round(n).toLocaleString('da-DK');
+    const noteFor = (it) => {
+      const pps = Number(it.pps);
+      const hasPrice = Number.isFinite(pps) && pps > 0 && pps < 5000;
+      return [
+        clean(c.comment, 500),
+        c.cvr ? 'CVR: ' + clean(c.cvr, 20) : '',
+        hasPrice ? `Pris: ${dkk(pps)} kr. pr. person (${Number(it.persons)} pers. = ${dkk(pps * Number(it.persons))} kr.)` : '',
+        items.length > 1 ? `Del af samlet booking (${items.length} spil).` : ''
+      ].filter(Boolean).join('\r\n');
+    };
     const language = b.lang === 'en' ? 'EN' : 'DA';
 
     // Several games at once: one atomic batch call (all created, or none). Needs the extra
@@ -97,7 +104,7 @@ module.exports = async function handler(req, res) {
                 bookingType: ROOMS[it.room].type,
                 autoTable: true,
                 ignorePayment: idx > 0 ? 1 : 0, // only the first room needs the card
-                guestNote: note,
+                guestNote: noteFor(it),
                 comment: b.promo ? 'Rabatkode: ' + clean(b.promo, 50) : undefined
               }))
             }]
@@ -139,7 +146,7 @@ module.exports = async function handler(req, res) {
             language,
             onlineBooking: 1,
             emailNotifications: 1,
-            guestNote: note,
+            guestNote: noteFor(it),
             reference: b.promo ? clean(b.promo, 50) : undefined
         };
         // Only the first room needs the card; the others skip payment so the guest confirms once.
