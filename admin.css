@@ -123,3 +123,11 @@ body.adm { padding-bottom: 0; background: var(--color-bg); color: var(--color-te
 .adm-pr-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; font-weight: 600; }
 .adm-pr-in { display: inline-flex; align-items: center; gap: 8px; font-weight: 400; }
 .adm-pr-in input { width: 110px; padding: 8px 10px; text-align: right; font: inherit; border: 1px solid #cfd3d8; border-radius: 8px; }
+
+.adm-codes { margin-top: 18px; }
+.adm-codes h2 { margin: 0 0 8px; font-size: 1.15rem; }
+.adm-cd-list { display: grid; gap: 10px; margin: 14px 0; }
+.adm-cd-row { display: flex; align-items: center; gap: 12px; }
+.adm-cd-row .cd-code { width: 200px; max-width: 100%; text-transform: uppercase; padding: 8px 10px; font: inherit; border: 1px solid #cfd3d8; border-radius: 8px; }
+.adm-cd-row .cd-pct { width: 80px; padding: 8px 10px; text-align: right; font: inherit; border: 1px solid #cfd3d8; border-radius: 8px; }
+.adm-cd-actions { display: flex; gap: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap; }

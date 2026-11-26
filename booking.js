@@ -78,7 +78,7 @@
       name: 'Fulde navn', namePh: 'Fornavn og efternavn', phone: 'Telefon', email: 'E-mail', emailPh: 'Bekræftelsen sendes hertil',
       comment: 'Kommentar', optional: '(valgfri)', commentPh: 'Fødselsdag, firmaarrangement, tilgængelighed…',
       accept: 'Jeg accepterer', termsLink: 'handelsbetingelserne', required: '(påkrævet)', news: 'Send mig nyheder om nye rum og tilbud',
-      payTo: 'Book og fortsæt', booking: 'Booker…', yourOrder: 'Din ordre', codePh: 'Rabatkode (valgfri)', codeNote: 'Koden registreres på bookingen.',
+      payTo: 'Book og fortsæt', booking: 'Booker…', yourOrder: 'Din ordre', codePh: 'Rabatkode (valgfri)', codeNote: 'Indtast din kode og tryk Anvend.', codeApply: 'Anvend', codeRemove: 'Fjern', codeBad: 'Koden er ikke gyldig.', codeBusy: 'Tjekker…', codeOk: function (c, p) { return c + ' – ' + p + '% rabat'; }, discountLine: 'Rabat', promoGone: 'Rabatkoden er ikke længere gyldig. Fjern den og prøv igen.',
       gamesLine: 'Spil', vatLine: 'Heraf moms (25%)', toPay: 'Samlet pris',
       priceNoteFinal: 'Prisen betales på dagen. Online bekræftes bookingen med et kort.',
       fixForm: 'Udfyld navn, telefon og e-mail, og accepter betingelserne.',
@@ -122,7 +122,7 @@
       name: 'Full name', namePh: 'First and last name', phone: 'Phone', email: 'Email', emailPh: 'Booking confirmation goes here',
       comment: 'Comment', optional: '(optional)', commentPh: 'Birthday, team event, accessibility needs…',
       accept: 'I accept the', termsLink: 'terms and conditions', required: '(required)', news: 'Send me news about new rooms and offers',
-      payTo: 'Book and continue', booking: 'Booking…', yourOrder: 'Your order', codePh: 'Discount code (optional)', codeNote: 'The code is saved on the booking.',
+      payTo: 'Book and continue', booking: 'Booking…', yourOrder: 'Your order', codePh: 'Discount code (optional)', codeNote: 'Enter your code and press Apply.', codeApply: 'Apply', codeRemove: 'Remove', codeBad: 'That code is not valid.', codeBusy: 'Checking…', codeOk: function (c, p) { return c + ' – ' + p + '% off'; }, discountLine: 'Discount', promoGone: 'The discount code is no longer valid. Remove it and try again.',
       gamesLine: 'Games', vatLine: 'Of which VAT (25%)', toPay: 'Total price',
       priceNoteFinal: 'The price is paid on the day. Online, the booking is confirmed with a card.',
       fixForm: 'Fill in name, phone and email, and accept the terms.',
@@ -182,6 +182,7 @@
     avail: {},          // date -> { open, rooms }
     availState: {},     // date -> 'loading' | 'error'
     days: {},           // 'YYYY-MM' -> { date: bool } (or 'loading')
+    promo: null, promoState: '',
     customer: { type: 'private', cvr: '', company: '', name: '', phone: '', email: '', comment: '', promo: '', terms: false, news: false },
     submitting: false, error: '', notice: '', result: null
   };
@@ -273,7 +274,8 @@
       total += sub;
       return { sk: sk, date: sk.split('|')[0], time: sk.split('|')[1], n: n, its: its, sumMin: sumMin, leftover: leftover, over: over, ok: ok, sub: sub };
     });
-    return { items: items, sessions: sessions, total: total, allOk: allOk, minUsed: minUsed };
+    var disc = S.promo ? Math.round(total * S.promo.percent / 100) : 0;
+    return { items: items, sessions: sessions, total: total - disc, gross: total, discount: disc, allOk: allOk, minUsed: minUsed };
   }
 
   /* ----------------------------------------------------------------------
@@ -468,10 +470,29 @@
       '<button type="button" class="bk-cta" id="bkSubmit" data-act="submit"' + (canSubmit() && !S.submitting ? '' : ' disabled') + '>' + esc(S.submitting ? t.booking : t.payTo + ' · ' + fmt(cart.total)) + (S.submitting ? '' : ICON.arrow) + '</button>' +
       '<p class="bk-muted sm center" id="bkHint">' + (canSubmit() ? '' : esc(t.fixForm)) + '</p></form>' +
       '<aside class="bk-aside"><div class="bk-aside-head"><h2>' + esc(t.yourOrder) + '</h2><span class="bk-muted">' + esc(t.games(cart.items.length)) + '</span></div>' + v.sess +
-      '<div class="bk-field"><label for="bkCode" class="sr">' + esc(t.codePh) + '</label><input id="bkCode" data-in="promo" placeholder="' + esc(t.codePh) + '" value="' + esc(c.promo) + '"><span class="bk-muted sm">' + esc(t.codeNote) + '</span></div>' +
-      '<div class="bk-sum"><div><span>' + esc(t.gamesLine) + '</span><span>' + esc(fmt(cart.total)) + '</span></div><div><span>' + esc(t.vatLine) + '</span><span>' + esc(fmt(v.vat)) + '</span></div></div>' +
+      promoHtml(t, c) +
+      '<div class="bk-sum"><div><span>' + esc(t.gamesLine) + '</span><span>' + esc(fmt(cart.gross)) + '</span></div>' + (cart.discount ? '<div class="bk-disc"><span>' + esc(t.discountLine) + ' (' + S.promo.percent + '%)</span><span>−' + esc(fmt(cart.discount)) + '</span></div>' : '') + '<div><span>' + esc(t.vatLine) + '</span><span>' + esc(fmt(v.vat)) + '</span></div></div>' +
       '<div class="bk-total"><b>' + esc(t.toPay) + '</b><b class="bk-total-n">' + esc(fmt(cart.total)) + '</b></div>' +
       '<p class="bk-muted sm">' + esc(t.priceNoteFinal) + '</p></aside></div></main>';
+  }
+
+  function promoHtml(t, c) {
+    if (S.promo) {
+      return '<div class="bk-promo ok"><span>' + ICON.check + ' ' + esc(t.codeOk(S.promo.code, S.promo.percent)) + '</span><button type="button" class="bk-promo-x" data-act="removePromo">' + esc(t.codeRemove) + '</button></div>';
+    }
+    return '<div class="bk-field"><label for="bkCode" class="sr">' + esc(t.codePh) + '</label><div class="bk-promo"><input id="bkCode" data-in="promo" placeholder="' + esc(t.codePh) + '" value="' + esc(c.promo) + '" autocomplete="off">' +
+      '<button type="button" class="bk-promo-btn" data-act="applyPromo"' + (S.promoState === 'busy' ? ' disabled' : '') + '>' + esc(S.promoState === 'busy' ? t.codeBusy : t.codeApply) + '</button></div>' +
+      (S.promoState === 'bad' ? '<span class="bk-promo-err" role="alert">' + esc(t.codeBad) + '</span>' : '<span class="bk-muted sm">' + esc(t.codeNote) + '</span>') + '</div>';
+  }
+  function applyPromo() {
+    var code = String(S.customer.promo || '').trim();
+    if (!code) return;
+    S.promoState = 'busy'; render();
+    fetch('/api/promo?code=' + encodeURIComponent(code)).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
+      if (j && j.percent) { S.promo = { code: j.code, percent: j.percent }; S.promoState = ''; S.customer.promo = j.code; }
+      else S.promoState = 'bad';
+      render();
+    }).catch(function () { S.promoState = 'bad'; render(); });
   }
 
   function step3Html() {
@@ -517,7 +538,7 @@
     fetch('/api/book', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        items: items, lang: S.lang, promo: c.promo,
+        items: items, lang: S.lang, promo: S.promo ? S.promo.code : '',
         customer: { name: c.name, phone: c.phone, email: c.email, comment: c.comment, company: c.type === 'company' ? c.company : '', cvr: c.type === 'company' ? c.cvr : '' }
       })
     }).then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, status: r.status, j: j }; }); })
@@ -533,6 +554,7 @@
           S.avail = {}; S.availState = {}; S.step = 1; S.error = ''; S.notice = T().conflict; render(); scrollTop();
           return;
         }
+        if (res.j.error === 'promo') { S.promo = null; S.error = T().promoGone; render(); return; }
         S.error = (res.j.created && !res.j.rolledBack && res.j.created > 0) ? T().partialErr : T().genericErr;
         render();
       }).catch(function () { S.submitting = false; S.error = T().genericErr; render(); });
@@ -575,7 +597,9 @@
       case 'toGames': S.step = 1; S.error = ''; scrollTop(); break;
       case 'ctype': S.customer.type = d.v; break;
       case 'submit': submit(); return;
-      case 'finish': S.step = 1; S.result = null; S.error = ''; S.notice = ''; S.avail = {}; S.availState = {}; scrollTop(); break;
+      case 'applyPromo': applyPromo(); return;
+      case 'removePromo': S.promo = null; S.promoState = ''; S.customer.promo = ''; break;
+      case 'finish': S.promo = null; S.promoState = ''; S.customer.promo = ''; S.step = 1; S.result = null; S.error = ''; S.notice = ''; S.avail = {}; S.availState = {}; scrollTop(); break;
       default: return;
     }
     render();

@@ -81,12 +81,25 @@
       </div>
       <div class="adm-card adm-pr">
         <p class="adm-muted">Pris pr. spiller i kr. inkl. moms – ens for alle rum. Prisen gælder både i bookingen på hjemmesiden og i noten på bookingen i easyTable.</p>
-        <form id="prForm">
+        <form id="prForm" novalidate>
           <div class="adm-pr-grid" id="prGrid"></div>
           <p class="adm-error" id="prError" role="alert" hidden></p>
           <button type="submit" class="btn btn-primary" id="prSave" disabled>Gem priser</button>
         </form>
         <p class="adm-muted adm-note">Ændringer vises i bookingen inden for få sekunder. Faste priser, der står som tekst på andre sider (fx &laquo;fra 240 kr.&raquo;), rettes under Sidetekster.</p>
+      </div>
+      <div class="adm-card adm-pr adm-codes">
+        <h2>Rabatkoder</h2>
+        <p class="adm-muted">Lav en kode, og vælg hvor mange procent rabat den giver. Gæsten skriver koden i bookingen, og rabatten trækkes fra totalen. Koden og prisen pr. person efter rabat skrives i noten på bookingen i easyTable. Der skelnes ikke mellem store og små bogstaver.</p>
+        <form id="cdForm" novalidate>
+          <div id="cdList" class="adm-cd-list"></div>
+          <p class="adm-muted" id="cdEmpty" hidden>Ingen rabatkoder endnu.</p>
+          <p class="adm-error" id="cdError" role="alert" hidden></p>
+          <div class="adm-cd-actions">
+            <button type="button" class="btn btn-outline btn-sm" id="cdAdd">+ Ny rabatkode</button>
+            <button type="submit" class="btn btn-primary" id="cdSave" disabled>Gem rabatkoder</button>
+          </div>
+        </form>
       </div>
     </section>
 

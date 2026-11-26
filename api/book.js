@@ -54,6 +54,13 @@ module.exports = async function handler(req, res) {
     }
     if (totalPersons > 100) return res.status(400).json({ error: 'For mange deltagere i én booking.' });
 
+    // Discount code (validated here, never trusted from the browser).
+    let promo = null;
+    if (b.promo) {
+      promo = await B.findCode(b.promo).catch(() => null);
+      if (!promo) return res.status(400).json({ error: 'promo' });
+    }
+
     // 1) Re-check real availability for every item (one call per date + group size).
     const cache = new Map();
     for (const it of items) {
@@ -76,13 +83,16 @@ module.exports = async function handler(req, res) {
     const dkk = (n) => Math.round(n).toLocaleString('da-DK');
     // The price comes from the stored weekday prices, never from the browser.
     const PRICES = await B.readPrices().catch(() => B.DEFAULT_PRICES);
+    const dkk2 = (n) => (Math.round(n * 100) / 100).toLocaleString('da-DK', { maximumFractionDigits: 2 });
     const noteFor = (it) => {
-      const pps = Number(PRICES[new Date(it.date + 'T12:00:00Z').getUTCDay()]);
+      const base = Number(PRICES[new Date(it.date + 'T12:00:00Z').getUTCDay()]);
+      const pps = promo ? base * (100 - promo.percent) / 100 : base;
       const hasPrice = Number.isFinite(pps) && pps > 0 && pps < 5000;
       return [
         clean(c.comment, 500),
         c.cvr ? 'CVR: ' + clean(c.cvr, 20) : '',
-        hasPrice ? `Pris: ${dkk(pps)} kr. pr. person (${Number(it.persons)} pers. = ${dkk(pps * Number(it.persons))} kr.)` : '',
+        promo ? `Rabatkode: ${promo.code} (${promo.percent}% rabat på ${dkk(base)} kr. pr. person)` : '',
+        hasPrice ? `Pris: ${dkk2(pps)} kr. pr. person (${Number(it.persons)} pers. = ${dkk2(pps * Number(it.persons))} kr.)` : '',
         items.length > 1 ? `Del af samlet booking (${items.length} spil).` : ''
       ].filter(Boolean).join('\r\n');
     };
@@ -108,7 +118,7 @@ module.exports = async function handler(req, res) {
                 autoTable: true,
                 ignorePayment: idx > 0 ? 1 : 0, // only the first room needs the card
                 guestNote: noteFor(it),
-                comment: b.promo ? 'Rabatkode: ' + clean(b.promo, 50) : undefined
+                comment: promo ? 'Rabatkode: ' + promo.code + ' (' + promo.percent + '%)' : undefined
               }))
             }]
           }
@@ -150,7 +160,7 @@ module.exports = async function handler(req, res) {
             onlineBooking: 1,
             emailNotifications: 1,
             guestNote: noteFor(it),
-            reference: b.promo ? clean(b.promo, 50) : undefined
+            reference: promo ? promo.code : undefined
         };
         // Only the first room needs the card; the others skip payment so the guest confirms once.
         if (created.length) body.ignorePayment = 1;

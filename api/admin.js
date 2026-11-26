@@ -153,6 +153,24 @@ module.exports = async function handler(req, res) {
       return res.status(200).json({ ok: true, pps });
     }
 
+    /* ---------------------------------------------------------- discount codes */
+    if (action === 'codes_get') return res.status(200).json({ codes: await B.readCodes() });
+
+    if (action === 'codes_save') {
+      const src = Array.isArray(body.codes) ? body.codes : null;
+      if (!src || src.length > 100) return bad(res, 400, 'Ugyldig forespørgsel.');
+      const seen = new Set(), codes = [];
+      for (const c of src) {
+        const code = B.normCode(c && c.code), percent = Number(c && c.percent);
+        if (!B.validCode(code)) return bad(res, 400, 'Navnet "' + str(c && c.code, 40) + '" er ikke gyldigt – brug 2-30 bogstaver, tal, - eller _.');
+        if (!Number.isInteger(percent) || percent < 1 || percent > 100) return bad(res, 400, 'Rabatten for "' + code + '" skal være et helt tal mellem 1 og 100 %.');
+        if (seen.has(code)) return bad(res, 400, 'Rabatkoden "' + code + '" findes to gange.');
+        seen.add(code); codes.push({ code, percent });
+      }
+      await B.mutateCodes(async (state) => { state.codes = codes; });
+      return res.status(200).json({ ok: true, codes });
+    }
+
     /* ---------------------------------------------------------- upload */
     if (action === 'upload') {
       const buf = Buffer.from(String(body.data || ''), 'base64');

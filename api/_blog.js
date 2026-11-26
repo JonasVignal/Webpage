@@ -70,6 +70,18 @@ async function readPrices() {
   for (let d = 0; d < 7; d++) { const v = Number(r.state.pps && r.state.pps[d]); if (Number.isInteger(v) && v > 0 && v < 5000) out[d] = v; }
   return out;
 }
+
+/* Discount codes: [{ code: 'SOMMER10', percent: 10 }] */
+const CODES_PATH = 'site/codes.json';
+const emptyCodes = () => ({ version: 1, codes: [] });
+const normCode = (v) => String(v == null ? '' : v).trim().toUpperCase().replace(/\s+/g, '');
+const validCode = (c) => /^[A-Z0-9ÆØÅ_-]{2,30}$/.test(c);
+async function readCodes() {
+  const r = await readJson(CODES_PATH, emptyCodes);
+  return (Array.isArray(r.state.codes) ? r.state.codes : []).filter((c) => c && validCode(c.code) && Number.isInteger(c.percent) && c.percent >= 1 && c.percent <= 100);
+}
+const mutateCodes = (fn) => mutateJson(CODES_PATH, emptyCodes, fn);
+async function findCode(v) { const n = normCode(v); return n ? (await readCodes()).find((c) => c.code === n) || null : null; }
 const mutatePrices = (fn) => mutateJson(PRICES_PATH, emptyPrices, fn);
 async function readState() {
   const r = await readJson(POSTS_PATH, emptyPosts);
@@ -206,6 +218,6 @@ function noteFail(ip) {
 function clearFails(ip) { fails.delete(ip); }
 
 module.exports = {
-  POSTS_PATH, CONTENT_PATH, COOKIE, sleep, readState, mutate, readContent, mutateContent, readPrices, mutatePrices, DEFAULT_PRICES, cleanInline, slugify, cleanHtml, plainText, excerptFrom, firstImage, publicPost,
+  POSTS_PATH, CONTENT_PATH, COOKIE, sleep, readState, mutate, readContent, mutateContent, readPrices, mutatePrices, readCodes, mutateCodes, findCode, normCode, validCode, DEFAULT_PRICES, cleanInline, slugify, cleanHtml, plainText, excerptFrom, firstImage, publicPost,
   safeEqual, authConfigured, makeSession, isAdmin, cookieHeader, tooManyFails, noteFail, clearFails
 };

@@ -244,3 +244,14 @@
   .bk-form { padding: 18px; }
   .bk-mbar { display: flex; }
 }
+
+.bk-promo { display: flex; gap: 8px; }
+.bk-promo input { flex: 1; min-width: 0; }
+.bk-promo-btn, .bk-promo-x { font: inherit; font-weight: 600; cursor: pointer; border-radius: 10px; padding: 0 16px; border: 1px solid rgba(255,255,255,0.3); background: transparent; color: #fff; }
+.bk-promo-btn:hover, .bk-promo-x:hover { background: rgba(255,255,255,0.1); }
+.bk-promo-btn:disabled { opacity: .6; cursor: default; }
+.bk-promo.ok { align-items: center; justify-content: space-between; padding: 10px 12px; border-radius: 10px; background: rgba(60,180,100,0.15); color: #fff; font-size: 0.92rem; }
+.bk-promo.ok svg { width: 16px; height: 16px; vertical-align: -3px; }
+.bk-promo.ok .bk-promo-x { padding: 4px 10px; font-size: 0.85rem; }
+.bk-promo-err { color: #ff8f8f; font-size: 0.85rem; }
+.bk-sum > .bk-disc span:last-child { color: #7be0a0; }
